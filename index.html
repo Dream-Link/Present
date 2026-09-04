@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  	<link rel="manifest" href="manifest.json">
+		<meta name="theme-color" content="#1e1e2e">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Smart Multi-App Dashboard</title>
+    <style>
+        /* iOS/Apple Inspired Design System & Ultra Compact Dashboard */
+        :root {
+            --primary: #007aff;
+            --primary-dark: #005bb5;
+            --primary-light: #e5f1ff;
+            --bg-color: #f2f2f7;
+            --surface: #ffffff;
+            --text-main: #1c1c1e;
+            --text-muted: #8e8e93;
+            --border: #c6c6c8;
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 12px rgba(0,122,255,0.15);
+            --radius-card: 12px;
+            --radius-pill: 999px;
+            --transition: 0.2s cubic-bezier(0.25, 0.1, 0.25, 1);
+            
+            /* Status Colors */
+            --c-present: #e5f9e7; --t-present: #34c759;
+            --c-absent: #ffeceb; --t-absent: #ff3b30;
+            --c-cl: #fff4e5; --t-cl: #ff9500;
+            --c-ml: #eeeffc; --t-ml: #5856d6;
+            --c-holiday: #fef7e0; --t-holiday: #b06000;
+            --c-sunday: #f2f2f7; --t-sunday: #8e8e93; 
+
+            /* Age App Specific Colors */
+            --age-primary: #4f46e5;
+            --age-secondary: #ec4899;
+            --age-tertiary: #0ea5e9;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #000000;
+            --surface: #1c1c1e;
+            --text-main: #ffffff;
+            --text-muted: #ebebf5;
+            --border: #38383a;
+            --primary-light: #003d80;
+            
+            --c-present: #1a4d2e; --t-present: #34c759;
+            --c-absent: #5c1815; --t-absent: #ff3b30;
+            --c-cl: #663c00; --t-cl: #ff9500;
+            --c-ml: #2a2966; --t-ml: #5e5ce6;
+            --c-holiday: #4d2b00; --t-holiday: #ffcc80;
+            --c-sunday: #3a3a3c; --t-sunday: #ebebf5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            transition: background-color var(--transition), color var(--transition);
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+            width: 100%;
+            -webkit-touch-callout: none;
+        }
+
+        /* Compact Header */
+        .app-bar {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: saturate(180%) blur(20px);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
+            color: var(--text-main);
+            padding: 8px 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            z-index: 10;
+            height: 48px;
+            flex-shrink: 0;
+        }
+        [data-theme="dark"] .app-bar { background: rgba(28, 28, 30, 0.75); }
+
+        .app-bar h1 { font-size: 16px; font-weight: 600; letter-spacing: -0.5px; }
+        .header-actions { display: flex; gap: 4px; }
+
+        .icon-btn {
+            background: transparent; border: none; color: var(--primary);
+            font-size: 18px; cursor: pointer; padding: 6px;
+            border-radius: var(--radius-pill); display: flex; align-items: center; justify-content: center;
+            height: 32px; width: 32px; transition: background var(--transition);
+        }
+        .icon-btn:hover { background: rgba(0, 122, 255, 0.1); }
+
+        /* Main Container & Tabs */
+        .container { display: flex; flex: 1; overflow: hidden; width: 100%; position: relative; padding-bottom: 56px; }
+        
+        .tab-content {
+            display: none; width: 100%; height: 100%; flex-direction: column; 
+            padding: 10px; overflow-y: auto; scroll-behavior: smooth;
+        }
+        .tab-content.active { display: flex; }
+
+        /* ==========================================
+           TAB 1: SMART AGE CALCULATOR STYLES
+           ========================================== */
+        .age-display-wrapper {
+            position: relative; width: 100%; border-radius: 16px; padding: 2px; 
+            background: linear-gradient(60deg, var(--age-primary), var(--age-secondary), var(--age-tertiary), var(--age-primary));
+            background-size: 300% 300%; animation: moveGradient 6s ease infinite;
+            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.2); flex-shrink: 0; margin-bottom: 12px;
+        }
+        @keyframes moveGradient { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+
+        .age-display-card {
+            background: var(--surface); padding: 18px 20px; border-radius: 14px; 
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .card-left { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; }
+        .ref-label { color: var(--text-muted); font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+        .icon-box { font-size: 38px; line-height: 1; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1)); }
+        .thin-category { color: var(--age-primary); font-size: 11px; font-weight: 700; letter-spacing: 1px; background: rgba(79, 70, 229, 0.1); padding: 4px 12px; border-radius: var(--radius-pill); border: 1px solid rgba(79, 70, 229, 0.2); }
+        .card-right { display: flex; flex-direction: column; align-items: flex-end; }
+        .age-display-card .value { font-size: 60px; font-weight: 900; background: linear-gradient(90deg, var(--age-primary), var(--age-secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1; display: flex; align-items: baseline; gap: 6px; }
+        .age-display-card .value .unit { font-size: 16px; color: var(--text-main); font-weight: 800; -webkit-text-fill-color: var(--text-main); }
+        .empty-state { font-size: 48px; color: var(--text-muted); -webkit-text-fill-color: var(--text-muted); opacity: 0.3; }
+
+        .selection-panel {
+            background: var(--surface); padding: 12px; border-radius: var(--radius-card);
+            border: 1px solid var(--border); width: 100%; display: flex; flex-direction: column; flex-grow: 1; overflow: hidden; box-shadow: var(--shadow-sm);
+        }
+        .panel-title { font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 12px; text-align: center; flex-shrink: 0; text-transform: uppercase; }
+        .year-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; overflow-y: auto; padding-bottom: 12px; flex-grow: 1; scroll-behavior: smooth; -ms-overflow-style: none; scrollbar-width: none; }
+        .year-grid::-webkit-scrollbar { display: none; }
+        .year-btn {
+            background: var(--bg-color); border: 1px solid var(--border); padding: 10px 0; border-radius: 8px; font-size: 13px; font-weight: 600; color: var(--text-main); cursor: pointer; transition: all 0.2s ease; text-align: center; user-select: none; -webkit-tap-highlight-color: transparent;
+        }
+        .year-btn:hover { border-color: var(--age-primary); color: var(--age-primary); background: rgba(79, 70, 229, 0.05); }
+        .year-btn.selected { background: linear-gradient(135deg, var(--age-primary), #6366f1); color: white; border-color: transparent; box-shadow: 0 4px 8px rgba(79, 70, 229, 0.3); font-weight: 800; transform: scale(1.05); }
+
+
+        /* ==========================================
+           TAB 2: ATTENDANCE PRO STYLES
+           ========================================== */
+        .profile-card {
+            background: var(--surface); border-radius: var(--radius-card); padding: 10px 12px; margin-bottom: 8px; box-shadow: var(--shadow-sm);
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 8px; border: 1px solid var(--border); flex-shrink: 0;
+        }
+        .profile-info h3 { font-size: 10px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 2px; }
+        .profile-info p { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
+
+        .controls-row {
+            display: flex; justify-content: space-between; align-items: center; background: var(--surface); padding: 6px 10px; border-radius: var(--radius-pill);
+            margin-bottom: 8px; box-shadow: var(--shadow-sm); border: 1px solid var(--border); flex-shrink: 0;
+        }
+        .month-btn { background: var(--bg-color); border: 1px solid var(--border); color: var(--primary); padding: 4px 10px; border-radius: var(--radius-pill); cursor: pointer; font-size: 11px; font-weight: 600; }
+        .month-title { font-size: 12px; font-weight: 600; text-align: center; }
+
+        .segment-control { display: flex; background: var(--bg-color); padding: 2px; border-radius: var(--radius-pill); border: 1px solid var(--border);}
+        .segment-btn { background: transparent; border: none; padding: 4px 10px; font-size: 11px; font-weight: 600; border-radius: var(--radius-pill); cursor: pointer; color: var(--text-muted); transition: all 0.2s ease; }
+        .segment-btn.active { background: var(--surface); color: var(--text-main); box-shadow: var(--shadow-sm); }
+
+        .stats-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; padding: 0 4px; flex-shrink: 0; }
+        .stats-header h3 { font-size: 12px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; }
+
+        .stats-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-bottom: 8px; flex-shrink: 0; }
+        @media (max-width: 768px) { .stats-grid { grid-template-columns: repeat(3, 1fr); } }
+        .stat-card { background: var(--surface); border-radius: 12px; padding: 8px; text-align: center; border: 1px solid var(--border); box-shadow: var(--shadow-sm); }
+        .stat-card.overall-mode { background: rgba(0, 122, 255, 0.05); border-color: var(--primary); }
+        .stat-card h4 { font-size: 9px; color: var(--text-muted); margin-bottom: 2px; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .stat-card .value { font-size: 15px; font-weight: 700; color: var(--primary); transition: opacity 0.2s; }
+
+        .register-container { background: var(--surface); border-radius: var(--radius-card); border: 1px solid var(--border); overflow: hidden; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; flex: 1; min-height: 200px;}
+        .table-responsive { overflow-y: auto; flex: 1; -webkit-overflow-scrolling: touch; }
+        table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+        th, td { padding: 8px 10px; text-align: left; border-bottom: 1px solid var(--border); }
+        th { background: var(--surface); font-weight: 600; font-size: 10px; color: var(--text-muted); position: sticky; top: 0; z-index: 2; text-transform: uppercase; border-bottom: 1px solid var(--border); box-shadow: 0 1px 0 var(--border); }
+        td { font-size: 13px; vertical-align: middle; }
+        .date-col { width: 80px; font-weight: 600; }
+        .day-col { width: auto; color: var(--text-muted); font-size: 12px; }
+        .status-col { width: 90px; text-align: center; }
+
+        .holiday-badge { font-size: 9px; background: var(--c-holiday); color: var(--t-holiday); padding: 2px 6px; border-radius: 4px; display: inline-block; margin-top: 4px; font-weight: 700; text-transform: uppercase; border: 1px solid var(--t-holiday); }
+
+        .smart-badge {
+            display: inline-block; padding: 8px 16px; border-radius: 8px; font-weight: 800; font-size: 14px; cursor: pointer; user-select: none;
+            min-width: 60px; text-align: center; border: 1px solid var(--border); background: var(--bg-color); color: var(--text-muted);
+            transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1); position: relative; overflow: hidden; box-shadow: var(--shadow-sm);
+        }
+        .smart-badge:active { transform: scale(0.92); }
+        .status-P, .status-P-star { background: var(--c-present); color: var(--t-present); border-color: transparent; }
+        .status-A { background: var(--c-absent); color: var(--t-absent); border-color: transparent; }
+        .status-CL { background: var(--c-cl); color: var(--t-cl); border-color: transparent; }
+        .status-ML { background: var(--c-ml); color: var(--t-ml); border-color: transparent; }
+        .status-GH { background: var(--c-holiday); color: var(--t-holiday); border-color: transparent; }
+        .status-S { background: var(--c-sunday); color: var(--text-main); border-color: transparent; }
+
+        tr.is-today { background: var(--primary-light); position: relative; z-index: 1; box-shadow: inset 4px 0 0 var(--primary); }
+        tr.is-today .date-col { font-size: 15px; color: var(--primary); font-weight: 800; }
+        tr.is-today .day-col { font-size: 13px; font-weight: 700; color: var(--primary); }
+        .today-lbl { font-size: 9px; font-weight: bold; background: var(--primary); color: white; padding: 2px 6px; border-radius: 4px; margin-top: 4px; display: inline-block;}
+
+
+        /* ==========================================
+           TAB 3: SETTINGS STYLES
+           ========================================== */
+        .settings-card {
+            background: var(--surface); border-radius: var(--radius-card); padding: 16px; margin-bottom: 12px;
+            box-shadow: var(--shadow-sm); border: 1px solid var(--border); flex-shrink: 0;
+        }
+        .settings-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .settings-header h2 { font-size: 14px; font-weight: 700; text-transform: uppercase; color: var(--text-muted); }
+        
+        .form-group { margin-bottom: 12px; }
+        .form-group label { display: block; margin-bottom: 4px; font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; }
+        .form-group input {
+            width: 100%; height: 38px; padding: 0 12px; border: 1px solid var(--border);
+            border-radius: 10px; background: var(--bg-color); color: var(--text-main); font-size: 13px; outline: none; box-sizing: border-box; transition: border 0.2s;
+        }
+        .form-group input:focus { border-color: var(--primary); }
+        
+        .btn-primary {
+            width: 100%; height: 42px; background: var(--primary); color: white; display: flex; align-items: center; justify-content: center;
+            border: none; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; margin-top: 4px; transition: transform 0.1s;
+        }
+        .btn-primary:active { transform: scale(0.98); }
+
+        .hol-list-item {
+            display: flex; justify-content: space-between; align-items: center; 
+            background: var(--bg-color); padding: 10px 12px; border-radius: 10px; margin-bottom: 8px;
+            border: 1px solid var(--border); font-size: 13px; font-weight: 600; gap: 8px;
+        }
+        .hol-list-item span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1; }
+        .hol-del-btn { flex-shrink: 0; background: #ff3b30; color: white; border: none; border-radius: 6px; width: 28px; height: 28px; cursor: pointer; font-weight: bold; font-size: 16px;}
+
+        /* Data Action Buttons */
+        .action-btn-row { display: flex; gap: 8px; }
+        .action-btn-row .btn-primary { flex: 1; margin-top: 0; font-size: 13px; }
+
+        /* ==========================================
+           BOTTOM NAVIGATION BAR
+           ========================================== */
+        .bottom-nav {
+            position: fixed; bottom: 0; left: 0; right: 0; height: 56px;
+            background: rgba(255, 255, 255, 0.85); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px);
+            display: flex; justify-content: space-around; align-items: center;
+            border-top: 1px solid var(--border); z-index: 50; padding-bottom: env(safe-area-inset-bottom);
+        }
+        [data-theme="dark"] .bottom-nav { background: rgba(28, 28, 30, 0.85); }
+        
+        .nav-item {
+            display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+            color: var(--text-muted); cursor: pointer; flex: 1; height: 100%; transition: color 0.2s;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .nav-item.active { color: var(--primary); }
+        .nav-icon { font-size: 20px; line-height: 1; }
+        .nav-text { font-size: 10px; font-weight: 600; }
+
+
+        /* ==========================================
+           MODALS & TOAST
+           ========================================== */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px);
+            display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s; z-index: 100;
+        }
+        .modal-overlay.active { opacity: 1; pointer-events: all; }
+        .modal-content { background: var(--surface); width: 92%; max-width: 380px; border-radius: var(--radius-card); padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); transform: scale(0.95); transition: transform 0.3s; }
+        .modal-overlay.active .modal-content { transform: scale(1); }
+        
+        #status-picker-modal .modal-content { align-self: flex-end; margin-bottom: 30px; border-radius: 20px; padding: 24px 20px; }
+        .picker-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 15px; }
+        .picker-btn { height: 48px; border-radius: 12px; font-weight: 800; font-size: 15px; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
+        .picker-btn:active { transform: scale(0.95); }
+        .close-btn { background: var(--bg-color); border: none; height: 28px; width: 28px; border-radius: var(--radius-pill); font-size: 16px; color: var(--text-muted); cursor: pointer; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+
+        .toast {
+            visibility: hidden; opacity: 0;
+            position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%) translateY(20px);
+            background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); color: white; padding: 10px 20px; 
+            border-radius: var(--radius-pill); font-size: 12px; font-weight: 500; transition: all 0.4s ease; 
+            z-index: 1000; white-space: nowrap; pointer-events: none;
+        }
+        .toast.show { visibility: visible; opacity: 1; transform: translateX(-50%) translateY(0); }
+
+        /* ==========================================
+           PRINT STYLES
+           ========================================== */
+        #print-view { display: none; }
+        @media print {
+            @page { size: landscape; margin: 10mm; }
+            html, body { background: white; color: black; font-family: Arial, sans-serif; height: auto !important; overflow: visible !important; display: block !important; }
+            .container, .tab-content { height: auto !important; overflow: visible !important; display: block !important; padding: 0; margin: 0; }
+            .app-bar, .bottom-nav, .controls-row, .stats-header, .stats-grid, .register-container, .toast, .modal-overlay, #tab-age, #tab-settings { display: none !important; }
+            
+            .profile-card { border: none; box-shadow: none; border-bottom: 2px solid #000; border-radius: 0; margin-bottom: 15px; padding: 0 0 5px 0; }
+            #print-view { display: block !important; width: 100%; }
+            .print-header { text-align: center; font-size: 18px; font-weight: bold; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px;}
+            .print-table { width: 100%; border-collapse: collapse; table-layout: auto !important; font-size: 10px; text-align: center; margin-bottom: 20px; page-break-inside: auto; }
+            .print-table tr { page-break-inside: avoid; page-break-after: auto; }
+            .print-table td, .print-table th { border: 1px solid #000; padding: 5px 2px; word-wrap: break-word; }
+            .pr-row-dates td { background: #f0f0f0; font-weight: bold; }
+            .pr-title-cell { text-align: left; padding-left: 5px !important; min-width: 100px; }
+            .pr-row-cycle-stats { background: #f9f9f9; font-weight: bold; font-size: 11px; }
+            .pr-row-cycle-stats td { padding: 4px 10px !important; text-align: left; }
+            .summary-table { width: auto; margin: 0 auto 20px auto; border-collapse: collapse; font-size: 11px; font-weight: bold; text-align: center;}
+            .summary-table th, .summary-table td { border: 1px solid #000; padding: 6px 12px; }
+            .summary-table th { background: #eee; }
+            .val-P { color: #000; font-weight: bold; } .val-A { color: #d32f2f; font-weight: bold; }
+            .val-CL, .print-cl { color: red !important; font-weight: bold; } .val-ML, .print-ml { color: blue !important; font-weight: bold; } 
+            .val-GH { color: #b06000; font-weight: bold; } .val-S { color: #777; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="app-bar">
+        <h1 id="header-title">Smart Dashboard</h1>
+        <div class="header-actions">
+            <button class="icon-btn" id="btn-print" onclick="triggerPrint()" title="Print Report" style="display:none;">🖨️</button>
+            <button class="icon-btn" onclick="toggleTheme()" title="Toggle Theme">🌓</button>
+        </div>
+    </header>
+
+    <div class="container">
+        
+        <!-- ================= TAB 1: AGE CALCULATOR ================= -->
+        <main id="tab-age" class="tab-content active">
+            <div class="age-display-wrapper">
+                <div class="age-display-card">
+                    <div class="card-left">
+                        <span class="ref-label">Ref Year: 2026</span>
+                        <span class="icon-box" id="ageIcon">👶</span>
+                        <span class="thin-category" id="ageCategory">Select Year</span>
+                    </div>
+                    <div class="card-right">
+                        <div class="value" id="ageDisplay"><span class="empty-state">--</span></div>
+                    </div>
+                </div>
+            </div>
+            <div class="selection-panel">
+                <div class="panel-title">Select Birth Year</div>
+                <div class="year-grid" id="yearGrid"></div>
+            </div>
+        </main>
+
+        <!-- ================= TAB 2: ATTENDANCE PRO ================= -->
+        <main id="tab-present" class="tab-content">
+            <div class="profile-card">
+                <div class="profile-info"><h3>Name</h3><p id="disp-name">-</p></div>
+                <div class="profile-info"><h3>Designation</h3><p id="disp-post">-</p></div>
+                <div class="profile-info"><h3>Posting Place</h3><p id="disp-place">-</p></div>
+            </div>
+
+            <div class="controls-row">
+                <button class="month-btn" onclick="changeMonth(-1)">Prev</button>
+                <div class="month-title" id="month-title">Cycle Period</div>
+                <button class="month-btn" onclick="changeMonth(1)">Next</button>
+            </div>
+
+            <div class="stats-header">
+                <h3>Statistics</h3>
+                <div class="segment-control">
+                    <button id="btn-cycle" class="segment-btn active" onclick="setStatsView('cycle')">Cycle</button>
+                    <button id="btn-overall" class="segment-btn" onclick="setStatsView('overall')">Overall</button>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card" id="card-p"><h4>Present</h4><div class="value" id="count-p">0</div></div>
+                <div class="stat-card" id="card-a"><h4>Absent</h4><div class="value" id="count-a">0</div></div>
+                <div class="stat-card" id="card-cl"><h4>Casual L.</h4><div class="value" id="count-cl">0</div></div>
+                <div class="stat-card" id="card-ml"><h4>Medical L.</h4><div class="value" id="count-ml">0</div></div>
+                <div class="stat-card" id="card-h"><h4>Holiday (GH)</h4><div class="value" id="count-gh">0</div></div>
+            </div>
+
+            <div class="stats-header" style="margin-top:4px;">
+                <h3>Attendance Log</h3>
+                <div class="segment-control">
+                    <button id="btn-layout-single" class="segment-btn" onclick="setLayoutView('single')">Today Only</button>
+                    <button id="btn-layout-full" class="segment-btn active" onclick="setLayoutView('full')">All Cycle</button>
+                </div>
+            </div>
+
+            <div class="register-container">
+                <div class="table-responsive" id="table-scroll-area">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="date-col">Date</th>
+                                <th class="day-col">Day</th>
+                                <th class="status-col">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="register-body"></tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div id="print-view"></div>
+        </main>
+
+        <!-- ================= TAB 3: SETTINGS ================= -->
+        <main id="tab-settings" class="tab-content">
+            
+            <!-- Profile Info (Auto-Save Enabled) -->
+            <div class="settings-card">
+                <div class="settings-header"><h2>Profile Info</h2><span style="font-size:10px; color:var(--text-muted);">(Auto Saves)</span></div>
+                <form id="settings-form" onsubmit="event.preventDefault()">
+                    <div class="form-group"><label>Employee Name</label><input type="text" id="input-name" oninput="autoSaveProfile()"></div>
+                    <div class="form-group"><label>Designation</label><input type="text" id="input-post" oninput="autoSaveProfile()"></div>
+                    <div class="form-group"><label>Posting Place</label><input type="text" id="input-place" oninput="autoSaveProfile()"></div>
+                </form>
+            </div>
+            
+            <!-- Holidays Management -->
+            <div class="settings-card">
+                <div class="settings-header"><h2>Manage Holidays (GH)</h2></div>
+                <div style="display:flex; flex-wrap: wrap; gap:8px; margin-bottom:12px;">
+                    <input type="date" id="hol-date" style="flex:1 1 45%; height:38px; border-radius:10px; border:1px solid var(--border); padding:0 8px; font-size:12px; background:var(--bg-color); color:var(--text-main); box-sizing: border-box;">
+                    <input type="text" id="hol-name" placeholder="Holiday Name" style="flex:1 1 45%; height:38px; border-radius:10px; border:1px solid var(--border); padding:0 8px; font-size:12px; background:var(--bg-color); color:var(--text-main); box-sizing: border-box;">
+                    <button type="button" class="btn-primary" style="margin:0; flex:1 1 100%; height:38px;" onclick="addHoliday()">+ Add Holiday</button>
+                </div>
+                <div id="holiday-list"></div>
+            </div>
+
+            <!-- Data Backup / Restore -->
+            <div class="settings-card">
+                <div class="settings-header"><h2>Data Management</h2></div>
+                <div class="action-btn-row">
+                    <button class="btn-primary" style="background:var(--c-ml); color:var(--t-ml); border: 1px solid var(--t-ml);" onclick="exportData()">📤 Export Data</button>
+                    <button class="btn-primary" style="background:var(--c-present); color:var(--t-present); border: 1px solid var(--t-present);" onclick="document.getElementById('import-file').click()">📥 Import Data</button>
+                    <input type="file" id="import-file" style="display:none" accept=".json" onchange="importData(event)">
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Bottom Navigation Bar -->
+    <nav class="bottom-nav">
+        <div class="nav-item active" onclick="switchTab('age', this, 'Smart Age', false)">
+            <span class="nav-icon">🎂</span>
+            <span class="nav-text">Age</span>
+        </div>
+        <div class="nav-item" onclick="switchTab('present', this, 'Attendance Pro', true)">
+            <span class="nav-icon">📅</span>
+            <span class="nav-text">Present</span>
+        </div>
+        <div class="nav-item" onclick="switchTab('settings', this, 'Settings', false)">
+            <span class="nav-icon">⚙️</span>
+            <span class="nav-text">Settings</span>
+        </div>
+    </nav>
+
+    <!-- Status Picker Modal (For Attendance) -->
+    <div class="modal-overlay" id="status-picker-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="picker-title" style="font-size:16px;">Select Status</h2>
+                <button class="close-btn" onclick="closePicker()">&times;</button>
+            </div>
+            <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 10px;">Select attendance status for this date.</p>
+            <div class="picker-grid">
+                <button class="picker-btn" style="background: var(--c-present); color: var(--t-present);" onclick="selectStatus('P')">P</button>
+                <button class="picker-btn" style="background: var(--c-present); color: var(--t-present);" onclick="selectStatus('P*')">P*</button>
+                <button class="picker-btn" style="background: var(--c-absent); color: var(--t-absent);" onclick="selectStatus('A')">A</button>
+                <button class="picker-btn" style="background: var(--c-cl); color: var(--t-cl);" onclick="selectStatus('CL')">CL</button>
+                <button class="picker-btn" style="background: var(--c-ml); color: var(--t-ml);" onclick="selectStatus('ML')">ML</button>
+                <button class="picker-btn" style="background: var(--c-holiday); color: var(--t-holiday);" onclick="selectStatus('GH')">GH</button>
+                <button class="picker-btn" style="background: var(--c-sunday); color: var(--text-main);" onclick="selectStatus('S')">S</button>
+            </div>
+            <button class="btn-primary" style="margin-top: 15px; background: var(--bg-color); color: var(--text-main); border: 1px solid var(--border);" onclick="selectStatus('')">⌫ Clear / Reset (-)</button>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // ================= GLOBAL SHARED LOGIC =================
+        let appData = {
+            employee: { name: 'Set Name', post: 'Set Post', place: 'Set Location' },
+            attendance: {}, holidays: {}, 
+            prefs: { statsMode: 'cycle', layoutMode: 'full' },
+            theme: 'light'
+        };
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg; toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        function toggleTheme() {
+            appData.theme = appData.theme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', appData.theme);
+            saveData(); showToast(appData.theme === 'dark' ? 'Dark Mode Active' : 'Light Mode Active');
+        }
+
+        function saveData() { localStorage.setItem('sarkari_dashboard_data', JSON.stringify(appData)); }
+        
+        function loadSharedData() {
+            const stored = localStorage.getItem('sarkari_dashboard_data') || localStorage.getItem('sarkari_attendance_data');
+            if (stored) {
+                let parsed = JSON.parse(stored);
+                appData = { ...appData, ...parsed }; 
+                if(!appData.holidays) appData.holidays = {};
+                if(!appData.prefs) appData.prefs = { statsMode: 'cycle', layoutMode: 'full' };
+            }
+            document.documentElement.setAttribute('data-theme', appData.theme);
+        }
+
+        // ================= IMPORT / EXPORT DATA =================
+        function exportData() {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(appData));
+            const dl = document.createElement('a');
+            dl.setAttribute("href", dataStr);
+            dl.setAttribute("download", "smart_dashboard_backup.json");
+            document.body.appendChild(dl);
+            dl.click(); dl.remove();
+            showToast('Data Exported Successfully!');
+        }
+
+        function importData(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const parsed = JSON.parse(e.target.result);
+                    if(parsed && parsed.attendance) {
+                        appData = { ...appData, ...parsed };
+                        saveData(); loadSharedData(); initAttendance();
+                        showToast('Data Imported Successfully!');
+                    } else {
+                        showToast('Invalid Data File!');
+                    }
+                } catch (err) {
+                    showToast('Error reading file!');
+                }
+            };
+            reader.readAsText(file);
+            event.target.value = ''; // Reset file input
+        }
+
+        // ================= TAB SWITCH & SCROLL LOGIC =================
+        function switchTab(tabId, navElement, title, showPrint) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            
+            document.getElementById('tab-' + tabId).classList.add('active');
+            navElement.classList.add('active');
+            
+            document.getElementById('header-title').textContent = title;
+            document.getElementById('btn-print').style.display = showPrint ? 'flex' : 'none';
+
+            // SCROLL FIX
+            if (tabId === 'age') {
+                setTimeout(() => {
+                    const grid = document.getElementById('yearGrid');
+                    const savedScroll = localStorage.getItem('savedScrollPosition');
+                    if (savedScroll !== null) { grid.scrollTop = parseInt(savedScroll, 10); } 
+                    else if (activeAgeYear) { document.getElementById(`btn-${activeAgeYear}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+                }, 50);
+            } else if (tabId === 'present' && appData.prefs.layoutMode === 'full') {
+                setTimeout(() => { document.getElementById('row-today')?.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 50);
+            }
+        }
+
+
+        // ================= APP 1: SMART AGE CALCULATOR =================
+        const targetYear = 2026;
+        let activeAgeYear = localStorage.getItem('lastSelectedYear') || null;
+
+        function initAgeApp() {
+            const grid = document.getElementById('yearGrid');
+            grid.innerHTML = '';
+            for (let y = 1925; y <= 2026; y++) {
+                const btn = document.createElement('button');
+                btn.className = `year-btn ${y == activeAgeYear ? 'selected' : ''}`;
+                btn.innerText = y; btn.id = `btn-${y}`;
+                btn.onclick = () => selectAgeYear(y, btn);
+                grid.appendChild(btn);
+            }
+            if (activeAgeYear) calcAge();
+            grid.addEventListener('scroll', () => localStorage.setItem('savedScrollPosition', grid.scrollTop));
+        }
+
+        function selectAgeYear(year, btnElement) {
+            document.querySelectorAll('.year-btn').forEach(b => b.classList.remove('selected'));
+            btnElement.classList.add('selected');
+            activeAgeYear = year; calcAge();
+            localStorage.setItem('lastSelectedYear', year);
+        }
+
+        function calcAge() {
+            if (!activeAgeYear) return;
+            const age = targetYear - activeAgeYear;
+            let cat = "", icon = "";
+            if (age <= 5) { cat = "Toddler"; icon = "🍼"; } 
+            else if (age <= 15) { cat = "Kid"; icon = "👦"; } 
+            else if (age <= 30) { cat = "Youth"; icon = "🧑‍🎓"; } 
+            else if (age <= 50) { cat = "Adult"; icon = "👨‍💼"; } 
+            else { cat = "Senior"; icon = "🧓"; }
+
+            document.getElementById('ageDisplay').innerHTML = `${age} <span class="unit">Years</span>`; 
+            document.getElementById('ageIcon').innerText = icon;
+            document.getElementById('ageCategory').innerText = cat;
+        }
+
+
+        // ================= APP 2: ATTENDANCE & SETTINGS =================
+        let currentCycleDate = new Date();
+        const engDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        const engMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        const fullMonths = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+        let targetPickerDateKey = null;
+
+        function initAttendance() {
+            renderProfile();
+            document.getElementById('input-name').value = appData.employee.name === 'Set Name' ? '' : appData.employee.name;
+            document.getElementById('input-post').value = appData.employee.post === 'Set Post' ? '' : appData.employee.post;
+            document.getElementById('input-place').value = appData.employee.place === 'Set Location' ? '' : appData.employee.place;
+            renderHolidayList();
+
+            document.getElementById('btn-' + appData.prefs.statsMode).classList.add('active');
+            document.getElementById('btn-layout-' + (appData.prefs.layoutMode === 'single' ? 'single' : 'full')).classList.add('active');
+            
+            let today = new Date(); if (today.getDate() < 21) currentCycleDate.setMonth(currentCycleDate.getMonth() - 1);
+            renderCycle();
+        }
+
+        function renderProfile() {
+            document.getElementById('disp-name').textContent = appData.employee.name || '-';
+            document.getElementById('disp-post').textContent = appData.employee.post || '-';
+            document.getElementById('disp-place').textContent = appData.employee.place || '-';
+        }
+
+        // AUTO-SAVE PROFILE
+        function autoSaveProfile() {
+            appData.employee.name = document.getElementById('input-name').value;
+            appData.employee.post = document.getElementById('input-post').value;
+            appData.employee.place = document.getElementById('input-place').value;
+            saveData(); renderProfile();
+        }
+
+        function addHoliday() {
+            let d = document.getElementById('hol-date').value; let n = document.getElementById('hol-name').value.trim();
+            if(d && n) { appData.holidays[d] = n; saveData(); renderHolidayList(); renderCycle(); document.getElementById('hol-date').value = ''; document.getElementById('hol-name').value = ''; showToast('GH Added!'); }
+        }
+        function deleteHoliday(d) { delete appData.holidays[d]; saveData(); renderHolidayList(); renderCycle(); showToast('GH Removed'); }
+        
+        function renderHolidayList() {
+            let list = document.getElementById('holiday-list'); list.innerHTML = '';
+            for(let d in appData.holidays) {
+                list.innerHTML += `<div class="hol-list-item"><span>${d} - <span style="color:var(--t-holiday)">${appData.holidays[d]}</span></span>
+                <button type="button" class="hol-del-btn" onclick="deleteHoliday('${d}')">&times;</button></div>`;
+            }
+        }
+
+        function getCycleDates(bDate) { let y = bDate.getFullYear(), m = bDate.getMonth(); return { startDate: new Date(y, m, 21), endDate: new Date(y, m + 1, 20) }; }
+        function changeMonth(offset) { currentCycleDate.setMonth(currentCycleDate.getMonth() + offset); renderCycle(); }
+        function formatDateKey(dObj) { return `${dObj.getFullYear()}-${String(dObj.getMonth() + 1).padStart(2, '0')}-${String(dObj.getDate()).padStart(2, '0')}`; }
+        function isToday(dObj) { const t = new Date(); return dObj.getDate() === t.getDate() && dObj.getMonth() === t.getMonth() && dObj.getFullYear() === t.getFullYear(); }
+
+        function setLayoutView(mode) {
+            appData.prefs.layoutMode = mode; saveData();
+            document.getElementById('btn-layout-single').classList.toggle('active', mode === 'single');
+            document.getElementById('btn-layout-full').classList.toggle('active', mode === 'full');
+            renderCycle();
+        }
+        function setStatsView(mode) {
+            appData.prefs.statsMode = mode; saveData();
+            document.getElementById('btn-cycle').classList.toggle('active', mode === 'cycle');
+            document.getElementById('btn-overall').classList.toggle('active', mode === 'overall');
+            document.querySelectorAll('.stat-card').forEach(card => mode === 'overall' ? card.classList.add('overall-mode') : card.classList.remove('overall-mode'));
+            recalcStats();
+        }
+
+        function openPickerModal(dateKey, fDate) { targetPickerDateKey = dateKey; document.getElementById('picker-title').textContent = fDate; document.getElementById('status-picker-modal').classList.add('active'); }
+        function closePicker() { document.getElementById('status-picker-modal').classList.remove('active'); targetPickerDateKey = null; }
+        
+        function selectStatus(newStatus) {
+            if(!targetPickerDateKey) return;
+            if (newStatus === '') delete appData.attendance[targetPickerDateKey]; else appData.attendance[targetPickerDateKey] = newStatus;
+            saveData(); closePicker(); renderCycle();
+        }
+
+        function renderCycle() {
+            const { startDate, endDate } = getCycleDates(currentCycleDate);
+            document.getElementById('month-title').textContent = `21 ${engMonths[startDate.getMonth()]} - 20 ${engMonths[endDate.getMonth()]} ${endDate.getFullYear()}`;
+            const tbody = document.getElementById('register-body'); tbody.innerHTML = '';
+            
+            let iter = new Date(startDate); let frag = document.createDocumentFragment(); let scrollId = null; let foundToday = false;
+
+            while (iter <= endDate) {
+                const dk = formatDateKey(iter); const dNum = iter.getDay(); const tChk = isToday(iter); const isHol = appData.holidays[dk];
+                let st = appData.attendance[dk];
+                
+                // NO AUTOMATIC GH ASSIGNMENT: Status remains empty unless manually clicked.
+                if (!st) { 
+                    if (dNum === 0) st = 'S'; 
+                    else st = ''; 
+                }
+
+                if (appData.prefs.layoutMode === 'single' && !tChk) { iter.setDate(iter.getDate() + 1); continue; }
+                if(appData.prefs.layoutMode === 'single' && tChk) foundToday = true;
+
+                const tr = document.createElement('tr'); if (tChk) { tr.className = 'is-today'; tr.id = 'row-today'; scrollId = 'row-today'; }
+                
+                const tdDate = document.createElement('td'); tdDate.className = 'date-col'; tdDate.innerHTML = `${String(iter.getDate()).padStart(2, '0')} ${engMonths[iter.getMonth()]}`;
+                const tdDay = document.createElement('td'); tdDay.className = 'day-col';
+                if (tChk) tdDay.innerHTML = `${engDays[dNum]}<br><span class="today-lbl">TODAY</span>`;
+                else { tdDay.innerHTML = engDays[dNum] + (isHol ? `<br><span class="holiday-badge">GH: ${isHol}</span>` : ''); if (dNum === 0) tdDay.style.color = 'var(--t-sunday)'; }
+
+                const tdStatus = document.createElement('td'); tdStatus.className = 'status-col';
+                const badge = document.createElement('div');
+                let stClass = (st === 'P*') ? 'P-star' : st;
+                badge.className = `smart-badge ${(st && st !== 'S') ? 'status-'+stClass : ''}`; 
+                
+                if (st === 'P*') {
+                    badge.innerHTML = `P<span style="font-size: 14px; vertical-align: super; line-height: 0;">&#8226;</span>`;
+                } else {
+                    badge.textContent = (st === 'S' || !st) ? '-' : st;
+                }
+                let pTimer; let isLp = false; let dispT = `${String(iter.getDate()).padStart(2, '0')} ${fullMonths[iter.getMonth()]} (${engDays[dNum]})`;
+                const sPress = () => { isLp = false; pTimer = setTimeout(() => { isLp = true; openPickerModal(dk, dispT); }, 400); };
+                const cPress = () => clearTimeout(pTimer);
+                
+                badge.addEventListener('touchstart', sPress, { passive: true }); badge.addEventListener('touchend', cPress); badge.addEventListener('touchmove', cPress, { passive: true });
+                badge.addEventListener('mousedown', sPress); badge.addEventListener('mouseup', cPress); badge.addEventListener('mouseleave', cPress);
+                badge.addEventListener('contextmenu', (e) => e.preventDefault());
+                badge.addEventListener('click', (e) => {
+                    if (isLp) { e.preventDefault(); return; }
+                    if (st === 'P' || st === 'P*') delete appData.attendance[dk]; else appData.attendance[dk] = 'P';
+                    saveData(); renderCycle();
+                });
+
+                tdStatus.appendChild(badge); tr.appendChild(tdDate); tr.appendChild(tdDay); tr.appendChild(tdStatus); frag.appendChild(tr);
+                iter.setDate(iter.getDate() + 1);
+            }
+            
+            if (appData.prefs.layoutMode === 'single' && !foundToday) {
+                const tr = document.createElement('tr'); const td = document.createElement('td'); td.colSpan = 3; td.style.textAlign = 'center'; td.style.padding = '20px'; td.textContent = 'Today is not in selected cycle.';
+                tr.appendChild(td); frag.appendChild(tr);
+            }
+            tbody.appendChild(frag); recalcStats();
+
+            // SCROLL FIX FOR ACTIVE TAB
+            if (scrollId && appData.prefs.layoutMode === 'full' && document.getElementById('tab-present').classList.contains('active')) {
+                setTimeout(() => { document.getElementById(scrollId)?.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 100);
+            }
+        }
+
+        function recalcStats() {
+            let s = { P: 0, A: 0, CL: 0, ML: 0, GH: 0, S: 0 };
+            if (appData.prefs.statsMode === 'cycle') {
+                const { startDate, endDate } = getCycleDates(currentCycleDate); let i = new Date(startDate);
+                while (i <= endDate) {
+                    const dk = formatDateKey(i); let st = appData.attendance[dk];
+                   if (!st) { if (i.getDay() === 0) st = 'S'; /* Automatically only assign S, not GH */ }
+                    let countKey = (st === 'P*') ? 'P' : st;
+                    if(s.hasOwnProperty(countKey)) s[countKey]++; i.setDate(i.getDate() + 1);
+                }
+            } else { for (const k in appData.attendance) { let st = appData.attendance[k]; let countKey = (st === 'P*') ? 'P' : st; if(s.hasOwnProperty(countKey)) s[countKey]++; } }
+            ['count-p', 'count-a', 'count-cl', 'count-ml', 'count-gh'].forEach(id => { let el = document.getElementById(id); el.style.opacity = '0'; setTimeout(() => el.style.opacity = '1', 150); });
+            document.getElementById('count-p').textContent = s.P; document.getElementById('count-a').textContent = s.A; document.getElementById('count-cl').textContent = s.CL; document.getElementById('count-ml').textContent = s.ML; document.getElementById('count-gh').textContent = s.GH;
+        }
+
+        function triggerPrint() {
+            let cyclesMap = new Map(); let currCycle = getCycleDates(currentCycleDate); cyclesMap.set(currCycle.startDate.getTime(), currCycle);
+            for (const dk in appData.attendance) {
+                if (appData.attendance[dk] !== '') {
+                    let d = new Date(dk); let y = d.getFullYear(), m = d.getMonth(); if (d.getDate() < 21) m -= 1; 
+                    let sD = new Date(y, m, 21); let eD = new Date(y, m + 1, 20); cyclesMap.set(sD.getTime(), { startDate: sD, endDate: eD });
+                }
+            }
+            let sorted = Array.from(cyclesMap.values()).sort((a, b) => b.startDate.getTime() - a.startDate.getTime());
+            let oAll = { P: 0, A: 0, CL: 0, ML: 0, GH: 0, S: 0 };
+            const pv = document.getElementById('print-view'); let h = `<div class="print-header">ATTENDANCE REGISTER</div>`;
+            for (const k in appData.attendance) { let st = appData.attendance[k]; let countKey = (st === 'P*') ? 'P' : st; if(oAll.hasOwnProperty(countKey)) oAll[countKey]++; }
+
+            h += `<table class="summary-table"><tr><th colspan="6">OVERALL ATTENDANCE SUMMARY</th></tr>
+                    <tr><th>Present (P)</th><th>Absent (A)</th><th class="print-cl">CL</th><th class="print-ml">ML</th><th>Total Leaves</th><th>Holiday (GH)</th></tr>
+                    <tr><td>${oAll.P}</td><td>${oAll.A}</td><td class="print-cl">${oAll.CL}</td><td class="print-ml">${oAll.ML}</td><td>${oAll.CL + oAll.ML}</td><td>${oAll.GH}</td></tr></table>`;
+            
+            h += `<table class="print-table">`;
+            sorted.forEach((cyc, idx) => {
+                let sD = cyc.startDate; let eD = cyc.endDate; const t = `21 ${fullMonths[sD.getMonth()]} ${sD.getFullYear()} to 20 ${fullMonths[eD.getMonth()]} ${eD.getFullYear()}`;
+                let cs = { P: 0, A: 0, CL: 0, ML: 0, GH: 0, S: 0 }; let it = new Date(sD); let dArr = [];
+                while(it <= eD) { dArr.push(new Date(it)); it.setDate(it.getDate() + 1); }
+
+                h += `<tr><th colspan="${dArr.length + 1}" style="background:#e5f1ff; padding:6px;">CYCLE: ${t}</th></tr><tr class="pr-row-dates"><td class="pr-title-cell"><strong>Date</strong></td>`;
+                dArr.forEach(d => h += `<td style="${d.getDay() === 0 ? 'color:red; font-weight:bold;' : ''}">${d.getDate()}</td>`);
+                h += `</tr><tr class="pr-row-status"><td class="pr-title-cell"><small>Status</small></td>`;
+                
+               dArr.forEach(d => {
+                    let dk = formatDateKey(d); let dN = d.getDay(); let st = appData.attendance[dk];
+                    if(!st) { if (dN === 0) st = 'S'; else st = ''; } // Print me bhi auto GH nahi aayega
+                    let countKey = (st === 'P*') ? 'P' : st;
+                    if(cs.hasOwnProperty(countKey)) cs[countKey]++; 
+                    
+                    let printVal = (st === 'P*') ? 'P<span style="font-size:12px; vertical-align:super; line-height:0;">&#8226;</span>' : (st || '-');
+                    h += `<td class="val-${countKey}">${printVal}</td>`;
+                });
+                h += `</tr><tr class="pr-row-cycle-stats"><td class="pr-title-cell">Totals:</td><td colspan="${dArr.length}">P: ${cs.P} | A: ${cs.A} | CL: ${cs.CL} | ML: ${cs.ML} | GH: ${cs.GH}</td></tr>`;
+                if (idx < sorted.length - 1) h += `<tr><td colspan="${dArr.length + 1}" style="border:none; height:15px;"></td></tr>`;
+            });
+            
+            h += `</table>`; pv.innerHTML = h; setTimeout(() => window.print(), 200);
+        }
+
+        // ================= INITIALIZATION =================
+        window.onload = () => {
+            loadSharedData();
+            initAgeApp();
+            initAttendance();
+            
+            // Start Default Tab (Age Mode) with scroll working
+            switchTab('age', document.querySelector('.nav-item'), 'Smart Age', false);
+        };
+    </script>
+  
+
+<script>
+  if ('serviceWorker' in navigator) navigator.serviceWorker.register('service-worker.js');
+</script>
+</body>
+</html>
