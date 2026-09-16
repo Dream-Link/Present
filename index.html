@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Smart Multi-App Dashboard</title>
+    <title>Smart OPD Present</title>
     <!-- SheetJS Library for OPD Excel Export/Import -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <style>
@@ -843,6 +843,18 @@
             }
         }
         
+       function toggleHolYear(yearId, btnId) {
+            const el = document.getElementById(yearId);
+            const btn = document.getElementById(btnId);
+            if (el.style.display === 'none') {
+                el.style.display = 'block';
+                btn.innerHTML = '▼';
+            } else {
+                el.style.display = 'none';
+                btn.innerHTML = '▶';
+            }
+        }
+
         function renderHolidayList() {
             let list = document.getElementById('holiday-list'); list.innerHTML = '';
             let grouped = {};
@@ -855,14 +867,25 @@
             });
             
             for(let y in grouped) {
-                list.innerHTML += `<div class="hol-year-header">Year: ${y}</div>`;
+                // Clickable Header with Arrow Icon
+                let headerHtml = `<div class="hol-year-header" style="cursor:pointer; display:flex; justify-content:space-between; align-items:center;" onclick="toggleHolYear('hol-content-${y}', 'hol-icon-${y}')">
+                    <span>Year: ${y}</span>
+                    <span id="hol-icon-${y}" style="font-size:10px; color:var(--text-muted);">▶</span>
+                </div>`;
+                
+                // Content Container (Hidden by default)
+                let contentHtml = `<div id="hol-content-${y}" style="display:none; margin-bottom:10px;">`;
+                
                 grouped[y].forEach(d => {
-                    list.innerHTML += `<div class="hol-list-item"><span>${d} - <span style="color:var(--t-holiday)">${appData.holidays[d]}</span></span>
+                    contentHtml += `<div class="hol-list-item"><span>${d} - <span style="color:var(--t-holiday)">${appData.holidays[d]}</span></span>
                     <button type="button" class="hol-del-btn" onclick="deleteHoliday('${d}')">&times;</button></div>`;
                 });
+                contentHtml += `</div>`;
+                
+                // Add to list
+                list.innerHTML += headerHtml + contentHtml;
             }
         }
-
         function togglePeriodMode() {
             appData.prefs.periodMode = appData.prefs.periodMode === 'cycle' ? 'month' : 'cycle';
             saveData();
