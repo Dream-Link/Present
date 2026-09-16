@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Smart Present</title>
+    <title>Smart Multi-App Dashboard</title>
+    <!-- SheetJS Library for OPD Excel Export/Import -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <style>
         /* iOS/Apple Inspired Design System & Ultra Compact Dashboard */
         :root {
@@ -33,6 +35,13 @@
             --age-primary: #4f46e5;
             --age-secondary: #ec4899;
             --age-tertiary: #0ea5e9;
+
+            /* OPD Specific Colors */
+            --opd-success: #059669;
+            --opd-info: #0891b2;
+            --opd-warning: #d97706;
+            --opd-danger: #dc2626;
+            --opd-readonly-bg: #f8fafc;
         }
 
         [data-theme="dark"] {
@@ -49,6 +58,8 @@
             --c-ml: #2a2966; --t-ml: #5e5ce6;
             --c-holiday: #4d2b00; --t-holiday: #ffcc80;
             --c-sunday: #3a3a3c; --t-sunday: #ebebf5;
+            
+            --opd-readonly-bg: #2c2c2e;
         }
 
         * {
@@ -180,10 +191,10 @@
 
         .register-container { background: var(--surface); border-radius: var(--radius-card); border: 1px solid var(--border); overflow: hidden; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; flex: 1; min-height: 200px;}
         .table-responsive { overflow-y: auto; flex: 1; -webkit-overflow-scrolling: touch; }
-        table { width: 100%; border-collapse: collapse; table-layout: fixed; }
-        th, td { padding: 8px 10px; text-align: left; border-bottom: 1px solid var(--border); }
-        th { background: var(--surface); font-weight: 600; font-size: 10px; color: var(--text-muted); position: sticky; top: 0; z-index: 2; text-transform: uppercase; border-bottom: 1px solid var(--border); box-shadow: 0 1px 0 var(--border); }
-        td { font-size: 13px; vertical-align: middle; }
+        table.att-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+        .att-table th, .att-table td { padding: 8px 10px; text-align: left; border-bottom: 1px solid var(--border); }
+        .att-table th { background: var(--surface); font-weight: 600; font-size: 10px; color: var(--text-muted); position: sticky; top: 0; z-index: 2; text-transform: uppercase; border-bottom: 1px solid var(--border); box-shadow: 0 1px 0 var(--border); }
+        .att-table td { font-size: 13px; vertical-align: middle; }
         .date-col { width: 80px; font-weight: 600; }
         .day-col { width: auto; color: var(--text-muted); font-size: 12px; }
         .status-col { width: 90px; text-align: center; }
@@ -208,9 +219,66 @@
         tr.is-today .day-col { font-size: 13px; font-weight: 700; color: var(--primary); }
         .today-lbl { font-size: 9px; font-weight: bold; background: var(--primary); color: white; padding: 2px 6px; border-radius: 4px; margin-top: 4px; display: inline-block;}
 
+        /* ==========================================
+           TAB 3: OPD REPORT STYLES
+           ========================================== */
+        .opd-dashboard-controls {
+            background: var(--surface); padding: 10px 12px; border-radius: 8px;
+            box-shadow: var(--shadow-sm); border: 1px solid var(--border); margin-bottom: 10px;
+            display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; flex-shrink: 0;
+        }
+        .opd-control-group { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+        .opd-dashboard-controls label { font-weight: 600; color: var(--text-muted); font-size: 12px; }
+        .opd-dashboard-controls input[type="month"] {
+            height: 32px; padding: 0 10px; border: 1px solid var(--border); border-radius: 6px;
+            outline: none; background: var(--bg-color); color: var(--text-main); font-weight: 600; font-size: 13px;
+        }
+        .opd-btn {
+            height: 32px; padding: 0 10px; background-color: var(--primary); color: white; border: none;
+            border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 12px; transition: 0.2s; display: flex; align-items: center; gap: 4px;
+        }
+        .opd-btn:hover { filter: brightness(1.1); }
+        .opd-btn-secondary { background-color: #64748b; }
+        .opd-btn-success { background-color: var(--opd-success); }
+        .opd-btn-info { background-color: var(--opd-info); }
+        .opd-btn-warning { background-color: var(--opd-warning); }
+        
+        .opd-print-container {
+            background: var(--surface); padding: 12px; border-radius: 8px; box-shadow: var(--shadow-sm); border: 1px solid var(--border);
+            width: 100%; overflow-x: auto; flex: 1; margin-bottom: 20px;
+        }
+        .opd-header-title { text-align: center; margin-bottom: 10px; }
+        .opd-header-title h1 { font-size: 18px; font-weight: 700; margin-bottom: 2px; }
+        .opd-header-title p { font-size: 13px; color: var(--text-muted); font-weight: 600; }
+
+        table.opd-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+        .opd-table th, .opd-table td { border: 1px solid var(--border); padding: 2px 4px; text-align: center; vertical-align: middle; }
+        .opd-table th { background-color: var(--bg-color); font-weight: 600; height: 28px; font-size: 11px; text-transform: uppercase; }
+        .opd-table td { height: 28px; }
+
+        .opd-date-cell { cursor: pointer; user-select: none; -webkit-user-select: none; font-size: 12px; white-space: nowrap; }
+        .opd-red-text { color: var(--opd-danger) !important; }
+        .opd-day-name { font-size: 11px; color: var(--text-muted); margin-left: 3px; }
+
+        .opd-cell-input {
+            width: 100%; height: 24px; border: 1px solid transparent; text-align: center; font-size: 13px;
+            font-weight: 600; background: transparent; border-radius: 4px; outline: none; color: var(--text-main);
+        }
+        .opd-cell-input:focus:not(.opd-readonly-input) { border-color: var(--primary); background: var(--bg-color); box-shadow: 0 0 0 2px rgba(0,122,255,0.1); }
+        .opd-readonly-input { background-color: var(--opd-readonly-bg); color: var(--text-muted); cursor: not-allowed; pointer-events: none; }
+        .opd-input-error { border-color: var(--opd-danger) !important; background-color: #fef2f2 !important; color: var(--opd-danger) !important; }
+        
+        .opd-table input[type=number]::-webkit-inner-spin-button, 
+        .opd-table input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+        .opd-table input[type=number] { -moz-appearance: textfield; }
+
+        .opd-total-row { font-weight: 700; background-color: var(--bg-color); }
+        .opd-total-row td { height: 32px; font-size: 13px; }
+
+        #printAllContainer { display: none; }
 
         /* ==========================================
-           TAB 3: SETTINGS STYLES
+           TAB 4: SETTINGS STYLES
            ========================================== */
         .settings-card {
             background: var(--surface); border-radius: var(--radius-card); padding: 16px; margin-bottom: 12px;
@@ -266,7 +334,6 @@
         .nav-icon { font-size: 20px; line-height: 1; }
         .nav-text { font-size: 10px; font-weight: 600; }
 
-
         /* ==========================================
            MODALS & TOAST
            ========================================== */
@@ -295,31 +362,53 @@
         .toast.show { visibility: visible; opacity: 1; transform: translateX(-50%) translateY(0); }
 
         /* ==========================================
-           PRINT STYLES
+           PRINT STYLES (Smart routing for Att / OPD)
            ========================================== */
         #print-view { display: none; }
+        
         @media print {
             @page { size: landscape; margin: 10mm; }
-            html, body { background: white; color: black; font-family: Arial, sans-serif; height: auto !important; overflow: visible !important; display: block !important; }
+            html, body { background: white !important; color: black !important; font-family: Arial, sans-serif; height: auto !important; overflow: visible !important; display: block !important; }
             .container, .tab-content { height: auto !important; overflow: visible !important; display: block !important; padding: 0; margin: 0; }
             .app-bar, .bottom-nav, .controls-row, .stats-header, .stats-grid, .register-container, .toast, .modal-overlay, #tab-age, #tab-settings { display: none !important; }
             
-            .profile-card { border: none; box-shadow: none; border-bottom: 2px solid #000; border-radius: 0; margin-bottom: 15px; padding: 0 0 5px 0; }
-            #print-view { display: block !important; width: 100%; }
-            .print-header { text-align: center; font-size: 18px; font-weight: bold; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px;}
-            .print-table { width: 100%; border-collapse: collapse; table-layout: auto !important; font-size: 10px; text-align: center; margin-bottom: 20px; page-break-inside: auto; }
-            .print-table tr { page-break-inside: avoid; page-break-after: auto; }
-            .print-table td, .print-table th { border: 1px solid #000; padding: 5px 2px; word-wrap: break-word; }
-            .pr-row-dates td { background: #f0f0f0; font-weight: bold; }
-            .pr-title-cell { text-align: left; padding-left: 5px !important; min-width: 100px; }
-            .pr-row-cycle-stats { background: #f9f9f9; font-weight: bold; font-size: 11px; }
-            .pr-row-cycle-stats td { padding: 4px 10px !important; text-align: left; }
-            .summary-table { width: auto; margin: 0 auto 20px auto; border-collapse: collapse; font-size: 11px; font-weight: bold; text-align: center;}
-            .summary-table th, .summary-table td { border: 1px solid #000; padding: 6px 12px; }
-            .summary-table th { background: #eee; }
-            .val-P, .val-Pstar { color: #000; font-weight: bold; } .val-A { color: #d32f2f; font-weight: bold; }
-            .val-CL, .print-cl { color: red !important; font-weight: bold; } .val-ML, .print-ml { color: blue !important; font-weight: bold; } 
-            .val-GH { color: #b06000; font-weight: bold; } .val-S { color: #777; }
+            /* -- ATTENDANCE PRINT MODE -- */
+            body.print-att #tab-opd, body.print-att #printAllContainer { display: none !important; }
+            body.print-att .profile-card { border: none; box-shadow: none; border-bottom: 2px solid #000; border-radius: 0; margin-bottom: 15px; padding: 0 0 5px 0; }
+            body.print-att #print-view { display: block !important; width: 100%; }
+            body.print-att .print-header { text-align: center; font-size: 18px; font-weight: bold; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px;}
+            body.print-att .print-table { width: 100%; border-collapse: collapse; table-layout: auto !important; font-size: 10px; text-align: center; margin-bottom: 20px; page-break-inside: auto; }
+            body.print-att .print-table tr { page-break-inside: avoid; page-break-after: auto; }
+            body.print-att .print-table td, body.print-att .print-table th { border: 1px solid #000; padding: 5px 2px; word-wrap: break-word; }
+            body.print-att .pr-row-dates td { background: #f0f0f0; font-weight: bold; }
+            body.print-att .pr-title-cell { text-align: left; padding-left: 5px !important; min-width: 100px; }
+            body.print-att .pr-row-cycle-stats { background: #f9f9f9; font-weight: bold; font-size: 11px; }
+            body.print-att .pr-row-cycle-stats td { padding: 4px 10px !important; text-align: left; }
+            body.print-att .summary-table { width: auto; margin: 0 auto 20px auto; border-collapse: collapse; font-size: 11px; font-weight: bold; text-align: center;}
+            body.print-att .summary-table th, body.print-att .summary-table td { border: 1px solid #000; padding: 6px 12px; }
+            body.print-att .summary-table th { background: #eee; }
+            body.print-att .val-P, body.print-att .val-Pstar { color: #000; font-weight: bold; } body.print-att .val-A { color: #d32f2f; font-weight: bold; }
+            body.print-att .val-CL, body.print-att .print-cl { color: red !important; font-weight: bold; } body.print-att .val-ML, body.print-att .print-ml { color: blue !important; font-weight: bold; } 
+            body.print-att .val-GH { color: #b06000; font-weight: bold; } body.print-att .val-S { color: #777; }
+            
+            /* -- OPD PRINT MODE -- */
+            body.print-opd #tab-present, body.print-opd .profile-card, body.print-opd #print-view { display: none !important; }
+            @page { size: A4 portrait; margin: 8mm; }
+            body.print-opd .opd-dashboard-controls { display: none !important; }
+            body.print-opd .opd-print-container { box-shadow: none; padding: 0; border: none; margin-bottom: 0; }
+            body.print-opd .month-print-page { page-break-after: always; }
+            body.print-opd .month-print-page:last-child { page-break-after: auto; }
+            body.print-opd .opd-header-title h1 { font-size: 16px; margin-bottom: 2px; }
+            body.print-opd .opd-header-title p { font-size: 12px; margin-bottom: 8px; }
+            body.print-opd .opd-table th { background-color: #e2e8f0 !important; -webkit-print-color-adjust: exact; color: black; border-color: #94a3b8; }
+            body.print-opd .opd-table td { border-color: #94a3b8; color: black;}
+            body.print-opd .opd-day-name { display: inline-block; color: black; }
+            body.print-opd .opd-cell-input { border: none; color: black; font-size: 12px; background: transparent !important; }
+            body.print-opd .opd-cell-input::-webkit-input-placeholder { color: transparent !important; }
+            body.print-opd .opd-cell-input:-moz-placeholder { color: transparent !important; }
+            body.print-opd .opd-cell-input::-moz-placeholder { color: transparent !important; }
+            body.print-opd .opd-cell-input:-ms-input-placeholder { color: transparent !important; }
+            body.print-opd .opd-total-row { background-color: #e2e8f0 !important; -webkit-print-color-adjust: exact; }
         }
     </style>
 </head>
@@ -336,7 +425,7 @@
     <div class="container">
         
         <!-- ================= TAB 1: AGE CALCULATOR ================= -->
-        <main id="tab-age" class="tab-content active">
+        <main id="tab-age" class="tab-content">
             <div class="age-display-wrapper">
                 <div class="age-display-card">
                     <div class="card-left">
@@ -356,7 +445,7 @@
         </main>
 
         <!-- ================= TAB 2: ATTENDANCE PRO ================= -->
-        <main id="tab-present" class="tab-content">
+        <main id="tab-present" class="tab-content active">
             <div class="profile-card">
                 <div class="profile-info"><h3>Name</h3><p id="disp-name">-</p></div>
                 <div class="profile-info"><h3>Designation</h3><p id="disp-post">-</p></div>
@@ -399,7 +488,7 @@
 
             <div class="register-container">
                 <div class="table-responsive" id="table-scroll-area">
-                    <table>
+                    <table class="att-table">
                         <thead>
                             <tr>
                                 <th class="date-col">Date</th>
@@ -415,9 +504,63 @@
             <div id="print-view"></div>
         </main>
 
-        <!-- ================= TAB 3: SETTINGS ================= -->
+        <!-- ================= TAB 3: OPD REPORT ================= -->
+        <main id="tab-opd" class="tab-content">
+            <div class="opd-dashboard-controls no-print">
+                <div class="opd-control-group">
+                    <label for="opdMonthPicker">Month:</label>
+                    <input type="month" id="opdMonthPicker" onchange="generateOpdTable()">
+                </div>
+                <div class="opd-control-group">
+                    <input type="file" id="opdImportFile" accept=".json, .xlsx, .xls" style="display: none;" onchange="importOpdUniversalData(event)">
+                    <button onclick="document.getElementById('opdImportFile').click()" class="opd-btn opd-btn-warning" title="Import Excel or JSON">📂 Imp</button>
+                    
+                    <button onclick="exportOpdDataJSON()" class="opd-btn opd-btn-info" title="Download JSON Backup">💾 JSON</button>
+                    <button onclick="exportOpdDataExcel()" class="opd-btn opd-btn-success" title="Download Excel Sheet">📊 Excel</button>
+                    
+                    <button onclick="clearOpdData()" class="opd-btn opd-btn-secondary" title="Clear current month data">🗑️ Clear</button>
+                    
+                    <button onclick="printOpdCurrentMonth()" class="opd-btn opd-btn-primary" title="Print currently visible month">🖨️ Month</button>
+                    <button onclick="printOpdAllMonths()" class="opd-btn opd-btn-primary" title="Print all saved months">🖨️ All</button>
+                </div>
+            </div>
+
+            <div id="opdActiveView" style="display: flex; flex-direction: column; flex: 1; min-height: 200px;">
+                <div class="opd-print-container" id="opdPrintArea">
+                    <div class="opd-header-title">
+                        <h1>PHC SHESHA OPD REPORT</h1>
+                        <p id="opdDisplayMonth">Month: --</p>
+                    </div>
+                    
+                    <table class="opd-table" id="opdTable">
+                        <thead>
+                            <tr>
+                                <th width="20%">Date</th>
+                                <th width="26%">Start Range</th>
+                                <th width="26%">End Range</th>
+                                <th width="28%">Total Count</th>
+                            </tr>
+                        </thead>
+                        <tbody id="opdTableBody">
+                            <!-- Rows injected via JS -->
+                        </tbody>
+                        <tfoot>
+                            <tr class="opd-total-row">
+                                <td colspan="2" style="text-align: right; padding-right: 15px;">Total Range & Count:</td>
+                                <td id="opdGrandEndTotal">-</td>
+                                <td id="opdGrandCountTotal">0</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </main>
+        
+        <!-- Hidden Container for Printing All OPD Months -->
+        <div id="printAllContainer"></div>
+
+        <!-- ================= TAB 4: SETTINGS ================= -->
         <main id="tab-settings" class="tab-content">
-            
             <!-- Profile Info (Auto-Save Enabled) -->
             <div class="settings-card">
                 <div class="settings-header"><h2>Profile Info</h2><span style="font-size:10px; color:var(--text-muted);">(Auto Saves)</span></div>
@@ -441,26 +584,29 @@
 
             <!-- Data Backup / Restore -->
             <div class="settings-card">
-                <div class="settings-header"><h2>Data Management</h2></div>
+                <div class="settings-header"><h2>Att. Data Management</h2></div>
                 <div class="action-btn-row">
                     <button class="btn-primary" style="background:var(--c-ml); color:var(--t-ml); border: 1px solid var(--t-ml);" onclick="exportData()">📤 Export Data</button>
                     <button class="btn-primary" style="background:var(--c-present); color:var(--t-present); border: 1px solid var(--t-present);" onclick="document.getElementById('import-file').click()">📥 Import Data</button>
                     <input type="file" id="import-file" style="display:none" accept=".json" onchange="importData(event)">
                 </div>
             </div>
-
         </main>
     </div>
 
     <!-- Bottom Navigation Bar -->
     <nav class="bottom-nav">
-        <div class="nav-item active" onclick="switchTab('age', this, 'Smart Age', false)">
+        <div class="nav-item" onclick="switchTab('age', this, 'Smart Age', false)">
             <span class="nav-icon">🎂</span>
             <span class="nav-text">Age</span>
         </div>
-        <div class="nav-item" onclick="switchTab('present', this, 'Attendance Pro', true)">
+        <div class="nav-item active" onclick="switchTab('present', this, 'Attendance Pro', true)">
             <span class="nav-icon">📅</span>
             <span class="nav-text">Present</span>
+        </div>
+        <div class="nav-item" onclick="switchTab('opd', this, 'OPD Report', false)">
+            <span class="nav-icon">🏥</span>
+            <span class="nav-text">OPD</span>
         </div>
         <div class="nav-item" onclick="switchTab('settings', this, 'Settings', false)">
             <span class="nav-icon">⚙️</span>
@@ -527,15 +673,24 @@
             document.documentElement.setAttribute('data-theme', appData.theme);
         }
 
-        // ================= IMPORT / EXPORT DATA =================
+      // ================= MASTER IMPORT / EXPORT (ALL DATA) =================
         function exportData() {
-            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(appData));
+            // OPD का डेटा भी लोकल स्टोरेज से लें
+            const opdData = JSON.parse(localStorage.getItem(OPD_STORAGE_KEY)) || {};
+            
+            // Attendance/Settings और OPD दोनों डेटा को एक मास्टर फाइल में मिलाएँ
+            const masterBackup = {
+                appData: appData,
+                opdData: opdData
+            };
+            
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(masterBackup));
             const dl = document.createElement('a');
             dl.setAttribute("href", dataStr);
-            dl.setAttribute("download", "smart_dashboard_backup.json");
+            dl.setAttribute("download", "Smart_Dashboard_Master_Backup.json");
             document.body.appendChild(dl);
             dl.click(); dl.remove();
-            showToast('Data Exported Successfully!');
+            showToast('Master Backup Exported!');
         }
 
         function importData(event) {
@@ -545,10 +700,28 @@
             reader.onload = function(e) {
                 try {
                     const parsed = JSON.parse(e.target.result);
-                    if(parsed && parsed.attendance) {
+                    
+                    // अगर नया मास्टर बैकअप है (जिसमें Attendance + OPD दोनों हैं)
+                    if (parsed.appData || parsed.opdData) {
+                        if (parsed.appData) {
+                            appData = { ...appData, ...parsed.appData };
+                            saveData();
+                        }
+                        if (parsed.opdData) {
+                            let existingOpd = JSON.parse(localStorage.getItem(OPD_STORAGE_KEY)) || {};
+                            let mergedOpd = { ...existingOpd, ...parsed.opdData };
+                            localStorage.setItem(OPD_STORAGE_KEY, JSON.stringify(mergedOpd));
+                        }
+                        loadSharedData(); 
+                        initAttendance(); 
+                        if(typeof generateOpdTable === 'function') generateOpdTable();
+                        showToast('Master Data Imported Successfully!');
+                    } 
+                    // अगर पुराना बैकअप है (जिसमें सिर्फ Attendance था)
+                    else if(parsed && parsed.attendance) {
                         appData = { ...appData, ...parsed };
                         saveData(); loadSharedData(); initAttendance();
-                        showToast('Data Imported Successfully!');
+                        showToast('Attendance Data Imported!');
                     } else {
                         showToast('Invalid Data File!');
                     }
@@ -557,9 +730,8 @@
                 }
             };
             reader.readAsText(file);
-            event.target.value = ''; // Reset file input
+            event.target.value = ''; 
         }
-
         // ================= TAB SWITCH & SCROLL LOGIC =================
         function switchTab(tabId, navElement, title, showPrint) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
@@ -583,7 +755,6 @@
                 setTimeout(() => { document.getElementById('row-today')?.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 50);
             }
         }
-
 
         // ================= APP 1: SMART AGE CALCULATOR =================
         const targetYear = 2026;
@@ -750,7 +921,6 @@
                 const dk = formatDateKey(iter); const dNum = iter.getDay(); const tChk = isToday(iter); const isHol = appData.holidays[dk];
                 let st = appData.attendance[dk];
                 
-                // NO AUTOMATIC GH ASSIGNMENT: Status remains empty unless manually clicked.
                 if (!st) { 
                     if (dNum === 0) st = 'S'; 
                     else st = ''; 
@@ -799,7 +969,6 @@
             }
             tbody.appendChild(frag); recalcStats();
 
-            // SCROLL FIX FOR ACTIVE TAB
             if (scrollId && appData.prefs.layoutMode === 'full' && document.getElementById('tab-present').classList.contains('active')) {
                 setTimeout(() => { document.getElementById(scrollId)?.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 100);
             }
@@ -826,7 +995,6 @@
                 let el = document.getElementById(id); 
                 if(el) { el.style.opacity = '0'; setTimeout(() => el.style.opacity = '1', 150); }
             });
-           // P और P* दोनों को जोड़कर मुख्य Present बॉक्स में दिखाएं
             document.getElementById('count-p').textContent = s.P + s.Pstar; 
             document.getElementById('count-pstar').textContent = s.Pstar; 
             document.getElementById('count-a').textContent = s.A; 
@@ -836,6 +1004,7 @@
         }
 
         function triggerPrint() {
+            document.body.classList.add('print-att');
             let cyclesMap = new Map(); 
             let currCycle = getCycleDates(currentCycleDate); 
             cyclesMap.set(currCycle.startDate.getTime(), currCycle);
@@ -890,16 +1059,349 @@
                 if (idx < sorted.length - 1) h += `<tr><td colspan="${dArr.length + 1}" style="border:none; height:15px;"></td></tr>`;
             });
             
-            h += `</table>`; pv.innerHTML = h; setTimeout(() => window.print(), 200);
+            h += `</table>`; pv.innerHTML = h; 
+            setTimeout(() => { window.print(); document.body.classList.remove('print-att'); }, 200);
         }
 
-       // ================= INITIALIZATION =================
+        // ================= APP 3: OPD REPORT (Fully Integrated) =================
+        const OPD_STORAGE_KEY = 'phc_shesha_opd_data';
+        let opdPressTimer;
+
+        function opdStartPress(e, elemId) {
+            opdPressTimer = window.setTimeout(function() {
+                const el = document.getElementById(elemId);
+                el.classList.toggle('opd-red-text');
+                saveOpdColors();
+            }, 600);
+        }
+
+        function opdCancelPress() { clearTimeout(opdPressTimer); }
+        function getOpdDaysInMonth(year, month) { return new Date(year, month, 0).getDate(); }
+
+        function generateOpdTable() {
+            const picker = document.getElementById('opdMonthPicker').value;
+            if(!picker) return;
+
+            const [year, month] = picker.split('-');
+            const days = getOpdDaysInMonth(year, month);
+            
+            const dateObjForMonth = new Date(year, month - 1);
+            const monthName = dateObjForMonth.toLocaleString('en-US', { month: 'long', year: 'numeric' });
+            document.getElementById('opdDisplayMonth').innerText = `Month: ${monthName}`;
+
+            const tbody = document.getElementById('opdTableBody');
+            tbody.innerHTML = '';
+
+            const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            const allSavedData = JSON.parse(localStorage.getItem(OPD_STORAGE_KEY)) || {};
+            const monthData = allSavedData[picker] || {};
+
+            for (let i = 1; i <= days; i++) {
+                const tr = document.createElement('tr');
+                const currentDate = new Date(year, month - 1, i);
+                const dayOfWeek = currentDate.getDay(); 
+                
+                const dateStr = `${String(i).padStart(2, '0')}-${month}-${year}`;
+                const dayStr = dayNames[dayOfWeek];
+                
+                let dateClass = "opd-date-cell";
+                if(dayOfWeek === 0 || (monthData[i] && monthData[i].isRed)) { dateClass += " opd-red-text"; }
+
+                const valS = monthData[i] ? monthData[i].s : '';
+                const valE = monthData[i] ? monthData[i].e : '';
+                const valC = monthData[i] ? monthData[i].c : '';
+
+                const isStartReadonly = (i !== 1) ? 'readonly tabindex="-1"' : '';
+                const startClass = (i !== 1) ? 'opd-readonly-input' : '';
+
+                tr.innerHTML = `
+                    <td id="opd-date-cell-${i}" class="${dateClass}"
+                        onmousedown="opdStartPress(event, 'opd-date-cell-${i}')"
+                        onmouseup="opdCancelPress()" onmouseleave="opdCancelPress()"
+                        ontouchstart="opdStartPress(event, 'opd-date-cell-${i}')"
+                        ontouchend="opdCancelPress()" ontouchcancel="opdCancelPress()"
+                        oncontextmenu="return false;" title="Long press to mark red">
+                        <b>${dateStr} <span class="opd-day-name">(${dayStr})</span></b>
+                    </td>
+                    <td><input type="number" class="opd-cell-input opd-start-input ${startClass}" id="opd-start-${i}" value="${valS}" onchange="opdRecalculateAll(${i})" placeholder="Start" ${isStartReadonly}></td>
+                    <td><input type="number" class="opd-cell-input opd-end-input" id="opd-end-${i}" value="${valE}" onchange="opdRecalculateAll(${i})" placeholder="End"></td>
+                    <td><input type="number" class="opd-cell-input opd-count-input opd-readonly-input" id="opd-count-${i}" value="${valC}" placeholder="" readonly tabindex="-1"></td>
+                `;
+                tbody.appendChild(tr);
+            }
+            opdRecalculateAll();
+        }
+
+        function opdRecalculateAll(changedIndex = -1) {
+            const picker = document.getElementById('opdMonthPicker').value;
+            if(!picker) return;
+            
+            const [year, month] = picker.split('-');
+            const days = getOpdDaysInMonth(year, month);
+            let currentStart = parseInt(document.getElementById('opd-start-1').value);
+
+            for(let i = 1; i <= days; i++) {
+                const startElem = document.getElementById(`opd-start-${i}`);
+                const endElem = document.getElementById(`opd-end-${i}`);
+                const countElem = document.getElementById(`opd-count-${i}`);
+                
+                endElem.classList.remove('opd-input-error');
+
+                if (i > 1) {
+                    if (!isNaN(currentStart) && currentStart > 0) {
+                        let hasEnd = !isNaN(parseInt(endElem.value));
+                        let futureEndExists = false;
+                        for(let j = i + 1; j <= days; j++) {
+                            if(!isNaN(parseInt(document.getElementById(`opd-end-${j}`).value))) { futureEndExists = true; break; }
+                        }
+                        if (hasEnd || !futureEndExists) { startElem.value = currentStart; } else { startElem.value = ''; }
+                    } else { startElem.value = ''; }
+                }
+
+                let s = parseInt(startElem.value);
+                let e = parseInt(endElem.value);
+
+                if (!isNaN(s) && !isNaN(e)) {
+                    if(e < s) {
+                        if(i === changedIndex) alert(`Error on Date ${i}: End Range (${e}) cannot be less than Start Range (${s})!`);
+                        endElem.classList.add('opd-input-error');
+                        endElem.value = ''; countElem.value = ''; currentStart = NaN; 
+                    } else {
+                        countElem.value = e - s + 1; currentStart = e + 1;
+                    }
+                } else {
+                    countElem.value = '';
+                    if (!isNaN(s)) currentStart = NaN;
+                }
+            }
+            opdCalculateTotals();
+            saveOpdData();
+        }
+
+        function opdCalculateTotals() {
+            const counts = document.querySelectorAll('.opd-count-input');
+            const starts = document.querySelectorAll('.opd-start-input');
+            const ends = document.querySelectorAll('.opd-end-input');
+            
+            let totalCount = 0; let firstStart = '-'; let lastEnd = '-';
+
+            counts.forEach(input => { const val = parseInt(input.value); if (!isNaN(val)) totalCount += val; });
+            for(let i = 0; i < starts.length; i++) { if(starts[i].value !== '') { firstStart = starts[i].value; break; } }
+            for(let i = ends.length - 1; i >= 0; i--) { if(ends[i].value !== '') { lastEnd = ends[i].value; break; } }
+
+            document.getElementById('opdGrandCountTotal').innerText = totalCount || '';
+            if(firstStart !== '-' && lastEnd !== '-') document.getElementById('opdGrandEndTotal').innerText = `${firstStart} - ${lastEnd}`;
+            else document.getElementById('opdGrandEndTotal').innerText = '-';
+        }
+
+        function saveOpdData() {
+            const picker = document.getElementById('opdMonthPicker').value;
+            if(!picker) return;
+            const [year, month] = picker.split('-');
+            const days = getOpdDaysInMonth(year, month);
+            const allSavedData = JSON.parse(localStorage.getItem(OPD_STORAGE_KEY)) || {};
+            const monthData = {};
+
+            for (let i = 1; i <= days; i++) {
+                const s = document.getElementById(`opd-start-${i}`).value;
+                const e = document.getElementById(`opd-end-${i}`).value;
+                const c = document.getElementById(`opd-count-${i}`).value;
+                const isRed = document.getElementById(`opd-date-cell-${i}`).classList.contains('opd-red-text');
+                if(s !== '' || e !== '' || c !== '' || isRed) { monthData[i] = { s: s, e: e, c: c, isRed: isRed }; }
+            }
+            allSavedData[picker] = monthData;
+            localStorage.setItem(OPD_STORAGE_KEY, JSON.stringify(allSavedData));
+        }
+
+        function saveOpdColors() { saveOpdData(); }
+        
+        function clearOpdData() {
+            if(confirm("Are you sure you want to clear all data for THIS month?")) {
+                const picker = document.getElementById('opdMonthPicker').value;
+                const allSavedData = JSON.parse(localStorage.getItem(OPD_STORAGE_KEY)) || {};
+                if(allSavedData[picker]) { delete allSavedData[picker]; localStorage.setItem(OPD_STORAGE_KEY, JSON.stringify(allSavedData)); }
+                generateOpdTable(); 
+            }
+        }
+
+        function exportOpdDataJSON() {
+            const data = localStorage.getItem(OPD_STORAGE_KEY);
+            if(!data || data === '{}') { alert("No data available to export!"); return; }
+            const blob = new Blob([data], { type: "application/json" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url; a.download = "PHC_SHESHA_OPD_Backup.json";
+            document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
+        }
+
+        function exportOpdDataExcel() {
+            const allSavedData = JSON.parse(localStorage.getItem(OPD_STORAGE_KEY)) || {};
+            if(Object.keys(allSavedData).length === 0) { alert("No data available to export!"); return; }
+
+            const wb = XLSX.utils.book_new();
+            Object.keys(allSavedData).sort().forEach(monthKey => {
+                const monthData = allSavedData[monthKey];
+                const [year, month] = monthKey.split('-');
+                const days = getOpdDaysInMonth(year, month);
+                let sheetData = [["Date", "Start Range", "End Range", "Total Count", "Is Holiday (Red)"]];
+                
+                for(let i=1; i<=days; i++) {
+                    let d = monthData[i] || {};
+                    let dateStr = `${String(i).padStart(2, '0')}-${month}-${year}`;
+                    sheetData.push([ dateStr, d.s || "", d.e || "", d.c || "", d.isRed ? "Yes" : "" ]);
+                }
+                const ws = XLSX.utils.aoa_to_sheet(sheetData);
+                XLSX.utils.book_append_sheet(wb, ws, monthKey);
+            });
+            XLSX.writeFile(wb, "PHC_SHESHA_OPD_Report.xlsx");
+        }
+
+        function importOpdUniversalData(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const ext = file.name.split('.').pop().toLowerCase();
+            const reader = new FileReader();
+
+            if (ext === 'json') {
+                reader.onload = function(e) {
+                    try {
+                        const importedData = JSON.parse(e.target.result);
+                        const existingData = JSON.parse(localStorage.getItem(OPD_STORAGE_KEY)) || {};
+                        const mergedData = { ...existingData, ...importedData };
+                        localStorage.setItem(OPD_STORAGE_KEY, JSON.stringify(mergedData));
+                        alert("JSON Backup imported successfully!"); generateOpdTable();
+                    } catch(err) { alert("Invalid JSON format."); }
+                };
+                reader.readAsText(file);
+            } 
+            else if (ext === 'xlsx' || ext === 'xls') {
+                reader.onload = function(e) {
+                    try {
+                        const data = new Uint8Array(e.target.result);
+                        const workbook = XLSX.read(data, {type: 'array'});
+                        let allSavedData = JSON.parse(localStorage.getItem(OPD_STORAGE_KEY)) || {};
+
+                        workbook.SheetNames.forEach(sheetName => {
+                            if(/^\d{4}-\d{2}$/.test(sheetName)) {
+                                const jsonData = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], {header: 1});
+                                let monthData = {};
+                                for(let i=1; i<jsonData.length; i++) {
+                                    let row = jsonData[i];
+                                    if(row && row.length >= 1) {
+                                        let dateStr = row[0]; 
+                                        if(dateStr && typeof dateStr === 'string') {
+                                            let dayNum = parseInt(dateStr.split('-')[0]);
+                                            if(!isNaN(dayNum)) {
+                                                monthData[dayNum] = { s: row[1] || "", e: row[2] || "", c: row[3] || "", isRed: row[4] === "Yes" };
+                                            }
+                                        }
+                                    }
+                                }
+                                allSavedData[sheetName] = monthData;
+                            }
+                        });
+                        localStorage.setItem(OPD_STORAGE_KEY, JSON.stringify(allSavedData));
+                        alert("Excel Data imported successfully!"); generateOpdTable();
+                    } catch(err) { alert("Error reading Excel file."); }
+                };
+                reader.readAsArrayBuffer(file);
+            }
+            event.target.value = ''; 
+        }
+
+        function printOpdCurrentMonth() {
+            document.body.classList.add('print-opd');
+            document.getElementById('opdActiveView').style.display = 'block';
+            document.getElementById('printAllContainer').style.display = 'none';
+            setTimeout(() => { window.print(); document.body.classList.remove('print-opd'); }, 200);
+        }
+
+        function printOpdAllMonths() {
+            const allSavedData = JSON.parse(localStorage.getItem(OPD_STORAGE_KEY)) || {};
+            const months = Object.keys(allSavedData).sort();
+            if(months.length === 0) { alert("No saved data found to print."); return; }
+
+            const container = document.getElementById('printAllContainer');
+            container.innerHTML = ''; 
+            const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+            months.forEach(monthKey => {
+                const [year, month] = monthKey.split('-');
+                const days = getOpdDaysInMonth(year, month);
+                const dateObjForMonth = new Date(year, month - 1);
+                const monthName = dateObjForMonth.toLocaleString('en-US', { month: 'long', year: 'numeric' });
+                const monthData = allSavedData[monthKey] || {};
+                
+                let tbodyHtml = '';
+                let tCount = 0; let tStart = '-'; let tEnd = '-';
+                
+                for(let i = 1; i <= days; i++) {
+                    const currentDate = new Date(year, month - 1, i);
+                    const dayOfWeek = currentDate.getDay();
+                    const dateStr = `${String(i).padStart(2, '0')}-${month}-${year}`;
+                    const dayStr = dayNames[dayOfWeek];
+                    
+                    let isRed = (dayOfWeek === 0 || (monthData[i] && monthData[i].isRed));
+                    let colorStyle = isRed ? "color: #dc2626;" : "";
+                    
+                    let s = monthData[i] ? monthData[i].s : '';
+                    let e = monthData[i] ? monthData[i].e : '';
+                    let c = monthData[i] ? monthData[i].c : '';
+
+                    if(c !== '') tCount += parseInt(c);
+                    if(s !== '' && tStart === '-') tStart = s;
+                    if(e !== '') tEnd = e;
+
+                    tbodyHtml += `<tr>
+                            <td style="${colorStyle}; white-space: nowrap;"><b>${dateStr} <span class="opd-day-name">(${dayStr})</span></b></td>
+                            <td>${s}</td><td>${e}</td><td>${c}</td>
+                        </tr>`;
+                }
+
+                let rangeStr = (tStart !== '-' && tEnd !== '-') ? `${tStart} - ${tEnd}` : '-';
+
+                const monthWrapper = document.createElement('div');
+                monthWrapper.className = 'opd-print-container month-print-page';
+                monthWrapper.innerHTML = `
+                    <div class="opd-header-title">
+                        <h1>PHC SHESHA OPD REPORT</h1>
+                        <p>Month: ${monthName}</p>
+                    </div>
+                    <table class="opd-table">
+                        <thead><tr><th width="20%">Date</th><th width="26%">Start Range</th><th width="26%">End Range</th><th width="28%">Total Count</th></tr></thead>
+                        <tbody>${tbodyHtml}</tbody>
+                        <tfoot><tr class="opd-total-row"><td colspan="2" style="text-align: right; padding-right: 15px;">Total Range & Count:</td><td>${rangeStr}</td><td>${tCount}</td></tr></tfoot>
+                    </table>`;
+                container.appendChild(monthWrapper);
+            });
+
+            document.body.classList.add('print-opd');
+            document.getElementById('opdActiveView').style.display = 'none';
+            container.style.display = 'block';
+            
+            setTimeout(() => { 
+                window.print(); 
+                document.body.classList.remove('print-opd'); 
+                document.getElementById('opdActiveView').style.display = 'flex';
+                container.style.display = 'none';
+            }, 200);
+        }
+
+        // ================= INITIALIZATION =================
         window.onload = () => {
             loadSharedData();
             initAgeApp();
             initAttendance();
+
+            // Init OPD Report
+            const now = new Date();
+            const yyyy = now.getFullYear();
+            const mm = String(now.getMonth() + 1).padStart(2, '0');
+            document.getElementById('opdMonthPicker').value = `${yyyy}-${mm}`;
+            generateOpdTable();
             
-            // Start Default Tab (Present Mode) with scroll working
+            // Start Default Tab (Present Mode)
             switchTab('present', document.querySelectorAll('.nav-item')[1], 'Attendance Pro', true);
         };
     </script>
