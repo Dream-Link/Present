@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Smart Present & Opd</title>
+    <title>Smart Present</title>
     <!-- SheetJS Library for OPD Excel Export/Import -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <style>
@@ -367,10 +367,9 @@
         #print-view { display: none; }
         
         @media print {
-            /* Forced Landscape and Full Page Margins */
-            @page { size: A4 landscape; margin: 8mm; }
+            /* Basic Page Defaults - Dynamic Size handled by JS */
+            @page { margin: 8mm; }
             
-            /* Ensuring Full Width to prevent half-page print issues */
             html, body { width: 100% !important; background: white !important; color: black !important; font-family: Arial, sans-serif; height: auto !important; overflow: visible !important; display: block !important; margin: 0 !important; padding: 0 !important; }
             .container, .tab-content { width: 100% !important; max-width: none !important; height: auto !important; overflow: visible !important; display: block !important; padding: 0; margin: 0; }
             
@@ -382,18 +381,14 @@
             body.print-att #print-view { display: block !important; width: 100% !important; }
             body.print-att .print-header { text-align: center; font-size: 18px; font-weight: bold; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px;}
             
-          /* Auto layout: Dates will stay strict px, summary cols will auto-expand */
-            body.print-att .print-table { width: 100% !important; table-layout: auto !important; min-width: 100% !important; border-collapse: collapse; font-size: 10px; text-align: center; margin-bottom: 20px; page-break-inside: auto; }
+            body.print-att .print-table { width: 100% !important; table-layout: auto !important; min-width: 100% !important; border-collapse: collapse; font-size: 10px; text-align: center; margin-bottom: 0px; page-break-inside: auto; }
             body.print-att .print-table tr { page-break-inside: avoid; page-break-after: auto; }
-            /* Standard padding restored */
             body.print-att .print-table td, body.print-att .print-table th { border: 1px solid #000; padding: 4px 2px; word-wrap: break-word; overflow: hidden; }
             
             body.print-att .pr-row-dates td { background: #f0f0f0; font-weight: bold; }
             body.print-att .pr-title-cell { text-align: left; padding-left: 5px !important; }
-            body.print-att .pr-row-cycle-stats { background: #f9f9f9; font-weight: bold; font-size: 11px; }
-            body.print-att .pr-row-cycle-stats td { padding: 4px 10px !important; text-align: left; }
             
-            body.print-att .summary-table { width: auto; margin: 0 auto 20px auto; border-collapse: collapse; font-size: 11px; font-weight: bold; text-align: center;}
+            body.print-att .summary-table { width: auto; margin: 0 auto; border-collapse: collapse; font-size: 11px; font-weight: bold; text-align: center;}
             body.print-att .summary-table th, body.print-att .summary-table td { border: 1px solid #000; padding: 6px 12px; }
             body.print-att .summary-table th { background: #eee; }
             
@@ -433,7 +428,7 @@
 
     <div class="container">
         
-        <!-- ================= TAB 1: AGE CALCULATOR ================= -->
+        <!-- ================= TAB 1: SMART AGE CALCULATOR ================= -->
         <main id="tab-age" class="tab-content">
             <div class="age-display-wrapper">
                 <div class="age-display-card">
@@ -682,7 +677,6 @@
             document.documentElement.setAttribute('data-theme', appData.theme);
         }
 
-      // ================= MASTER IMPORT / EXPORT (ALL DATA) =================
         function exportData() {
             const opdData = JSON.parse(localStorage.getItem(OPD_STORAGE_KEY)) || {};
             const masterBackup = {
@@ -807,6 +801,17 @@
         const engMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
         const fullMonths = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
         let targetPickerDateKey = null;
+
+        // Dynamic Print Page Style Manager
+        function setPrintPageStyle(orientation) {
+            let style = document.getElementById('dynamic-print-style');
+            if (!style) {
+                style = document.createElement('style');
+                style.id = 'dynamic-print-style';
+                document.head.appendChild(style);
+            }
+            style.innerHTML = `@page { size: A4 ${orientation}; margin: 8mm; }`;
+        }
 
         function initAttendance() {
             renderProfile();
@@ -1024,6 +1029,9 @@
         }
 
         function triggerPrint() {
+            // Apply Landscape Orientation for Attendance Pro
+            setPrintPageStyle('landscape');
+            
             document.body.classList.add('print-att');
             let cyclesMap = new Map(); 
             let currCycle = getCycleDates(currentCycleDate); 
@@ -1052,12 +1060,9 @@
                 if (st === 'P*') st = 'P';
                 if(oAll.hasOwnProperty(st)) oAll[st]++; 
             }
-
-            // Pure English Summary without GH Total
-            h += `<table class="summary-table"><tr><th colspan="5">OVERALL ATTENDANCE SUMMARY</th></tr>
-                    <tr><th>Total Present (P)</th><th>Total Absent (A)</th><th class="print-cl">Total CL</th><th class="print-ml">Total ML</th><th>Total Leaves</th></tr>
-                    <tr><td>${oAll.P}</td><td>${oAll.A}</td><td class="print-cl">${oAll.CL}</td><td class="print-ml">${oAll.ML}</td><td>${oAll.CL + oAll.ML}</td></tr></table>`;
             
+            let allGHHtml = '';
+
             h += `<table class="print-table">`;
             sorted.forEach((cyc, idx) => {
                 let sD = cyc.startDate; let eD = cyc.endDate; 
@@ -1080,8 +1085,8 @@
                     }
                 }
 
-             let modeLabel = appData.prefs.periodMode === 'month' ? 'MONTH' : 'CYCLE';
-                let totalColsSpan = 38; // 1 title + 31 exact dates + 6 totals (P, GH, CLx2, MLx2)
+                let modeLabel = appData.prefs.periodMode === 'month' ? 'MONTH' : 'CYCLE';
+                let totalColsSpan = 38; // 1 title + 31 exact dates + 6 totals
                 
                 h += `<tr><th colspan="${totalColsSpan}" style="background:#e5f1ff; padding:6px; text-align:left;">${modeLabel}: ${t}</th></tr>`;
                 
@@ -1095,7 +1100,6 @@
                         h += `<td style="min-width: 22px; max-width: 22px; width: 22px;"></td>`; // Empty padding box
                     }
                 }
-               // P aur GH ko sirf bold letter mein set kiya gaya hai
                 h += `<th style="background:#f0f0f0; min-width: 45px; padding: 4px 6px !important; font-size:12px;">P</th><th style="background:#f0f0f0; min-width: 45px; padding: 4px 6px !important; font-size:12px;">GH</th><th style="background:#f0f0f0; min-width: 45px; padding: 4px 6px !important;">CL<br>(Prev)</th><th style="background:#f0f0f0; min-width: 45px; padding: 4px 6px !important;">CL<br>(Curr)</th><th style="background:#f0f0f0; min-width: 45px; padding: 4px 6px !important;">ML<br>(Prev)</th><th style="background:#f0f0f0; min-width: 45px; padding: 4px 6px !important;">ML<br>(Curr)</th></tr>`;
                 
                 h += `<tr class="pr-row-status"><td class="pr-title-cell"><small>Status</small></td>`;
@@ -1115,15 +1119,59 @@
                     }
                 }
 
-              // Values matched to English headers (P Prev removed, Total GH added)
+                // Values matched to English headers
                 h += `<td><b>${cs.P}</b></td><td style="color:#b06000; font-weight:bold;">${cs.GH}</td><td>${prevCL}</td><td style="color:red; font-weight:bold;">${cs.CL}</td><td>${prevML}</td><td style="color:blue; font-weight:bold;">${cs.ML}</td></tr>`;
 
+                // Add spacing between cycles
                 if (idx < sorted.length - 1) h += `<tr><td colspan="${totalColsSpan}" style="border:none; height:15px;"></td></tr>`;
+
+             // Extract GH List for Summary Page (Includes manual Sunday GH)
+                let ghList = [];
+                dArr.forEach(d => {
+                    let dk = formatDateKey(d);
+                    let dayName = engDays[d.getDay()];
+                    let formattedDate = `${String(d.getDate()).padStart(2,'0')} ${engMonths[d.getMonth()]} ${d.getFullYear()} (${dayName})`;
+                    
+                    if (appData.holidays[dk]) {
+                        ghList.push({ date: formattedDate, name: appData.holidays[dk] });
+                    } else if (d.getDay() === 0 && appData.attendance[dk] === 'GH') {
+                        // Agar Sunday ko GH present lagayi hai, toh list me dikhaye
+                        ghList.push({ date: formattedDate, name: "Sunday (GH)" });
+                    }
+                });
+
+                if (ghList.length > 0) {
+                    allGHHtml += `<tr><th colspan="2" style="background:#e5f1ff; padding:6px 8px; border: 1px solid #000; text-align:left; font-size:12px;">Holidays in ${modeLabel}: ${t}</th></tr>`;
+                    ghList.forEach(gh => {
+                        allGHHtml += `<tr><td style="padding:4px 8px; border: 1px solid #000; font-weight:bold; width:200px;">${gh.date}</td><td style="padding:4px 8px; border: 1px solid #000;">${gh.name}</td></tr>`;
+                    });
+                }
             });
+            h += `</table>`; 
+
+            // ================== NEXT PAGE (SUMMARY & GH DETAILS) ==================
+            h += `<div style="page-break-before: always; padding-top: 20px;">`;
+            h += `<div class="print-header" style="margin-bottom: 20px;">ATTENDANCE SUMMARY & HOLIDAY DETAILS</div>`;
+
+            // 1. Overall Summary
+            h += `<table class="summary-table" style="margin-bottom: 30px;">
+                    <tr><th colspan="5">OVERALL ATTENDANCE SUMMARY</th></tr>
+                    <tr><th>Total Present (P)</th><th>Total Absent (A)</th><th class="print-cl">Total CL</th><th class="print-ml">Total ML</th><th>Total Leaves</th></tr>
+                    <tr><td>${oAll.P}</td><td>${oAll.A}</td><td class="print-cl">${oAll.CL}</td><td class="print-ml">${oAll.ML}</td><td>${oAll.CL + oAll.ML}</td></tr>
+                  </table>`;
+
+            // 2. GH Details Table (Cycle-wise)
+            if (allGHHtml !== '') {
+                h += `<table style="width: 100%; max-width: 800px; margin: 0 auto; border-collapse: collapse; font-size: 11px; text-align: left; border: 1px solid #000;">`;
+                h += `<tr><th colspan="2" style="background:#eee; padding:8px; border: 1px solid #000; text-align:center; font-size:13px; text-transform:uppercase;">HOLIDAY (GH) DETAILS</th></tr>`;
+                h += allGHHtml;
+                h += `</table>`;
+            }
+
+            h += `</div>`; // End Next Page Container
+
+            pv.innerHTML = h; 
             
-            h += `</table>`; pv.innerHTML = h; 
-            
-            showToast('Ensure "Landscape" mode is selected in print settings!');
             setTimeout(() => { window.print(); document.body.classList.remove('print-att'); }, 500);
         }
 
@@ -1375,6 +1423,9 @@
         }
 
         function printOpdCurrentMonth() {
+            // Apply Portrait Orientation for OPD
+            setPrintPageStyle('portrait');
+            
             document.body.classList.add('print-opd');
             document.getElementById('opdActiveView').style.display = 'block';
             document.getElementById('printAllContainer').style.display = 'none';
@@ -1382,6 +1433,9 @@
         }
 
         function printOpdAllMonths() {
+            // Apply Portrait Orientation for OPD
+            setPrintPageStyle('portrait');
+
             const allSavedData = JSON.parse(localStorage.getItem(OPD_STORAGE_KEY)) || {};
             const months = Object.keys(allSavedData).sort();
             if(months.length === 0) { alert("No saved data found to print."); return; }
