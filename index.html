@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Smart OPD Present</title>
+    <title>Smart Present & Opd</title>
     <!-- SheetJS Library for OPD Excel Export/Import -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <style>
@@ -367,33 +367,42 @@
         #print-view { display: none; }
         
         @media print {
-            @page { size: landscape; margin: 10mm; }
-            html, body { background: white !important; color: black !important; font-family: Arial, sans-serif; height: auto !important; overflow: visible !important; display: block !important; }
-            .container, .tab-content { height: auto !important; overflow: visible !important; display: block !important; padding: 0; margin: 0; }
+            /* Forced Landscape and Full Page Margins */
+            @page { size: A4 landscape; margin: 8mm; }
+            
+            /* Ensuring Full Width to prevent half-page print issues */
+            html, body { width: 100% !important; background: white !important; color: black !important; font-family: Arial, sans-serif; height: auto !important; overflow: visible !important; display: block !important; margin: 0 !important; padding: 0 !important; }
+            .container, .tab-content { width: 100% !important; max-width: none !important; height: auto !important; overflow: visible !important; display: block !important; padding: 0; margin: 0; }
+            
             .app-bar, .bottom-nav, .controls-row, .stats-header, .stats-grid, .register-container, .toast, .modal-overlay, #tab-age, #tab-settings { display: none !important; }
             
             /* -- ATTENDANCE PRINT MODE -- */
             body.print-att #tab-opd, body.print-att #printAllContainer { display: none !important; }
             body.print-att .profile-card { border: none; box-shadow: none; border-bottom: 2px solid #000; border-radius: 0; margin-bottom: 15px; padding: 0 0 5px 0; }
-            body.print-att #print-view { display: block !important; width: 100%; }
+            body.print-att #print-view { display: block !important; width: 100% !important; }
             body.print-att .print-header { text-align: center; font-size: 18px; font-weight: bold; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px;}
-            body.print-att .print-table { width: 100%; border-collapse: collapse; table-layout: auto !important; font-size: 10px; text-align: center; margin-bottom: 20px; page-break-inside: auto; }
+            
+          /* Auto layout: Dates will stay strict px, summary cols will auto-expand */
+            body.print-att .print-table { width: 100% !important; table-layout: auto !important; min-width: 100% !important; border-collapse: collapse; font-size: 10px; text-align: center; margin-bottom: 20px; page-break-inside: auto; }
             body.print-att .print-table tr { page-break-inside: avoid; page-break-after: auto; }
-            body.print-att .print-table td, body.print-att .print-table th { border: 1px solid #000; padding: 5px 2px; word-wrap: break-word; }
+            /* Standard padding restored */
+            body.print-att .print-table td, body.print-att .print-table th { border: 1px solid #000; padding: 4px 2px; word-wrap: break-word; overflow: hidden; }
+            
             body.print-att .pr-row-dates td { background: #f0f0f0; font-weight: bold; }
-            body.print-att .pr-title-cell { text-align: left; padding-left: 5px !important; min-width: 100px; }
+            body.print-att .pr-title-cell { text-align: left; padding-left: 5px !important; }
             body.print-att .pr-row-cycle-stats { background: #f9f9f9; font-weight: bold; font-size: 11px; }
             body.print-att .pr-row-cycle-stats td { padding: 4px 10px !important; text-align: left; }
+            
             body.print-att .summary-table { width: auto; margin: 0 auto 20px auto; border-collapse: collapse; font-size: 11px; font-weight: bold; text-align: center;}
             body.print-att .summary-table th, body.print-att .summary-table td { border: 1px solid #000; padding: 6px 12px; }
             body.print-att .summary-table th { background: #eee; }
-            body.print-att .val-P, body.print-att .val-Pstar { color: #000; font-weight: bold; } body.print-att .val-A { color: #d32f2f; font-weight: bold; }
+            
+            body.print-att .val-P { color: #000; font-weight: bold; } body.print-att .val-A { color: #d32f2f; font-weight: bold; }
             body.print-att .val-CL, body.print-att .print-cl { color: red !important; font-weight: bold; } body.print-att .val-ML, body.print-att .print-ml { color: blue !important; font-weight: bold; } 
-            body.print-att .val-GH { color: #b06000; font-weight: bold; } body.print-att .val-S { color: #777; }
+            body.print-att .val-S { color: #777; }
             
             /* -- OPD PRINT MODE -- */
             body.print-opd #tab-present, body.print-opd .profile-card, body.print-opd #print-view { display: none !important; }
-            @page { size: A4 portrait; margin: 8mm; }
             body.print-opd .opd-dashboard-controls { display: none !important; }
             body.print-opd .opd-print-container { box-shadow: none; padding: 0; border: none; margin-bottom: 0; }
             body.print-opd .month-print-page { page-break-after: always; }
@@ -675,10 +684,7 @@
 
       // ================= MASTER IMPORT / EXPORT (ALL DATA) =================
         function exportData() {
-            // OPD का डेटा भी लोकल स्टोरेज से लें
             const opdData = JSON.parse(localStorage.getItem(OPD_STORAGE_KEY)) || {};
-            
-            // Attendance/Settings और OPD दोनों डेटा को एक मास्टर फाइल में मिलाएँ
             const masterBackup = {
                 appData: appData,
                 opdData: opdData
@@ -701,7 +707,6 @@
                 try {
                     const parsed = JSON.parse(e.target.result);
                     
-                    // अगर नया मास्टर बैकअप है (जिसमें Attendance + OPD दोनों हैं)
                     if (parsed.appData || parsed.opdData) {
                         if (parsed.appData) {
                             appData = { ...appData, ...parsed.appData };
@@ -717,7 +722,6 @@
                         if(typeof generateOpdTable === 'function') generateOpdTable();
                         showToast('Master Data Imported Successfully!');
                     } 
-                    // अगर पुराना बैकअप है (जिसमें सिर्फ Attendance था)
                     else if(parsed && parsed.attendance) {
                         appData = { ...appData, ...parsed };
                         saveData(); loadSharedData(); initAttendance();
@@ -732,6 +736,7 @@
             reader.readAsText(file);
             event.target.value = ''; 
         }
+        
         // ================= TAB SWITCH & SCROLL LOGIC =================
         function switchTab(tabId, navElement, title, showPrint) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
@@ -743,7 +748,6 @@
             document.getElementById('header-title').textContent = title;
             document.getElementById('btn-print').style.display = showPrint ? 'flex' : 'none';
 
-            // SCROLL FIX
             if (tabId === 'age') {
                 setTimeout(() => {
                     const grid = document.getElementById('yearGrid');
@@ -825,7 +829,6 @@
             document.getElementById('disp-place').textContent = appData.employee.place || '-';
         }
 
-        // AUTO-SAVE PROFILE
         function autoSaveProfile() {
             appData.employee.name = document.getElementById('input-name').value;
             appData.employee.post = document.getElementById('input-post').value;
@@ -867,22 +870,16 @@
             });
             
             for(let y in grouped) {
-                // Clickable Header with Arrow Icon
                 let headerHtml = `<div class="hol-year-header" style="cursor:pointer; display:flex; justify-content:space-between; align-items:center;" onclick="toggleHolYear('hol-content-${y}', 'hol-icon-${y}')">
                     <span>Year: ${y}</span>
                     <span id="hol-icon-${y}" style="font-size:10px; color:var(--text-muted);">▶</span>
                 </div>`;
-                
-                // Content Container (Hidden by default)
                 let contentHtml = `<div id="hol-content-${y}" style="display:none; margin-bottom:10px;">`;
-                
                 grouped[y].forEach(d => {
                     contentHtml += `<div class="hol-list-item"><span>${d} - <span style="color:var(--t-holiday)">${appData.holidays[d]}</span></span>
                     <button type="button" class="hol-del-btn" onclick="deleteHoliday('${d}')">&times;</button></div>`;
                 });
                 contentHtml += `</div>`;
-                
-                // Add to list
                 list.innerHTML += headerHtml + contentHtml;
             }
         }
@@ -1046,13 +1043,20 @@
                 }
             }
             let sorted = Array.from(cyclesMap.values()).sort((a, b) => b.startDate.getTime() - a.startDate.getTime());
-            let oAll = { P: 0, Pstar: 0, A: 0, CL: 0, ML: 0, GH: 0, S: 0 };
+            
+            let oAll = { P: 0, A: 0, CL: 0, ML: 0, GH: 0, S: 0 };
             const pv = document.getElementById('print-view'); let h = `<div class="print-header">ATTENDANCE REGISTER</div>`;
-            for (const k in appData.attendance) { let st = appData.attendance[k]; let countKey = (st === 'P*') ? 'Pstar' : st; if(oAll.hasOwnProperty(countKey)) oAll[countKey]++; }
+            
+            for (const k in appData.attendance) { 
+                let st = appData.attendance[k]; 
+                if (st === 'P*') st = 'P';
+                if(oAll.hasOwnProperty(st)) oAll[st]++; 
+            }
 
-            h += `<table class="summary-table"><tr><th colspan="7">OVERALL ATTENDANCE SUMMARY</th></tr>
-                    <tr><th>Present (P)</th><th>Present (P*)</th><th>Absent (A)</th><th class="print-cl">CL</th><th class="print-ml">ML</th><th>Total Leaves</th><th>Holiday (GH)</th></tr>
-                    <tr><td>${oAll.P + oAll.Pstar}</td><td>${oAll.Pstar}</td><td>${oAll.A}</td><td class="print-cl">${oAll.CL}</td><td class="print-ml">${oAll.ML}</td><td>${oAll.CL + oAll.ML}</td><td>${oAll.GH}</td></tr></table>`;
+            // Pure English Summary without GH Total
+            h += `<table class="summary-table"><tr><th colspan="5">OVERALL ATTENDANCE SUMMARY</th></tr>
+                    <tr><th>Total Present (P)</th><th>Total Absent (A)</th><th class="print-cl">Total CL</th><th class="print-ml">Total ML</th><th>Total Leaves</th></tr>
+                    <tr><td>${oAll.P}</td><td>${oAll.A}</td><td class="print-cl">${oAll.CL}</td><td class="print-ml">${oAll.ML}</td><td>${oAll.CL + oAll.ML}</td></tr></table>`;
             
             h += `<table class="print-table">`;
             sorted.forEach((cyc, idx) => {
@@ -1061,29 +1065,66 @@
                     ? `${fullMonths[sD.getMonth()]} ${sD.getFullYear()}`
                     : `21 ${fullMonths[sD.getMonth()]} ${sD.getFullYear()} to 20 ${fullMonths[eD.getMonth()]} ${eD.getFullYear()}`;
                 
-                let cs = { P: 0, Pstar: 0, A: 0, CL: 0, ML: 0, GH: 0, S: 0 }; let it = new Date(sD); let dArr = [];
+                let cs = { P: 0, A: 0, CL: 0, ML: 0, GH: 0, S: 0 }; let it = new Date(sD); let dArr = [];
                 while(it <= eD) { dArr.push(new Date(it)); it.setDate(it.getDate() + 1); }
 
-                let modeLabel = appData.prefs.periodMode === 'month' ? 'MONTH' : 'CYCLE';
-                h += `<tr><th colspan="${dArr.length + 1}" style="background:#e5f1ff; padding:6px;">${modeLabel}: ${t}</th></tr><tr class="pr-row-dates"><td class="pr-title-cell"><strong>Date</strong></td>`;
-                dArr.forEach(d => h += `<td style="${d.getDay() === 0 ? 'color:red; font-weight:bold;' : ''}">${d.getDate()}</td>`);
-                h += `</tr><tr class="pr-row-status"><td class="pr-title-cell"><small>Status</small></td>`;
+                // Calculate Previous Values (Upto Last Month)
+                let prevP = 0, prevCL = 0, prevML = 0;
+                for (const k in appData.attendance) {
+                    let dObj = new Date(k);
+                    if (dObj < cyc.startDate) {
+                        let st = appData.attendance[k];
+                        if (st === 'P' || st === 'P*') prevP++;
+                        if (st === 'CL') prevCL++;
+                        if (st === 'ML') prevML++;
+                    }
+                }
+
+             let modeLabel = appData.prefs.periodMode === 'month' ? 'MONTH' : 'CYCLE';
+                let totalColsSpan = 38; // 1 title + 31 exact dates + 6 totals (P, GH, CLx2, MLx2)
                 
-               dArr.forEach(d => {
-                    let dk = formatDateKey(d); let dN = d.getDay(); let st = appData.attendance[dk];
-                    if(!st) { if (dN === 0) st = 'S'; else st = ''; } 
-                    let countKey = (st === 'P*') ? 'Pstar' : st;
-                    if(cs.hasOwnProperty(countKey)) cs[countKey]++; 
-                    
-                    let printVal = (st === 'P*') ? 'P<span style="font-size:12px; vertical-align:super; line-height:0;">&#8226;</span>' : (st || '-');
-                    h += `<td class="val-${countKey}">${printVal}</td>`;
-                });
-                h += `</tr><tr class="pr-row-cycle-stats"><td class="pr-title-cell">Totals:</td><td colspan="${dArr.length}">P: ${cs.P + cs.Pstar} | P*: ${cs.Pstar} | A: ${cs.A} | CL: ${cs.CL} | ML: ${cs.ML} | GH: ${cs.GH}</td></tr>`;
-                if (idx < sorted.length - 1) h += `<tr><td colspan="${dArr.length + 1}" style="border:none; height:15px;"></td></tr>`;
+                h += `<tr><th colspan="${totalColsSpan}" style="background:#e5f1ff; padding:6px; text-align:left;">${modeLabel}: ${t}</th></tr>`;
+                
+                // Dates Loop strictly for 31 days (Fills empty boxes if month has less days)
+                h += `<tr class="pr-row-dates"><td class="pr-title-cell" style="width: auto; white-space: nowrap;"><strong>Date</strong></td>`;
+                for (let i = 0; i < 31; i++) {
+                    if (i < dArr.length) {
+                        let d = dArr[i];
+                        h += `<td style="min-width: 22px; max-width: 22px; width: 22px; padding: 4px 0 !important; ${d.getDay() === 0 ? 'color:black; font-weight:bold;' : ''}">${d.getDate()}</td>`;
+                    } else {
+                        h += `<td style="min-width: 22px; max-width: 22px; width: 22px;"></td>`; // Empty padding box
+                    }
+                }
+               // P aur GH ko sirf bold letter mein set kiya gaya hai
+                h += `<th style="background:#f0f0f0; min-width: 45px; padding: 4px 6px !important; font-size:12px;">P</th><th style="background:#f0f0f0; min-width: 45px; padding: 4px 6px !important; font-size:12px;">GH</th><th style="background:#f0f0f0; min-width: 45px; padding: 4px 6px !important;">CL<br>(Prev)</th><th style="background:#f0f0f0; min-width: 45px; padding: 4px 6px !important;">CL<br>(Curr)</th><th style="background:#f0f0f0; min-width: 45px; padding: 4px 6px !important;">ML<br>(Prev)</th><th style="background:#f0f0f0; min-width: 45px; padding: 4px 6px !important;">ML<br>(Curr)</th></tr>`;
+                
+                h += `<tr class="pr-row-status"><td class="pr-title-cell"><small>Status</small></td>`;
+                for (let i = 0; i < 31; i++) {
+                    if (i < dArr.length) {
+                        let d = dArr[i];
+                        let dk = formatDateKey(d); let dN = d.getDay(); let st = appData.attendance[dk];
+                        if(!st) { if (dN === 0) st = 'S'; else st = ''; } 
+                        
+                        let actualSt = (st === 'P*') ? 'P' : st;
+                        if(cs.hasOwnProperty(actualSt)) cs[actualSt]++; 
+                        
+                        let printVal = (st === 'P*') ? 'P' : (st === 'S' ? '' : (st || '-'));
+                        h += `<td class="val-${actualSt}">${printVal}</td>`;
+                    } else {
+                        h += `<td></td>`; // Empty padding box
+                    }
+                }
+
+              // Values matched to English headers (P Prev removed, Total GH added)
+                h += `<td><b>${cs.P}</b></td><td style="color:#b06000; font-weight:bold;">${cs.GH}</td><td>${prevCL}</td><td style="color:red; font-weight:bold;">${cs.CL}</td><td>${prevML}</td><td style="color:blue; font-weight:bold;">${cs.ML}</td></tr>`;
+
+                if (idx < sorted.length - 1) h += `<tr><td colspan="${totalColsSpan}" style="border:none; height:15px;"></td></tr>`;
             });
             
             h += `</table>`; pv.innerHTML = h; 
-            setTimeout(() => { window.print(); document.body.classList.remove('print-att'); }, 200);
+            
+            showToast('Ensure "Landscape" mode is selected in print settings!');
+            setTimeout(() => { window.print(); document.body.classList.remove('print-att'); }, 500);
         }
 
         // ================= APP 3: OPD REPORT (Fully Integrated) =================
