@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Smart Present</title>
+    <title>Smart OPD Present</title>
     <!-- SheetJS Library for OPD Excel Export/Import -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <style>
@@ -508,7 +508,7 @@
             <div id="print-view"></div>
         </main>
 
-        <!-- ================= TAB 3: OPD REPORT ================= -->
+       <!-- ================= TAB 3: OPD REPORT ================= -->
         <main id="tab-opd" class="tab-content">
             <div class="opd-dashboard-controls no-print">
                 <div class="opd-control-group">
@@ -516,13 +516,8 @@
                     <input type="month" id="opdMonthPicker" onchange="generateOpdTable()">
                 </div>
                 <div class="opd-control-group">
-                    <input type="file" id="opdImportFile" accept=".json, .xlsx, .xls" style="display: none;" onchange="importOpdUniversalData(event)">
-                    <button onclick="document.getElementById('opdImportFile').click()" class="opd-btn opd-btn-warning" title="Import Excel or JSON">📂 Imp</button>
-                    
-                    <button onclick="exportOpdDataJSON()" class="opd-btn opd-btn-info" title="Download JSON Backup">💾 JSON</button>
+                    <!-- Kept Excel Export as Settings only has JSON backup -->
                     <button onclick="exportOpdDataExcel()" class="opd-btn opd-btn-success" title="Download Excel Sheet">📊 Excel</button>
-                    
-                    <button onclick="clearOpdData()" class="opd-btn opd-btn-secondary" title="Clear current month data">🗑️ Clear</button>
                     
                     <button onclick="printOpdCurrentMonth()" class="opd-btn opd-btn-primary" title="Print currently visible month">🖨️ Month</button>
                     <button onclick="printOpdAllMonths()" class="opd-btn opd-btn-primary" title="Print all saved months">🖨️ All</button>
@@ -749,8 +744,19 @@
                     if (savedScroll !== null) { grid.scrollTop = parseInt(savedScroll, 10); } 
                     else if (activeAgeYear) { document.getElementById(`btn-${activeAgeYear}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
                 }, 50);
-            } else if (tabId === 'present' && appData.prefs.layoutMode === 'full') {
+         } else if (tabId === 'present' && appData.prefs.layoutMode === 'full') {
                 setTimeout(() => { document.getElementById('row-today')?.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 50);
+            } else if (tabId === 'opd') {
+                // OPD Mode me last filled entry ke baad wali row par auto-scroll
+                setTimeout(() => {
+                    const ends = document.querySelectorAll('.opd-end-input');
+                    let targetIndex = 1;
+                    for (let i = 0; i < ends.length; i++) {
+                        if (ends[i].value !== '') targetIndex = i + 2; 
+                    }
+                    if (targetIndex > ends.length) targetIndex = ends.length;
+                    document.getElementById(`opd-date-cell-${targetIndex}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 100);
             }
         }
 
@@ -1032,14 +1038,18 @@
             // Apply Landscape Orientation for Attendance Pro
             setPrintPageStyle('landscape');
             
-            document.body.classList.add('print-att');
+          document.body.classList.add('print-att');
             let cyclesMap = new Map(); 
             let currCycle = getCycleDates(currentCycleDate); 
             cyclesMap.set(currCycle.startDate.getTime(), currCycle);
             
+            let maxAttendanceTime = 0;
             for (const dk in appData.attendance) {
                 if (appData.attendance[dk] !== '') {
-                    let d = new Date(dk); let y = d.getFullYear(), m = d.getMonth(); 
+                    let d = new Date(dk); 
+                    if(d.getTime() > maxAttendanceTime) maxAttendanceTime = d.getTime();
+                    
+                    let y = d.getFullYear(), m = d.getMonth();
                     let sD, eD;
                     if (appData.prefs.periodMode === 'month') {
                         sD = new Date(y, m, 1); eD = new Date(y, m + 1, 0);
@@ -1086,22 +1096,43 @@
                 }
 
                 let modeLabel = appData.prefs.periodMode === 'month' ? 'MONTH' : 'CYCLE';
-                let totalColsSpan = 38; // 1 title + 31 exact dates + 6 totals
+                let totalColsSpan = 40; // 1 title + 31 exact dates + 8 summary columns
                 
-                h += `<tr><th colspan="${totalColsSpan}" style="background:#e5f1ff; padding:6px; text-align:left;">${modeLabel}: ${t}</th></tr>`;
+                h += `<tr><th colspan="${totalColsSpan}" style="background:#e5f1ff; padding:6px; text-align:left; border:1px solid #000;">${modeLabel}: ${t}</th></tr>`;
                 
-                // Dates Loop strictly for 31 days (Fills empty boxes if month has less days)
-                h += `<tr class="pr-row-dates"><td class="pr-title-cell" style="width: auto; white-space: nowrap;"><strong>Date</strong></td>`;
+                // --- GOVERNMENT REGISTER STYLE HEADERS (2 LEVELS) ---
+                h += `<tr class="pr-row-dates">
+                        <td rowspan="2" class="pr-title-cell" style="width: auto; white-space: nowrap; vertical-align:middle;"><strong>Date</strong></td>`;
+                
+                // Dates 1 to 31 (Rowspan 2 taaki sub-headers ke sath layout match kare)
                 for (let i = 0; i < 31; i++) {
                     if (i < dArr.length) {
                         let d = dArr[i];
-                        h += `<td style="min-width: 22px; max-width: 22px; width: 22px; padding: 4px 0 !important; ${d.getDay() === 0 ? 'color:black; font-weight:bold;' : ''}">${d.getDate()}</td>`;
+                        h += `<td rowspan="2" style="min-width: 22px; max-width: 22px; width: 22px; padding: 4px 0 !important; vertical-align:middle; ${d.getDay() === 0 ? 'color:black; font-weight:bold;' : ''}">${d.getDate()}</td>`;
                     } else {
-                        h += `<td style="min-width: 22px; max-width: 22px; width: 22px;"></td>`; // Empty padding box
+                        h += `<td rowspan="2" style="min-width: 22px; max-width: 22px; width: 22px; vertical-align:middle;"></td>`; 
                     }
                 }
-                h += `<th style="background:#f0f0f0; min-width: 45px; padding: 4px 6px !important; font-size:12px;">P</th><th style="background:#f0f0f0; min-width: 45px; padding: 4px 6px !important; font-size:12px;">GH</th><th style="background:#f0f0f0; min-width: 45px; padding: 4px 6px !important;">CL<br>(Prev)</th><th style="background:#f0f0f0; min-width: 45px; padding: 4px 6px !important;">CL<br>(Curr)</th><th style="background:#f0f0f0; min-width: 45px; padding: 4px 6px !important;">ML<br>(Prev)</th><th style="background:#f0f0f0; min-width: 45px; padding: 4px 6px !important;">ML<br>(Curr)</th></tr>`;
                 
+                // Top Level Summary Headers (Sarkari Register Format)
+                h += `<th rowspan="2" style="background:#f0f0f0; min-width: 30px; vertical-align:middle; font-size:11px;">कुल<br>उप.</th>
+                      <th rowspan="2" style="background:#f0f0f0; min-width: 30px; vertical-align:middle; font-size:11px;">GH</th>
+                      <th colspan="2" style="background:#f0f0f0; font-size:11px; padding:4px 2px !important;">गत मास तक<br><small>(Upto Last)</small></th>
+                      <th colspan="2" style="background:#f0f0f0; font-size:11px; padding:4px 2px !important;">इस मास में<br><small>(In this)</small></th>
+                      <th colspan="2" style="background:#f0f0f0; font-size:11px; padding:4px 2px !important;">योग<br><small>(Total)</small></th>
+                      </tr>`;
+
+                // Second Level Summary Headers (CL & ML Divisions)
+                h += `<tr class="pr-row-dates">
+                      <th style="background:#f0f0f0; font-size:10px; padding:2px !important; min-width:25px;">CL</th>
+                      <th style="background:#f0f0f0; font-size:10px; padding:2px !important; min-width:25px;">ML</th>
+                      <th style="background:#f0f0f0; font-size:10px; padding:2px !important; min-width:25px;">CL</th>
+                      <th style="background:#f0f0f0; font-size:10px; padding:2px !important; min-width:25px;">ML</th>
+                      <th style="background:#f0f0f0; font-size:10px; padding:2px !important; min-width:25px;">CL</th>
+                      <th style="background:#f0f0f0; font-size:10px; padding:2px !important; min-width:25px;">ML</th>
+                      </tr>`;
+                
+                // --- STATUS ROW ---
                 h += `<tr class="pr-row-status"><td class="pr-title-cell"><small>Status</small></td>`;
                 for (let i = 0; i < 31; i++) {
                     if (i < dArr.length) {
@@ -1115,28 +1146,43 @@
                         let printVal = (st === 'P*') ? 'P' : (st === 'S' ? '' : (st || '-'));
                         h += `<td class="val-${actualSt}">${printVal}</td>`;
                     } else {
-                        h += `<td></td>`; // Empty padding box
+                        h += `<td></td>`; 
                     }
                 }
 
-                // Values matched to English headers
-                h += `<td><b>${cs.P}</b></td><td style="color:#b06000; font-weight:bold;">${cs.GH}</td><td>${prevCL}</td><td style="color:red; font-weight:bold;">${cs.CL}</td><td>${prevML}</td><td style="color:blue; font-weight:bold;">${cs.ML}</td></tr>`;
+                // Calculated Totals
+                let totalCL = prevCL + cs.CL;
+                let totalML = prevML + cs.ML;
+
+                // Values matched to Govt. Register Columns (Total 8 columns)
+                h += `<td><b>${cs.P}</b></td>
+                      <td style="color:#b06000; font-weight:bold;">${cs.GH}</td>
+                      <td>${prevCL}</td>
+                      <td>${prevML}</td>
+                      <td style="color:red; font-weight:bold;">${cs.CL}</td>
+                      <td style="color:blue; font-weight:bold;">${cs.ML}</td>
+                      <td style="font-weight:bold; background:#f9f9f9;">${totalCL}</td>
+                      <td style="font-weight:bold; background:#f9f9f9;">${totalML}</td>
+                      </tr>`;
 
                 // Add spacing between cycles
                 if (idx < sorted.length - 1) h += `<tr><td colspan="${totalColsSpan}" style="border:none; height:15px;"></td></tr>`;
 
-             // Extract GH List for Summary Page (Includes manual Sunday GH)
+            // Extract GH List for Summary Page (Includes manual GH & filters future dates)
                 let ghList = [];
                 dArr.forEach(d => {
+                    // Agar koi aakhiri entry mili hai aur aaj ki date us aakhiri entry se aage ki hai, toh aage ke holidays chhod do.
+                    if (maxAttendanceTime > 0 && d.getTime() > maxAttendanceTime) return;
+
                     let dk = formatDateKey(d);
                     let dayName = engDays[d.getDay()];
                     let formattedDate = `${String(d.getDate()).padStart(2,'0')} ${engMonths[d.getMonth()]} ${d.getFullYear()} (${dayName})`;
                     
                     if (appData.holidays[dk]) {
                         ghList.push({ date: formattedDate, name: appData.holidays[dk] });
-                    } else if (d.getDay() === 0 && appData.attendance[dk] === 'GH') {
-                        // Agar Sunday ko GH present lagayi hai, toh list me dikhaye
-                        ghList.push({ date: formattedDate, name: "Sunday (GH)" });
+                    } else if (appData.attendance[dk] === 'GH') {
+                        // Agar tyohar ka naam nahi hai aur attendance 'GH' mark ki gayi hai, toh direct Day Name (GH) show kare.
+                        ghList.push({ date: formattedDate, name: `${dayName} (GH)` });
                     }
                 });
 
@@ -1242,6 +1288,19 @@
                 tbody.appendChild(tr);
             }
             opdRecalculateAll();
+            
+            // Mahina change karne par auto scroll (agar OPD tab open hai to)
+            if (document.getElementById('tab-opd').classList.contains('active')) {
+                setTimeout(() => {
+                    const ends = document.querySelectorAll('.opd-end-input');
+                    let targetIndex = 1;
+                    for (let i = 0; i < ends.length; i++) {
+                        if (ends[i].value !== '') targetIndex = i + 2; 
+                    }
+                    if (targetIndex > ends.length) targetIndex = ends.length;
+                    document.getElementById(`opd-date-cell-${targetIndex}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 100);
+            }
         }
 
         function opdRecalculateAll(changedIndex = -1) {
