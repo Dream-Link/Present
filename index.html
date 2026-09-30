@@ -511,9 +511,10 @@
        <!-- ================= TAB 3: OPD REPORT ================= -->
         <main id="tab-opd" class="tab-content">
             <div class="opd-dashboard-controls no-print">
-                <div class="opd-control-group">
-                    <label for="opdMonthPicker">Month:</label>
-                    <input type="month" id="opdMonthPicker" onchange="generateOpdTable()">
+                <div class="opd-control-group" style="display: flex; width: 100%; justify-content: space-between; align-items: center; gap: 8px;">
+                    <button class="month-btn" onclick="changeOpdMonth(-1)" style="flex-shrink: 0; height: 34px;">◀ Prev</button>
+                    <input type="month" id="opdMonthPicker" onchange="generateOpdTable()" style="flex: 1; text-align: center; height: 34px; border-radius: 8px; font-size: 14px;">
+                    <button class="month-btn" onclick="changeOpdMonth(1)" style="flex-shrink: 0; height: 34px;">Next ▶</button>
                 </div>
                 <div class="opd-control-group">
                     <!-- Kept Excel Export as Settings only has JSON backup -->
@@ -1235,6 +1236,21 @@
 
         function opdCancelPress() { clearTimeout(opdPressTimer); }
         function getOpdDaysInMonth(year, month) { return new Date(year, month, 0).getDate(); }
+      
+      	function changeOpdMonth(offset) {
+            const picker = document.getElementById('opdMonthPicker');
+            if(!picker.value) return;
+            const [year, month] = picker.value.split('-');
+            
+            // Naya mahina calculate karna
+            let d = new Date(year, parseInt(month) - 1 + offset, 1);
+            let newY = d.getFullYear();
+            let newM = String(d.getMonth() + 1).padStart(2, '0');
+            
+            // Picker update karke table render karna
+            picker.value = `${newY}-${newM}`;
+            generateOpdTable();
+        }
 
         function generateOpdTable() {
             const picker = document.getElementById('opdMonthPicker').value;
