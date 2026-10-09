@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Smart OPD Present</title>
-    <!-- SheetJS Library for OPD Excel Export/Import -->
+    <title>New OPD Present</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <!-- Firebase SDK (Compat version for Global Scope) -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-database-compat.js"></script>
     <style>
         /* iOS/Apple Inspired Design System & Ultra Compact Dashboard */
         :root {
@@ -638,6 +640,33 @@
     <div class="toast" id="toast"></div>
 
     <script>
+        // ================= FIREBASE SETUP & SYNC LOGIC =================
+        const firebaseConfig = {
+            apiKey: "AIzaSyAj80eSr_YzSZF6NhIbFw4T9t82YAX38lk",
+            authDomain: "public-data-22087.firebaseapp.com",
+            databaseURL: "https://public-data-22087-default-rtdb.firebaseio.com",
+            projectId: "public-data-22087",
+            storageBucket: "public-data-22087.firebasestorage.app",
+            messagingSenderId: "413623000932",
+            appId: "1:413623000932:web:df67b891c0d755098ee471"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+        // Since no login is required, saving all data to a common public node
+        const publicDbRef = database.ref('SmartOPD_Public_Data');
+
+        function syncToFirebase() {
+            // Pick latest data from localStorage to ensure 100% accurate sync
+            const currentAppData = JSON.parse(localStorage.getItem('sarkari_dashboard_data')) || appData;
+            const currentOpdData = JSON.parse(localStorage.getItem('phc_shesha_opd_data')) || {};
+            
+            publicDbRef.set({
+                appData: currentAppData,
+                opdData: currentOpdData,
+                lastSync: new Date().toISOString()
+            }).catch(err => console.error("Firebase Sync Error:", err));
+        }
+
         // ================= GLOBAL SHARED LOGIC =================
         let appData = {
             employee: { name: 'Set Name', post: 'Set Post', place: 'Set Location' },
@@ -658,7 +687,10 @@
             saveData(); showToast(appData.theme === 'dark' ? 'Dark Mode Active' : 'Light Mode Active');
         }
 
-        function saveData() { localStorage.setItem('sarkari_dashboard_data', JSON.stringify(appData)); }
+        function saveData() { 
+            localStorage.setItem('sarkari_dashboard_data', JSON.stringify(appData)); 
+            syncToFirebase(); // Cloud sync trigger
+        }
         
         function loadSharedData() {
             const stored = localStorage.getItem('sarkari_dashboard_data') || localStorage.getItem('sarkari_attendance_data');
@@ -1381,7 +1413,7 @@
             else document.getElementById('opdGrandEndTotal').innerText = '-';
         }
 
-        function saveOpdData() {
+       function saveOpdData() {
             const picker = document.getElementById('opdMonthPicker').value;
             if(!picker) return;
             const [year, month] = picker.split('-');
@@ -1398,8 +1430,9 @@
             }
             allSavedData[picker] = monthData;
             localStorage.setItem(OPD_STORAGE_KEY, JSON.stringify(allSavedData));
+            
+            syncToFirebase(); // Cloud sync trigger
         }
-
         function saveOpdColors() { saveOpdData(); }
         
         function clearOpdData() {
@@ -1581,8 +1614,35 @@
             }, 200);
         }
 
-        // ================= INITIALIZATION =================
+       // ================= INITIALIZATION =================
         window.onload = () => {
+            showToast("Syncing with Server...");
+            
+            // Fetch Latest Data From Firebase Before Loading UI
+            publicDbRef.once('value').then((snapshot) => {
+                if (snapshot.exists()) {
+                    const data = snapshot.val();
+                    if (data.appData) {
+                        localStorage.setItem('sarkari_dashboard_data', JSON.stringify(data.appData));
+                    }
+                    if (data.opdData) {
+                        // Ensure key exists before setting
+                        localStorage.setItem('phc_shesha_opd_data', JSON.stringify(data.opdData));
+                    }
+                    showToast("Server Sync Complete!");
+                } else {
+                    // If Database is completely empty, push current local data to it
+                    syncToFirebase();
+                }
+                startAppCore(); // Initialize UI
+            }).catch((err) => {
+                console.error("Firebase Fetch Error: ", err);
+                showToast("Offline Mode Active");
+                startAppCore(); // Initialize UI with local data anyway
+            });
+        };
+
+        function startAppCore() {
             loadSharedData();
             initAgeApp();
             initAttendance();
@@ -1596,7 +1656,7 @@
             
             // Start Default Tab (Present Mode)
             switchTab('present', document.querySelectorAll('.nav-item')[1], 'Attendance Pro', true);
-        };
+        }
     </script>
 </body>
 </html>
