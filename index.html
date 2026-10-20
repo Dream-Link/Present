@@ -1649,22 +1649,33 @@
                 margin: 0 !important;
                 padding: 0 !important;
             }
-            .container, .tab-content {
+            .container {
                 width: 100% !important;
                 max-width: none !important;
                 height: auto !important;
                 overflow: visible !important;
                 display: block !important;
-                padding: 0;
-                margin: 0;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+            /* Hide all tabs by default in print; only the active print mode tab is shown */
+            .tab-content {
+                display: none !important;
+                width: 100% !important;
+                max-width: none !important;
+                height: auto !important;
+                overflow: visible !important;
+                padding: 0 !important;
+                margin: 0 !important;
             }
 
-            .app-bar, .bottom-nav, .controls-row, .summary-collapse-btn, .stats-header, .stats-grid, .att-insight-strip, .register-container, .toast, .modal-overlay, .no-print, #tab-age, #tab-settings {
+            .app-bar, .bottom-nav, .controls-row, .summary-collapse-btn, .stats-header, .stats-grid, .att-insight-strip, .register-container, .toast, .modal-overlay, .no-print, .staff-no-print, .staff-controls-card, #staffSummaryDrawer, .opd-dashboard-controls, #opdSummaryDrawer, #tab-age, #tab-settings {
                 display: none !important;
             }
 
             /* -- ATTENDANCE PRINT MODE (EXACT SARKARI REGISTER FORMAT) -- */
-            body.print-att #tab-opd, body.print-att #printAllContainer { display: none !important; }
+            body.print-att #tab-present { display: block !important; }
+            body.print-att #tab-opd, body.print-att #tab-staff, body.print-att #printAllContainer { display: none !important; }
             body.print-att #attSummaryDrawer { display: block !important; margin: 0 !important; }
             body.print-att .profile-card {
                 display: grid !important;
@@ -1727,7 +1738,10 @@
             body.print-att .val-S { color: #777; }
 
             /* -- OPD PRINT MODE (EXACT PHC SHESHA OPD REPORT FORMAT) -- */
-            body.print-opd #tab-present, body.print-opd .profile-card, body.print-opd #print-view { display: none !important; }
+            body.print-opd #tab-opd { display: block !important; }
+            body.print-opd.print-opd-all #tab-opd { display: none !important; }
+            body.print-opd.print-opd-all #printAllContainer { display: block !important; width: 100% !important; }
+            body.print-opd #tab-present, body.print-opd #tab-staff, body.print-opd #attSummaryDrawer, body.print-opd .profile-card, body.print-opd #print-view { display: none !important; }
             body.print-opd .opd-dashboard-controls, body.print-opd #opdSummaryDrawer, body.print-opd .opd-kpi-grid, body.print-opd .opd-quick-entry-bar { display: none !important; }
             body.print-opd .opd-print-container { box-shadow: none; padding: 0; border: none; margin-bottom: 0; }
             body.print-opd .month-print-page { page-break-after: always; }
@@ -3191,8 +3205,22 @@
 
         // ================= TAB SWITCH & SCROLL LOGIC =================
         let currentActiveTab = 'present';
+        function syncBodyPrintModeClass(mode) {
+            document.body.classList.remove('print-att', 'print-staff', 'print-opd', 'print-opd-all');
+            if (mode === 'present' || mode === 'att') {
+                document.body.classList.add('print-att');
+            } else if (mode === 'staff') {
+                document.body.classList.add('print-staff');
+            } else if (mode === 'opd') {
+                document.body.classList.add('print-opd');
+            } else if (mode === 'opd-all') {
+                document.body.classList.add('print-opd', 'print-opd-all');
+            }
+        }
+
         function switchTab(tabId, navElement, title, showPrint) {
             currentActiveTab = tabId;
+            syncBodyPrintModeClass(tabId);
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
 
@@ -3200,7 +3228,7 @@
             if (navElement) navElement.classList.add('active');
 
             document.getElementById('header-title').textContent = title;
-            document.getElementById('btn-print').style.display = showPrint ? 'flex' : 'none';
+            document.getElementById('btn-print').style.display = (tabId === 'present' || tabId === 'staff' || tabId === 'opd') ? 'flex' : 'none';
             document.getElementById('btn-preview-print').style.display = (tabId === 'present' || tabId === 'staff' || tabId === 'opd') ? 'flex' : 'none';
 
             if (tabId === 'age') {
@@ -4247,13 +4275,12 @@
                 return;
             }
             setPrintPageStyle('landscape');
-            document.body.classList.add('print-att');
+            syncBodyPrintModeClass('att');
             const pv = document.getElementById('print-view');
             pv.innerHTML = buildAttendancePrintHTML();
             setTimeout(() => {
                 window.print();
-                document.body.classList.remove('print-att');
-            }, 300);
+            }, 150);
         }
 
         // ================= PRINT PREVIEW MODAL =================
@@ -4858,13 +4885,12 @@
 
         function printOpdCurrentMonth() {
             setPrintPageStyle('portrait');
-            document.body.classList.add('print-opd');
-            document.getElementById('opdActiveView').style.display = 'block';
+            syncBodyPrintModeClass('opd');
+            document.getElementById('opdActiveView').style.display = 'flex';
             document.getElementById('printAllContainer').style.display = 'none';
             setTimeout(() => {
                 window.print();
-                document.body.classList.remove('print-opd');
-            }, 250);
+            }, 150);
         }
 
         function printOpdAllMonths() {
@@ -4962,16 +4988,21 @@
                 container.appendChild(monthWrapper);
             });
 
-            document.body.classList.add('print-opd');
+            syncBodyPrintModeClass('opd-all');
             document.getElementById('opdActiveView').style.display = 'none';
             container.style.display = 'block';
 
-            setTimeout(() => {
-                window.print();
-                document.body.classList.remove('print-opd');
+            const cleanupAllOpdPrint = () => {
+                syncBodyPrintModeClass(currentActiveTab);
                 document.getElementById('opdActiveView').style.display = 'flex';
                 container.style.display = 'none';
-            }, 250);
+                window.removeEventListener('afterprint', cleanupAllOpdPrint);
+            };
+            window.addEventListener('afterprint', cleanupAllOpdPrint);
+
+            setTimeout(() => {
+                window.print();
+            }, 180);
         }
 
 
@@ -5834,10 +5865,9 @@
                 renderStaffRows();
             }
 
-            document.body.classList.add('print-staff');
-            setTimeout(() => {
-                window.print();
-                document.body.classList.remove('print-staff');
+            syncBodyPrintModeClass('staff');
+
+            const restoreAfterStaffPrint = () => {
                 if (wasTodayMode || prevSearch) {
                     staffIsTodayMode = wasTodayMode;
                     if (document.getElementById('staffSearchInput')) document.getElementById('staffSearchInput').value = prevSearch;
@@ -5845,8 +5875,35 @@
                     renderStaffHeaders();
                     renderStaffRows();
                 }
-            }, 280);
+                window.removeEventListener('afterprint', restoreAfterStaffPrint);
+            };
+            window.addEventListener('afterprint', restoreAfterStaffPrint);
+
+            setTimeout(() => {
+                window.print();
+            }, 150);
         }
+
+        // Ensure Ctrl+P or browser native Print menu also prints ONLY the currently active tab
+        window.addEventListener('beforeprint', () => {
+            if (document.body.classList.contains('print-opd-all')) return;
+            syncBodyPrintModeClass(currentActiveTab);
+            if (currentActiveTab === 'present') {
+                setPrintPageStyle('landscape');
+                const pv = document.getElementById('print-view');
+                if (pv) pv.innerHTML = buildAttendancePrintHTML();
+            } else if (currentActiveTab === 'staff') {
+                let style = document.getElementById('dynamic-print-style');
+                if (!style) {
+                    style = document.createElement('style');
+                    style.id = 'dynamic-print-style';
+                    document.head.appendChild(style);
+                }
+                style.innerHTML = `@page { size: A4 landscape; margin: 15mm 5mm 5mm 5mm; }`;
+            } else if (currentActiveTab === 'opd') {
+                setPrintPageStyle('portrait');
+            }
+        });
 
         // ================= INITIALIZATION & REAL-TIME LIVE SERVER SYNC =================
         let appCoreStarted = false;
