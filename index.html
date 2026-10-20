@@ -6,7 +6,7 @@
     <title>Smart OPD &amp; Attendance Pro NEW</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <!-- Firebase SDK (Compat version for Global Scope) -->
     <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js"></script>
@@ -1296,6 +1296,343 @@
         /* ==========================================
            PRINT STYLES (100% Untouched Core Layouts + Enhanced Summary)
            ========================================== */
+
+        /* ==========================================
+           TAB: STAFF ATTENDANCE & LEAVE REGISTER STYLES
+           ========================================== */
+        .staff-controls-card {
+            background: var(--surface);
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            padding: 6px 8px;
+            margin-bottom: 6px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+        .staff-date-nav-group {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+        .staff-date-capsule {
+            display: inline-flex;
+            align-items: stretch;
+            background: var(--primary-light);
+            border: 1px solid rgba(37, 99, 235, 0.25);
+            border-radius: var(--radius-pill);
+            height: 30px;
+            overflow: hidden;
+        }
+        .staff-date-capsule .staff-nav-btn {
+            background: transparent;
+            color: var(--primary);
+            border: none;
+            padding: 0 10px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: background var(--transition);
+        }
+        .staff-date-capsule .staff-nav-btn:hover {
+            background: rgba(37, 99, 235, 0.15);
+        }
+        .staff-cycle-label {
+            font-weight: 700;
+            font-size: 11px;
+            padding: 0 10px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            color: var(--primary);
+            border-left: 1px solid rgba(37, 99, 235, 0.2);
+            border-right: 1px solid rgba(37, 99, 235, 0.2);
+            cursor: pointer;
+            white-space: nowrap;
+            user-select: none;
+        }
+        .staff-cycle-label:hover {
+            background: rgba(37, 99, 235, 0.12);
+        }
+        .staff-mode-tag {
+            font-size: 9px;
+            padding: 1px 5px;
+            border-radius: 4px;
+            background: var(--primary);
+            color: #fff;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .staff-actions-group {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+        .staff-btn {
+            height: 28px;
+            padding: 0 9px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            border: 1px solid transparent;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            white-space: nowrap;
+            transition: all var(--transition);
+            color: #fff;
+        }
+        .staff-btn:active { transform: scale(0.96); }
+        .staff-btn-primary { background: var(--primary); }
+        .staff-btn-primary:hover { background: var(--primary-dark); }
+        .staff-btn-success { background: #16a34a; }
+        .staff-btn-success:hover { background: #15803d; }
+        .staff-btn-warning { background: #ea580c; }
+        .staff-btn-warning:hover { background: #c2410c; }
+        .staff-btn-danger { background: #dc2626; }
+        .staff-btn-danger:hover { background: #b91c1c; }
+        .staff-btn-outline {
+            background: var(--surface-subtle);
+            border-color: var(--border);
+            color: var(--text-main);
+        }
+        .staff-btn-outline:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: var(--primary-light);
+        }
+
+        .staff-kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 5px;
+            flex-shrink: 0;
+        }
+        @media (max-width: 640px) {
+            .staff-kpi-grid { grid-template-columns: repeat(2, 1fr); }
+            .staff-controls-card { flex-direction: column; align-items: stretch; }
+            .staff-date-nav-group { width: 100%; justify-content: space-between; }
+            .staff-date-capsule { flex: 1; display: flex; }
+            .staff-cycle-label { flex: 1; }
+            .staff-actions-group {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 5px;
+                width: 100%;
+            }
+            .staff-btn { width: 100%; padding: 0 4px; font-size: 11px; }
+        }
+
+        .staff-filter-bar {
+            background: var(--surface);
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            padding: 6px 8px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 6px;
+        }
+        .staff-search-input {
+            height: 28px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: var(--surface-subtle);
+            color: var(--text-main);
+            padding: 0 8px;
+            font-size: 11px;
+            font-weight: 500;
+            outline: none;
+            min-width: 180px;
+            flex: 1;
+        }
+        .staff-search-input:focus { border-color: var(--primary); }
+
+        .staff-table-container {
+            background: var(--surface);
+            border-radius: 8px;
+            border: 1px solid var(--border-light);
+            box-shadow: var(--shadow-xs);
+            overflow: auto;
+            width: 100%;
+            flex: 1;
+            min-height: 220px;
+            scrollbar-width: thin;
+            font-family: 'Inter', 'Noto Sans Devanagari', sans-serif;
+        }
+        table#staffAttendanceTable {
+            width: 100%;
+            border-collapse: collapse;
+            white-space: nowrap;
+            font-family: 'Inter', 'Noto Sans Devanagari', sans-serif;
+        }
+        #staffAttendanceTable th,
+        #staffAttendanceTable td {
+            border: 1px solid var(--border);
+            padding: 5px 6px;
+            text-align: center;
+            vertical-align: middle;
+            height: 34px;
+            font-size: 12px;
+        }
+        #staffAttendanceTable th {
+            background-color: var(--surface-subtle);
+            font-weight: 600;
+            color: var(--text-secondary);
+            font-size: 11px;
+        }
+        #staffAttendanceTable .staff-main-title {
+            font-size: 14px;
+            font-weight: 700;
+            padding: 8px 10px;
+            text-align: center !important;
+            color: var(--text-main);
+            background: var(--surface-subtle);
+            outline: none;
+        }
+        #staffAttendanceTable .staff-main-title:focus {
+            background: var(--primary-light);
+            box-shadow: inset 0 0 0 2px var(--primary);
+        }
+
+        /* Interactive Staff Attendance Cells */
+        .staff-att-cell {
+            cursor: pointer;
+            font-weight: 700;
+            min-width: 26px;
+            user-select: none;
+            -webkit-user-select: none;
+            transition: background-color 0.1s, transform 0.08s;
+            font-family: 'JetBrains Mono', 'Inter', sans-serif;
+        }
+        .staff-att-cell:hover {
+            box-shadow: inset 0 0 0 1.5px var(--primary);
+        }
+        .staff-att-cell:active {
+            transform: scale(0.93);
+        }
+
+        /* Status Colors (Light & Dark Theme Adaptive) */
+        .staff-status-P { color: var(--t-present) !important; background-color: var(--c-present) !important; }
+        .staff-status-CL, .staff-status-ML { color: var(--t-absent) !important; background-color: var(--c-absent) !important; }
+        .staff-status-PL, .staff-status-CCL { color: #7c3aed !important; background-color: #ede9fe !important; }
+        [data-theme="dark"] .staff-status-PL, [data-theme="dark"] .staff-status-CCL { color: #c4b5fd !important; background-color: rgba(124, 58, 237, 0.28) !important; }
+        .staff-status-DO { color: var(--t-cl) !important; background-color: var(--c-cl) !important; }
+        .staff-status-GH { color: #be123c !important; background-color: #ffe4e6 !important; }
+        [data-theme="dark"] .staff-status-GH { color: #fda4af !important; background-color: rgba(190, 18, 60, 0.3) !important; }
+
+        .staff-is-sunday { background-color: #ffedd5; color: #9a3412; }
+        [data-theme="dark"] .staff-is-sunday { background-color: rgba(154, 52, 18, 0.22); color: #fdba74; }
+        .staff-is-gh-date { background-color: #fee2e2; color: #dc2626; font-weight: 700; }
+        [data-theme="dark"] .staff-is-gh-date { background-color: rgba(220, 38, 38, 0.24); color: #f87171; font-weight: 700; }
+
+        .staff-editable { cursor: text; background-color: rgba(22, 163, 74, 0.08); outline: none; font-family: 'JetBrains Mono', monospace; font-weight: 600; }
+        .staff-editable:focus { background-color: var(--surface); box-shadow: inset 0 0 0 2px var(--primary); }
+        .staff-readonly { background-color: var(--surface-subtle); font-weight: 600; color: var(--text-main); }
+        .staff-calc-val { background-color: var(--surface-subtle); font-weight: 700; font-family: 'JetBrains Mono', monospace; }
+
+        .staff-type-pill {
+            display: inline-block;
+            font-size: 9px;
+            font-weight: 700;
+            padding: 1px 4px;
+            border-radius: 3px;
+            margin-left: 4px;
+            vertical-align: middle;
+        }
+        .staff-type-GH { background: var(--c-holiday); color: var(--t-holiday); }
+        .staff-type-DO { background: var(--c-cl); color: var(--t-cl); }
+
+        .staff-gh-list-container {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-bottom: 12px;
+            max-height: 310px;
+            overflow-y: auto;
+            padding-right: 2px;
+        }
+        .staff-gh-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            font-size: 12px;
+            padding: 6px 8px;
+            border-radius: 7px;
+            background: var(--surface-subtle);
+            border: 1px solid var(--border-light);
+        }
+        .staff-gh-item label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            flex: 1;
+            min-width: 0;
+        }
+        .staff-gh-name-input {
+            width: 135px;
+            height: 26px;
+            border: 1px solid var(--border);
+            border-radius: 5px;
+            background: var(--surface);
+            color: var(--text-main);
+            padding: 0 6px;
+            font-size: 11px;
+            outline: none;
+        }
+        .staff-gh-name-input:focus { border-color: var(--primary); }
+
+        .staff-manage-row {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+            background: var(--surface-subtle);
+            padding: 6px;
+            border: 1px solid var(--border-light);
+            border-radius: 7px;
+            margin-bottom: 6px;
+            flex-wrap: wrap;
+        }
+        .staff-manage-row input,
+        .staff-manage-row select {
+            padding: 4px 6px;
+            height: 28px;
+            border: 1px solid var(--border);
+            border-radius: 5px;
+            font-size: 11px;
+            background: var(--surface);
+            color: var(--text-main);
+            outline: none;
+        }
+        .staff-manage-row button {
+            padding: 0 7px;
+            height: 28px;
+            border-radius: 5px;
+            font-size: 11px;
+            cursor: pointer;
+        }
+        .staff-empty-row td {
+            padding: 20px !important;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
         #print-view { display: none; }
 
         @media print {
@@ -1416,6 +1753,69 @@
             body.print-opd .opd-cell-input::-moz-placeholder { color: transparent !important; }
             body.print-opd .opd-cell-input:-ms-input-placeholder { color: transparent !important; }
             body.print-opd .opd-total-row { background-color: #e2e8f0 !important; -webkit-print-color-adjust: exact; }
+
+            /* -- STAFF ATTENDANCE PRINT MODE (EXACT SARKARI REGISTER FORMAT FROM staff attendence.html) -- */
+            body.print-staff #tab-present,
+            body.print-staff #tab-opd,
+            body.print-staff #printAllContainer,
+            body.print-staff .staff-controls-card,
+            body.print-staff #staffSummaryDrawer,
+            body.print-staff .staff-type-pill,
+            body.print-staff .staff-no-print {
+                display: none !important;
+            }
+            body.print-staff #tab-staff {
+                display: block !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                overflow: visible !important;
+            }
+            body.print-staff .staff-table-container {
+                box-shadow: none !important;
+                border: none !important;
+                overflow: visible !important;
+                padding: 0 !important;
+                background: transparent !important;
+            }
+            body.print-staff #staffAttendanceTable {
+                width: 100% !important;
+                border-collapse: collapse !important;
+                white-space: nowrap !important;
+            }
+            body.print-staff #staffAttendanceTable th,
+            body.print-staff #staffAttendanceTable td {
+                border: 1px solid #000 !important;
+                font-size: 9pt !important;
+                padding: 4px !important;
+                background-color: transparent !important;
+                color: #000 !important;
+                white-space: nowrap !important;
+                height: 36px;
+            }
+            body.print-staff #staffAttendanceTable .staff-main-title {
+                text-align: center !important;
+                font-size: 15px !important;
+                font-weight: 700 !important;
+                padding: 10px !important;
+            }
+            body.print-staff .staff-status-P,
+            body.print-staff .staff-status-CL,
+            body.print-staff .staff-status-ML,
+            body.print-staff .staff-status-PL,
+            body.print-staff .staff-status-CCL,
+            body.print-staff .staff-status-DO,
+            body.print-staff .staff-status-GH,
+            body.print-staff .staff-is-sunday,
+            body.print-staff .staff-is-gh-date,
+            body.print-staff .staff-calc-val,
+            body.print-staff .staff-readonly,
+            body.print-staff .staff-editable,
+            body.print-staff #staffAttendanceTable th {
+                background-color: transparent !important;
+                color: #000 !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
         }
     </style>
 </head>
@@ -1569,6 +1969,128 @@
             <div id="print-view"></div>
         </main>
 
+        <!-- ================= TAB 2B: STAFF ATTENDANCE & LEAVE REGISTER ================= -->
+        <main id="tab-staff" class="tab-content">
+            <!-- Top Controls Header -->
+            <div class="staff-controls-card staff-no-print">
+                <div class="staff-date-nav-group">
+                    <div class="staff-date-capsule">
+                        <button type="button" class="staff-nav-btn" onclick="changeStaffCycle(-1)" title="Previous Cycle/Month">◀</button>
+                        <div class="staff-cycle-label" onclick="toggleStaffCycleMode()" title="Click to toggle Cycle (21-20) / Month (1-31) mode">
+                            <span id="staffCycleDisplay">...</span>
+                            <span class="staff-mode-tag" id="staffModeBadge">21-20</span>
+                        </div>
+                        <button type="button" class="staff-nav-btn" onclick="changeStaffCycle(1)" title="Next Cycle/Month">▶</button>
+                    </div>
+                    <button type="button" class="quick-chip-btn" onclick="jumpToCurrentStaffCycle()" title="Jump to Current Cycle">🎯 Now</button>
+                </div>
+
+                <div class="staff-actions-group">
+                    <button type="button" id="staffTodayBtn" onclick="toggleStaffTodayMode()" class="staff-btn staff-btn-warning" title="Toggle Single-Day Today View">
+                        🕒 Today
+                    </button>
+                    <button type="button" class="staff-btn staff-btn-outline" onclick="openStaffGHModal()" title="Set Gazetted Holidays (Synced with Settings)">
+                        🎉 + GH
+                    </button>
+                    <button type="button" class="staff-btn staff-btn-outline" onclick="openManageStaffModal()" title="Edit, Reorder or Delete Staff">
+                        ⚙️ Staff
+                    </button>
+                    <button type="button" class="staff-btn staff-btn-outline" style="border-color: var(--primary); color: var(--primary);" onclick="openStaffCreateModal()" title="Bulk Fill or Clear Cycle">
+                        ⚡ Create
+                    </button>
+                    <button type="button" class="staff-btn staff-btn-primary" onclick="openStaffModal()" title="Add New Employee">
+                        ➕ Add
+                    </button>
+                    <button type="button" class="staff-btn staff-btn-success" onclick="triggerStaffPrint()" title="Print Official Register (A4 Landscape)">
+                        🖨️ Print
+                    </button>
+                </div>
+            </div>
+
+            <!-- Collapsible Summary & Filter Bar -->
+            <button type="button" class="summary-collapse-btn staff-no-print" onclick="toggleDrawer('staffSummaryDrawer', 'staffSumChevron')">
+                <div class="summary-collapse-left">
+                    <span>👥 <strong>Staff Summary &amp; Quick Tools</strong></span>
+                    <div class="summary-mini-pills">
+                        <span class="mini-tag" style="color:var(--primary);">Staff:<span id="mini-staff-total">0</span></span>
+                        <span class="mini-tag" style="color:var(--t-present);">P:<span id="mini-staff-p">0</span></span>
+                        <span class="mini-tag" style="color:var(--t-absent);">CL/ML:<span id="mini-staff-leave">0</span></span>
+                        <span class="mini-tag" style="color:var(--t-holiday);">GH:<span id="mini-staff-gh">0</span></span>
+                    </div>
+                </div>
+                <span class="summary-chevron" id="staffSumChevron">Show ▼</span>
+            </button>
+
+            <div id="staffSummaryDrawer" class="collapsible-panel staff-no-print">
+                <div class="staff-kpi-grid">
+                    <div class="opd-kpi-card">
+                        <span class="opd-kpi-label">Total Staff</span>
+                        <span class="opd-kpi-val" id="staffKpiTotal">0</span>
+                        <span class="opd-kpi-sub" id="staffKpiSplit">GH: 0 | D/O: 0</span>
+                    </div>
+                    <div class="opd-kpi-card">
+                        <span class="opd-kpi-label">Cycle Present (P)</span>
+                        <span class="opd-kpi-val" id="staffKpiPresent" style="color:var(--t-present);">0</span>
+                        <span class="opd-kpi-sub" id="staffKpiTodayP">Today P: 0</span>
+                    </div>
+                    <div class="opd-kpi-card">
+                        <span class="opd-kpi-label">Leaves (CL / ML / Other)</span>
+                        <span class="opd-kpi-val" id="staffKpiLeaves" style="color:var(--t-absent);">0</span>
+                        <span class="opd-kpi-sub" id="staffKpiLeaveBreak">CL: 0 | ML: 0</span>
+                    </div>
+                    <div class="opd-kpi-card">
+                        <span class="opd-kpi-label">Synced GH Holidays</span>
+                        <span class="opd-kpi-val" id="staffKpiGH" style="color:var(--t-holiday);">0</span>
+                        <span class="opd-kpi-sub" id="staffKpiGHSub">Synced with Settings</span>
+                    </div>
+                </div>
+
+                <div class="staff-filter-bar">
+                    <input type="text" id="staffSearchInput" class="staff-search-input" placeholder="🔍 कर्मचारी खोजें (Name, Post, Place, GH/DO)..." oninput="renderStaffRows()">
+                    <div style="display:flex; align-items:center; gap:5px; flex-wrap:wrap;">
+                        <button type="button" class="quick-chip-btn" onclick="markStaffTodayAllPresent()" title="Mark all staff Present (P) for Today">⚡ Today All P</button>
+                        <button type="button" class="quick-chip-btn" onclick="autoFillStaffTillToday()" title="Fill P up to Today for current cycle">📅 Auto-Fill Till Today</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Official Register Table Container (Print Layout Matches staff attendence.html 100%) -->
+            <div class="staff-table-container" id="staffTableContainer">
+                <table id="staffAttendanceTable">
+                    <thead>
+                        <!-- Row 1 -->
+                        <tr>
+                            <th id="staffMainTitleColspan" class="staff-main-title" contenteditable="true" oninput="saveStaffTitle(this.innerText)" title="Click to edit Office Heading">
+                                कार्यालय चिकित्सा अधिकारी प्रभारी, प्राथमिक स्वास्थ्य केंद्र शेषा, खंड मलारना डूंगर, सवाई माधोपुर
+                            </th>
+                            <th colspan="6" class="staff-main-title staff-calc-col" style="font-weight: normal; text-align:center;">Details Of Leave</th>
+                        </tr>
+
+                        <!-- Row 2 -->
+                        <tr>
+                            <th rowspan="2" style="width:140px;">कर्मचारी का नाम</th>
+                            <th rowspan="2" id="staffPostTh" style="width:110px;">पद</th>
+                            <th rowspan="2" id="staffPlaceTh" style="width:100px;">स्थान</th>
+                            <th id="staffAttendancePeriodTitle" colspan="31">उपस्थिति अवधि</th>
+
+                            <!-- Calculation Headers -->
+                            <th colspan="2" class="staff-calc-col">गत माह तक</th>
+                            <th colspan="2" class="staff-calc-col">इस माह में</th>
+                            <th colspan="2" class="staff-calc-col">कुल</th>
+                        </tr>
+
+                        <!-- Row 3 (Dates + CL/ML Sub-headers) -->
+                        <tr id="staffDatesRow">
+                            <!-- Dates injected by JS -->
+                        </tr>
+                    </thead>
+                    <tbody id="staffBody">
+                        <!-- Staff rows injected by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </main>
+
         <!-- ================= TAB 3: OPD REPORT ================= -->
         <main id="tab-opd" class="tab-content">
             <div class="opd-dashboard-controls no-print">
@@ -1715,6 +2237,7 @@
                         <div class="form-group"><label>Posting Place</label><input type="text" id="input-place" oninput="autoSaveProfile()"></div>
                         <div class="form-group"><label>OPD Header Title</label><input type="text" id="input-opd-title" oninput="autoSaveProfile()"></div>
                         <div class="form-group"><label>Annual CL Quota</label><input type="number" id="input-cl-quota" min="1" max="60" oninput="autoSaveProfile()"></div>
+                        <div class="form-group" style="grid-column: 1 / -1;"><label>Staff Register Office Heading (मुख्य शीर्षक)</label><input type="text" id="input-staff-title" oninput="onSettingsStaffTitleInput(this.value)" placeholder="कार्यालय चिकित्सा अधिकारी प्रभारी..."></div>
                     </div>
                 </form>
             </div>
@@ -1746,19 +2269,23 @@
 
     <!-- Bottom Navigation Bar -->
     <nav class="bottom-nav">
-        <div class="nav-item" onclick="switchTab('age', this, 'Smart Age', false)">
+        <div class="nav-item" id="nav-age" onclick="switchTab('age', this, 'Smart Age', false)">
             <span class="nav-icon">🎂</span>
             <span class="nav-text">Age</span>
         </div>
-        <div class="nav-item active" onclick="switchTab('present', this, 'Attendance Pro', true)">
+        <div class="nav-item active" id="nav-present" onclick="switchTab('present', this, 'Attendance Pro', true)">
             <span class="nav-icon">📅</span>
             <span class="nav-text">Present</span>
         </div>
-        <div class="nav-item" onclick="switchTab('opd', this, 'OPD Report', false)">
+        <div class="nav-item" id="nav-staff" onclick="switchTab('staff', this, 'Staff Attendance', true)">
+            <span class="nav-icon">👥</span>
+            <span class="nav-text">Staff</span>
+        </div>
+        <div class="nav-item" id="nav-opd" onclick="switchTab('opd', this, 'OPD Report', false)">
             <span class="nav-icon">🏥</span>
             <span class="nav-text">OPD</span>
         </div>
-        <div class="nav-item" onclick="switchTab('settings', this, 'Settings', false)">
+        <div class="nav-item" id="nav-settings" onclick="switchTab('settings', this, 'Settings', false)">
             <span class="nav-icon">⚙️</span>
             <span class="nav-text">Settings</span>
         </div>
@@ -1819,6 +2346,124 @@
                 </div>
             </div>
             <div class="preview-scroll-box" id="preview-scroll-box"></div>
+        </div>
+    </div>
+
+    <!-- Add Staff Modal -->
+    <div class="modal-overlay" id="staffModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 style="font-size:15px; font-weight:700;">➕ नया कर्मचारी जोड़ें (Add Staff)</h2>
+                <button type="button" class="close-btn" onclick="closeStaffModals()">&times;</button>
+            </div>
+            <div class="form-group">
+                <label>कर्मचारी का नाम (Employee Name)</label>
+                <input type="text" id="sName" placeholder="नाम दर्ज करें">
+            </div>
+            <div class="form-group">
+                <label>पद (Designation)</label>
+                <input type="text" id="sPost" placeholder="पद (e.g. Nursing Officer)">
+            </div>
+            <div class="form-group">
+                <label>स्थान (Place)</label>
+                <input type="text" id="sPlace" value="शेषा">
+            </div>
+            <div class="form-group">
+                <label>स्टाफ प्रकार (Leave Type Pattern)</label>
+                <select id="sType" style="width:100%; height:34px; padding:0 10px; border:1px solid var(--border); border-radius:7px; background:var(--surface-subtle); color:var(--text-main); font-size:12px; font-weight:600; outline:none;">
+                    <option value="GH">GH Staff (रविवार/राजपत्रित अवकाश लागू)</option>
+                    <option value="DO">D/O Staff (साप्ताहिक ऑफ लागू)</option>
+                </select>
+            </div>
+            <div class="action-btn-row" style="margin-top: 12px;">
+                <button type="button" class="btn-primary" style="background:var(--surface-subtle); color:var(--text-main); border:1px solid var(--border);" onclick="closeStaffModals()">Cancel</button>
+                <button type="button" class="btn-primary" onclick="saveNewStaff()">💾 Save Staff</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Manage Staff Modal -->
+    <div class="modal-overlay" id="manageStaffModal">
+        <div class="modal-content" style="max-width: 620px; width: 96%;">
+            <div class="modal-header">
+                <h2 style="font-size:15px; font-weight:700;">⚙️ कर्मचारी प्रबंधित करें (Manage Staff)</h2>
+                <button type="button" class="close-btn" onclick="closeStaffModals()">&times;</button>
+            </div>
+            <p style="font-size:11px; color:var(--text-muted); margin-bottom:8px;">यहाँ से आप कर्मचारियों के नाम, पद, स्थान, प्रकार (GH/DO) बदल सकते हैं या उनका क्रम (▲/▼) सेट कर सकते हैं।</p>
+            <div id="manageStaffList" style="display:flex; flex-direction:column; max-height: 55vh; overflow-y:auto; padding-right:2px;">
+                <!-- Populated by JS -->
+            </div>
+            <div class="action-btn-row" style="margin-top: 12px;">
+                <button type="button" class="btn-primary" onclick="openStaffModalFromManage()" style="background:var(--primary-light); color:var(--primary); border:1px solid rgba(37,99,235,0.3);">➕ Add New Staff</button>
+                <button type="button" class="btn-primary" onclick="closeStaffModals()">✓ Done &amp; Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Staff Bulk / Create Action Modal -->
+    <div class="modal-overlay" id="staffCreateModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 style="font-size:15px; font-weight:700;">⚡ Bulk Attendance Actions</h2>
+                <button type="button" class="close-btn" onclick="closeStaffModals()">&times;</button>
+            </div>
+            <p style="font-size:12px; color:var(--text-secondary); margin-bottom:12px; line-height:1.45;">
+                यहाँ से आप इस पूरे साइकिल (महीने) के लिए सभी कर्मचारियों की उपस्थिति एक साथ भर सकते हैं या हटा सकते हैं:<br><br>
+                • <b>All Present (Full Cycle):</b> सभी को 'P' लगेगा (GH स्टाफ को राजपत्रित अवकाश वाले दिन स्वतः 'GH' लगेगा)।<br>
+                • <b>Auto-Fill P Till Today:</b> साइकिल की शुरुआत से आज तक खाली दिनों में 'P' (और GH दिन पर 'GH') भरेगा।<br>
+                • <b>All Clear:</b> इस साइकिल का पूरा डेटा खाली हो जाएगा।
+            </p>
+            <div style="display: flex; gap:7px; flex-direction:column;">
+                <button type="button" class="btn-primary" style="background:#16a34a;" onclick="markAllStaffPresent()">✅ All Present (Full Cycle)</button>
+                <button type="button" class="btn-primary" style="background:var(--primary);" onclick="autoFillStaffTillToday()">📅 Auto-Fill Present Till Today</button>
+                <button type="button" class="btn-primary" style="background:#ef4444;" onclick="clearAllStaffCycle()">🗑️ All Clear (Current Cycle)</button>
+                <button type="button" class="btn-primary" style="background:var(--surface-subtle); color:var(--text-main); border:1px solid var(--border); margin-top:2px;" onclick="closeStaffModals()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Staff GH / Holidays Modal (Synced with Settings) -->
+    <div class="modal-overlay" id="staffGhModal">
+        <div class="modal-content" style="max-width: 430px;">
+            <div class="modal-header">
+                <div>
+                    <h2 style="font-size:15px; font-weight:700;">🎉 राजपत्रित अवकाश (GH) सेट करें</h2>
+                    <p style="font-size:10px; color:var(--text-muted);">Synced live with Settings Holidays &amp; Auto-Applies GH to GH Staff</p>
+                </div>
+                <button type="button" class="close-btn" onclick="closeStaffModals()">&times;</button>
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; gap:6px;">
+                <button type="button" class="quick-chip-btn" onclick="loadPresetHolidays2026(); openStaffGHModal();">✨ + Load 2026 Govt Holidays</button>
+                <span style="font-size:10px; color:var(--text-muted); font-weight:600;" id="staffGhCycleHint">Cycle Dates</span>
+            </div>
+            <div class="staff-gh-list-container" id="staffGhListContainer">
+                <!-- Checkboxes populated by JS -->
+            </div>
+            <div class="action-btn-row" style="margin-top: 10px;">
+                <button type="button" class="btn-primary" style="background:var(--surface-subtle); color:var(--text-main); border:1px solid var(--border);" onclick="closeStaffModals()">Cancel</button>
+                <button type="button" class="btn-primary" style="background:#16a34a;" onclick="saveStaffGHDates()">✓ Apply &amp; Sync GH</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Cell Status Picker Modal for Staff Attendance (Long-Press / Right-Click) -->
+    <div class="modal-overlay" id="staff-cell-picker-modal">
+        <div class="modal-content" style="max-width: 340px;">
+            <div class="modal-header">
+                <h2 id="staff-cell-picker-title" style="font-size:14px; font-weight:700;">Select Staff Status</h2>
+                <button type="button" class="close-btn" onclick="closeStaffCellPicker()">&times;</button>
+            </div>
+            <p id="staff-cell-picker-sub" style="font-size:11px; color:var(--text-muted); margin-bottom:8px;">Quickly set status for this employee &amp; date:</p>
+            <div class="picker-grid">
+                <button type="button" class="picker-btn staff-status-P" onclick="applyStaffQuickStatus('P')">P</button>
+                <button type="button" class="picker-btn staff-status-CL" onclick="applyStaffQuickStatus('CL')">CL</button>
+                <button type="button" class="picker-btn staff-status-GH" onclick="applyStaffQuickStatus('GH')">GH</button>
+                <button type="button" class="picker-btn staff-status-DO" onclick="applyStaffQuickStatus('D/O')">D/O</button>
+                <button type="button" class="picker-btn staff-status-ML" onclick="applyStaffQuickStatus('ML')">ML</button>
+                <button type="button" class="picker-btn staff-status-CCL" onclick="applyStaffQuickStatus('CCL')">CCL</button>
+                <button type="button" class="picker-btn staff-status-PL" onclick="applyStaffQuickStatus('PL')">PL</button>
+                <button type="button" class="picker-btn" style="background:var(--surface-subtle); color:var(--text-muted); border:1px solid var(--border); font-size:12px;" onclick="applyStaffQuickStatus('')">Clear</button>
+            </div>
         </div>
     </div>
 
@@ -1888,12 +2533,19 @@
             messagingSenderId: "413623000932",
             appId: "1:413623000932:web:df67b891c0d755098ee471"
         };
+        const STAFF_STORAGE_KEY = 'premiumAttData';
+        const SESSION_CLIENT_ID = 'client_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8);
+        let lastLocalWriteEpoch = 0;
+        let isApplyingRemoteSnapshot = false;
         let publicDbRef = null;
+        let connectedRef = null;
+
         try {
             if (typeof firebase !== 'undefined') {
                 if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
                 const database = firebase.database();
                 publicDbRef = database.ref('SmartOPD_Public_Data');
+                connectedRef = database.ref('.info/connected');
             }
         } catch (err) {
             console.warn("Firebase init fallback:", err);
@@ -1905,37 +2557,66 @@
             const settingsTxt = document.getElementById('settings-sync-time');
             if (!dot || !txt) return;
             dot.className = 'sync-dot ' + (state || '');
-            txt.textContent = label || 'Cloud Ready';
+            txt.textContent = label || 'Live Ready';
             if (settingsTxt) settingsTxt.textContent = label;
         }
 
         function syncToFirebase(showConfirmation) {
+            if (isApplyingRemoteSnapshot) return;
             if (!publicDbRef) {
                 updateSyncIndicator('offline', 'Local Saved');
                 return;
             }
-            updateSyncIndicator('syncing', 'Syncing...');
+            lastLocalWriteEpoch = Date.now();
+            updateSyncIndicator('syncing', 'Live Syncing...');
             let currentAppData = appData;
             let currentOpdData = {};
+            let currentStaffData = staffGlobalData;
             try {
                 currentAppData = JSON.parse(safeGetItem('sarkari_dashboard_data')) || appData;
                 currentOpdData = JSON.parse(safeGetItem('phc_shesha_opd_data')) || {};
+                currentStaffData = JSON.parse(safeGetItem(STAFF_STORAGE_KEY)) || staffGlobalData;
             } catch (e) {}
 
             publicDbRef.set({
                 appData: currentAppData,
                 opdData: currentOpdData,
+                staffData: currentStaffData,
+                clientId: SESSION_CLIENT_ID,
                 lastSync: new Date().toISOString()
             }).then(() => {
                 const tStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-                updateSyncIndicator('', `Synced ${tStr}`);
-                if (showConfirmation) showToast('Cloud Sync Complete!');
+                updateSyncIndicator('', `Live ${tStr}`);
+                if (showConfirmation) showToast('Live Cloud Sync Complete!');
             }).catch(() => {
                 updateSyncIndicator('offline', 'Saved Locally');
             });
         }
 
         function manualCloudSync() { syncToFirebase(true); }
+
+        function applyCloudSnapshotData(data, isManualPull) {
+            if (!data) return;
+            isApplyingRemoteSnapshot = true;
+            try {
+                if (data.appData) safeSetItem('sarkari_dashboard_data', JSON.stringify(data.appData));
+                if (data.opdData) safeSetItem('phc_shesha_opd_data', JSON.stringify(data.opdData));
+                if (data.staffData) safeSetItem(STAFF_STORAGE_KEY, JSON.stringify(data.staffData));
+
+                loadSharedData();
+                loadStaffDataFromStorage();
+                syncHolidaysBetweenSettingsAndStaff(false);
+
+                initAttendance();
+                generateOpdTable();
+                initStaffApp();
+
+                const tStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                updateSyncIndicator('', isManualPull ? 'Pulled Latest' : `Live ${tStr}`);
+            } finally {
+                isApplyingRemoteSnapshot = false;
+            }
+        }
 
         function pullFromCloudNow() {
             if (!publicDbRef) {
@@ -1945,13 +2626,7 @@
             updateSyncIndicator('syncing', 'Fetching...');
             publicDbRef.once('value').then((snapshot) => {
                 if (snapshot.exists()) {
-                    const data = snapshot.val();
-                    if (data.appData) safeSetItem('sarkari_dashboard_data', JSON.stringify(data.appData));
-                    if (data.opdData) safeSetItem('phc_shesha_opd_data', JSON.stringify(data.opdData));
-                    loadSharedData();
-                    initAttendance();
-                    generateOpdTable();
-                    updateSyncIndicator('', 'Pulled Latest');
+                    applyCloudSnapshotData(snapshot.val(), true);
                     showToast('Latest Cloud Data Restored!');
                 } else {
                     showToast('No Cloud Backup Found');
@@ -2026,7 +2701,12 @@
         function exportData() {
             let opdData = {};
             try { opdData = JSON.parse(safeGetItem(OPD_STORAGE_KEY)) || {}; } catch (e) {}
-            const masterBackup = { appData: appData, opdData: opdData, exportedAt: new Date().toISOString() };
+            const masterBackup = {
+                appData: appData,
+                opdData: opdData,
+                staffData: staffGlobalData,
+                exportedAt: new Date().toISOString()
+            };
             const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(masterBackup, null, 2));
             const dl = document.createElement('a');
             dl.setAttribute("href", dataStr);
@@ -2034,7 +2714,7 @@
             document.body.appendChild(dl);
             dl.click();
             dl.remove();
-            showToast('Master Backup Exported!');
+            showToast('Master Backup (All Modes) Exported!');
         }
 
         function importData(event) {
@@ -2044,10 +2724,10 @@
             reader.onload = function(e) {
                 try {
                     const parsed = JSON.parse(e.target.result);
-                    if (parsed.appData || parsed.opdData) {
+                    if (parsed.appData || parsed.opdData || parsed.staffData) {
                         if (parsed.appData) {
                             appData = { ...appData, ...parsed.appData };
-                            saveData();
+                            safeSetItem('sarkari_dashboard_data', JSON.stringify(appData));
                         }
                         if (parsed.opdData) {
                             let existingOpd = {};
@@ -2055,15 +2735,33 @@
                             let mergedOpd = { ...existingOpd, ...parsed.opdData };
                             safeSetItem(OPD_STORAGE_KEY, JSON.stringify(mergedOpd));
                         }
+                        if (parsed.staffData) {
+                            staffGlobalData = { ...staffGlobalData, ...parsed.staffData };
+                            safeSetItem(STAFF_STORAGE_KEY, JSON.stringify(staffGlobalData));
+                        }
                         loadSharedData();
+                        loadStaffDataFromStorage();
+                        syncHolidaysBetweenSettingsAndStaff(true);
                         initAttendance();
+                        initStaffApp();
                         if (typeof generateOpdTable === 'function') generateOpdTable();
-                        showToast('Master Data Imported Successfully!');
+                        syncToFirebase(false);
+                        showToast('Master Data Imported & Synced!');
+                    } else if (parsed && Array.isArray(parsed.staffList)) {
+                        staffGlobalData = { ...staffGlobalData, ...parsed };
+                        safeSetItem(STAFF_STORAGE_KEY, JSON.stringify(staffGlobalData));
+                        loadStaffDataFromStorage();
+                        syncHolidaysBetweenSettingsAndStaff(true);
+                        initStaffApp();
+                        syncToFirebase(false);
+                        showToast('Staff Attendance Data Imported!');
                     } else if (parsed && parsed.attendance) {
                         appData = { ...appData, ...parsed };
                         saveData();
                         loadSharedData();
+                        syncHolidaysBetweenSettingsAndStaff(true);
                         initAttendance();
+                        initStaffApp();
                         showToast('Attendance Data Imported!');
                     } else {
                         showToast('Invalid Data File!');
@@ -2088,7 +2786,7 @@
 
             document.getElementById('header-title').textContent = title;
             document.getElementById('btn-print').style.display = showPrint ? 'flex' : 'none';
-            document.getElementById('btn-preview-print').style.display = (tabId === 'present' || tabId === 'opd') ? 'flex' : 'none';
+            document.getElementById('btn-preview-print').style.display = (tabId === 'present' || tabId === 'staff' || tabId === 'opd') ? 'flex' : 'none';
 
             if (tabId === 'age') {
                 setTimeout(() => {
@@ -2324,12 +3022,23 @@
             let n = document.getElementById('hol-name').value.trim();
             if (d && n) {
                 appData.holidays[d] = n;
+                if (!staffGlobalData.ghDates.includes(d)) {
+                    staffGlobalData.ghDates.push(d);
+                }
+                // Auto-apply GH to GH-pattern staff on this holiday date
+                staffGlobalData.staffList.forEach(staff => {
+                    if (staff.type === 'GH') {
+                        staffGlobalData.cellData[`${staff.id}_${d}`] = 'GH';
+                    }
+                });
+                safeSetItem(STAFF_STORAGE_KEY, JSON.stringify(staffGlobalData));
                 saveData();
                 renderHolidayList();
                 renderCycle();
+                initStaffApp();
                 document.getElementById('hol-date').value = '';
                 document.getElementById('hol-name').value = '';
-                showToast('GH Added!');
+                showToast('GH Added & Synced to Staff Register!');
             } else {
                 showToast('Please select Date and Holiday Name');
             }
@@ -2338,13 +3047,21 @@
         function deleteHoliday(d) {
             showAppConfirm(
                 'Remove Holiday (GH)',
-                `क्या आप सच में ${d} की छुट्टी (${appData.holidays[d]}) को हटाना चाहते हैं?`,
+                `क्या आप सच में ${d} की छुट्टी (${appData.holidays[d]}) को हटाना चाहते हैं? (यह Staff Attendance से भी हट जाएगी)`,
                 () => {
                     delete appData.holidays[d];
+                    staffGlobalData.ghDates = staffGlobalData.ghDates.filter(item => item !== d);
+                    staffGlobalData.staffList.forEach(staff => {
+                        if (staff.type === 'GH' && staffGlobalData.cellData[`${staff.id}_${d}`] === 'GH') {
+                            delete staffGlobalData.cellData[`${staff.id}_${d}`];
+                        }
+                    });
+                    safeSetItem(STAFF_STORAGE_KEY, JSON.stringify(staffGlobalData));
                     saveData();
                     renderHolidayList();
                     renderCycle();
-                    showToast('GH Removed');
+                    initStaffApp();
+                    showToast('GH Removed from All Modes');
                 }
             );
         }
@@ -2373,10 +3090,22 @@
                 '2026-12-25': 'Christmas Day'
             };
             appData.holidays = { ...presets, ...appData.holidays };
+            Object.keys(presets).forEach(dStr => {
+                if (!staffGlobalData.ghDates.includes(dStr)) {
+                    staffGlobalData.ghDates.push(dStr);
+                }
+                staffGlobalData.staffList.forEach(staff => {
+                    if (staff.type === 'GH' && !staffGlobalData.cellData[`${staff.id}_${dStr}`]) {
+                        staffGlobalData.cellData[`${staff.id}_${dStr}`] = 'GH';
+                    }
+                });
+            });
+            safeSetItem(STAFF_STORAGE_KEY, JSON.stringify(staffGlobalData));
             saveData();
             renderHolidayList();
             renderCycle();
-            showToast('2026 Gazetted Holidays Loaded!');
+            initStaffApp();
+            showToast('2026 Gazetted Holidays Loaded & Synced!');
         }
 
         function toggleHolYear(yearId, btnId) {
@@ -3023,6 +3752,14 @@
         }
 
         function triggerPrint() {
+            if (currentActiveTab === 'staff') {
+                triggerStaffPrint();
+                return;
+            }
+            if (currentActiveTab === 'opd') {
+                printOpdCurrentMonth();
+                return;
+            }
             setPrintPageStyle('landscape');
             document.body.classList.add('print-att');
             const pv = document.getElementById('print-view');
@@ -3048,6 +3785,41 @@
                         prevInputs[idx].setAttribute('readonly', 'readonly');
                     }
                 });
+            } else if (currentActiveTab === 'staff') {
+                title.textContent = 'Staff Attendance & Leave Register — Print Preview';
+                // Temporarily ensure full cycle table is rendered for accurate preview
+                const prevToday = staffIsTodayMode;
+                const prevSearch = document.getElementById('staffSearchInput')?.value || '';
+                if (prevToday || prevSearch) {
+                    staffIsTodayMode = false;
+                    if (document.getElementById('staffSearchInput')) document.getElementById('staffSearchInput').value = '';
+                    renderStaffHeaders();
+                    renderStaffRows();
+                }
+                const tableClone = document.getElementById('staffAttendanceTable').cloneNode(true);
+                tableClone.querySelectorAll('[contenteditable]').forEach(el => el.removeAttribute('contenteditable'));
+                tableClone.querySelectorAll('.staff-type-pill').forEach(el => el.remove());
+                tableClone.style.width = '100%';
+                tableClone.style.borderCollapse = 'collapse';
+                tableClone.style.color = '#000';
+                tableClone.style.background = '#fff';
+                tableClone.querySelectorAll('th, td').forEach(cell => {
+                    cell.style.border = '1px solid #000';
+                    cell.style.padding = '4px';
+                    cell.style.fontSize = '9pt';
+                    cell.style.background = 'transparent';
+                    cell.style.color = '#000';
+                    cell.style.textAlign = 'center';
+                    cell.style.whiteSpace = 'nowrap';
+                });
+                box.innerHTML = '';
+                box.appendChild(tableClone);
+                if (prevToday || prevSearch) {
+                    staffIsTodayMode = prevToday;
+                    if (document.getElementById('staffSearchInput')) document.getElementById('staffSearchInput').value = prevSearch;
+                    renderStaffHeaders();
+                    renderStaffRows();
+                }
             } else {
                 title.textContent = 'Attendance Register & Summary — Print Preview';
                 const profClone = document.querySelector('.profile-card').outerHTML;
@@ -3063,6 +3835,7 @@
         function executePrintFromPreview() {
             closePrintPreview();
             if (currentActiveTab === 'opd') printOpdCurrentMonth();
+            else if (currentActiveTab === 'staff') triggerStaffPrint();
             else triggerPrint();
         }
 
@@ -3680,48 +4453,953 @@
             }, 250);
         }
 
-        // ================= INITIALIZATION =================
+
+        // ================= APP 4: STAFF ATTENDANCE & LEAVE REGISTER ENGINE =================
+        const DEFAULT_STAFF_TITLE = "कार्यालय चिकित्सा अधिकारी प्रभारी, प्राथमिक स्वास्थ्य केंद्र शेषा, खंड मलारना डूंगर, सवाई माधोपुर";
+        let staffGlobalData = {
+            staffList: [],
+            ghDates: [],
+            cellData: {},
+            mainTitle: DEFAULT_STAFF_TITLE,
+            isMonthWise: false
+        };
+
+        let staffCurrentViewMonth = new Date();
+        staffCurrentViewMonth.setDate(1);
+        staffCurrentViewMonth.setHours(0, 0, 0, 0);
+        if (new Date().getDate() >= 21) {
+            staffCurrentViewMonth.setMonth(staffCurrentViewMonth.getMonth() + 1);
+        }
+
+        let staffIsMonthWise = false;
+        let staffCycleDates = [];
+        let staffIsTodayMode = false;
+        let staffCurrentSingleViewIndex = -1;
+        let activeStaffQuickCell = null; // { staffId, dStr, staffName }
+
+        const hindiMonths = ['जनवरी', 'फरवरी', 'मार्च', 'अप्रैल', 'मई', 'जून', 'जुलाई', 'अगस्त', 'सितम्बर', 'अक्टूबर', 'नवम्बर', 'दिसम्बर'];
+        const hindiDays = ['रविवार', 'सोमवार', 'मंगलवार', 'बुधवार', 'गुरुवार', 'शुक्रवार', 'शनिवार'];
+
+        function formatStaffDate(d) {
+            return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+        }
+
+        function getStaffCycleKey() {
+            const ym = `${staffCurrentViewMonth.getFullYear()}-${String(staffCurrentViewMonth.getMonth() + 1).padStart(2, '0')}`;
+            return staffIsMonthWise ? ym : `${ym}_21_20`;
+        }
+
+        function loadStaffDataFromStorage() {
+            const raw = safeGetItem(STAFF_STORAGE_KEY);
+            if (raw) {
+                try {
+                    const parsed = JSON.parse(raw);
+                    staffGlobalData = {
+                        staffList: Array.isArray(parsed.staffList) ? parsed.staffList : [],
+                        ghDates: Array.isArray(parsed.ghDates) ? parsed.ghDates : [],
+                        cellData: (parsed.cellData && typeof parsed.cellData === 'object') ? parsed.cellData : {},
+                        mainTitle: parsed.mainTitle || DEFAULT_STAFF_TITLE,
+                        isMonthWise: !!parsed.isMonthWise
+                    };
+                    staffIsMonthWise = !!staffGlobalData.isMonthWise;
+                } catch (e) {}
+            }
+        }
+
+        function saveStaffData() {
+            staffGlobalData.isMonthWise = staffIsMonthWise;
+            safeSetItem(STAFF_STORAGE_KEY, JSON.stringify(staffGlobalData));
+            syncToFirebase(false);
+        }
+
+        // Two-way synchronization between Settings Holidays (appData.holidays) and Staff GH Dates (staffGlobalData.ghDates)
+        function syncHolidaysBetweenSettingsAndStaff(persistChanges = false) {
+            if (!appData.holidays) appData.holidays = {};
+            if (!Array.isArray(staffGlobalData.ghDates)) staffGlobalData.ghDates = [];
+            let changed = false;
+
+            // 1. Every holiday in Settings (appData.holidays) must be in staffGlobalData.ghDates
+            Object.keys(appData.holidays).forEach(dStr => {
+                if (!staffGlobalData.ghDates.includes(dStr)) {
+                    staffGlobalData.ghDates.push(dStr);
+                    changed = true;
+                }
+            });
+
+            // 2. Every date in staffGlobalData.ghDates must exist in appData.holidays
+            staffGlobalData.ghDates.forEach(dStr => {
+                if (!appData.holidays[dStr]) {
+                    appData.holidays[dStr] = 'राजपत्रित अवकाश (GH)';
+                    changed = true;
+                }
+                // Auto-mark GH for GH-pattern staff if not marked yet
+                staffGlobalData.staffList.forEach(staff => {
+                    if (staff.type === 'GH' && !staffGlobalData.cellData[`${staff.id}_${dStr}`]) {
+                        staffGlobalData.cellData[`${staff.id}_${dStr}`] = 'GH';
+                        changed = true;
+                    }
+                });
+            });
+
+            staffGlobalData.ghDates.sort();
+
+            if (changed || persistChanges) {
+                safeSetItem('sarkari_dashboard_data', JSON.stringify(appData));
+                safeSetItem(STAFF_STORAGE_KEY, JSON.stringify(staffGlobalData));
+                if (persistChanges) syncToFirebase(false);
+            }
+        }
+
+        function saveStaffTitle(newText) {
+            staffGlobalData.mainTitle = (newText || '').trim() || DEFAULT_STAFF_TITLE;
+            const settingsInput = document.getElementById('input-staff-title');
+            if (settingsInput && document.activeElement !== settingsInput) {
+                settingsInput.value = staffGlobalData.mainTitle;
+            }
+            saveStaffData();
+        }
+
+        function onSettingsStaffTitleInput(val) {
+            staffGlobalData.mainTitle = (val || '').trim() || DEFAULT_STAFF_TITLE;
+            const titleEl = document.getElementById('staffMainTitleColspan');
+            if (titleEl) titleEl.innerText = staffGlobalData.mainTitle;
+            saveStaffData();
+        }
+
+        function initStaffApp() {
+            const titleEl = document.getElementById('staffMainTitleColspan');
+            if (titleEl && document.activeElement !== titleEl) {
+                titleEl.innerText = staffGlobalData.mainTitle || DEFAULT_STAFF_TITLE;
+            }
+            const settingsInput = document.getElementById('input-staff-title');
+            if (settingsInput && document.activeElement !== settingsInput) {
+                settingsInput.value = staffGlobalData.mainTitle || DEFAULT_STAFF_TITLE;
+            }
+            const modeBadge = document.getElementById('staffModeBadge');
+            if (modeBadge) {
+                modeBadge.textContent = staffIsMonthWise ? 'Month 1-31' : 'Cycle 21-20';
+            }
+            generateStaffCycleDates();
+            updateStaffCycleLabel();
+            renderStaffHeaders();
+            renderStaffRows();
+        }
+
+        function toggleStaffCycleMode() {
+            staffIsMonthWise = !staffIsMonthWise;
+            staffIsTodayMode = false;
+            updateStaffTodayButtonUI();
+            saveStaffData();
+            initStaffApp();
+            showToast(staffIsMonthWise ? 'Switched to Month Mode (1-31)' : 'Switched to Cycle Mode (21-20)');
+        }
+
+        function changeStaffCycle(offset) {
+            staffCurrentViewMonth.setMonth(staffCurrentViewMonth.getMonth() + offset);
+            staffIsTodayMode = false;
+            updateStaffTodayButtonUI();
+            initStaffApp();
+        }
+
+        function jumpToCurrentStaffCycle() {
+            staffCurrentViewMonth = new Date();
+            staffCurrentViewMonth.setDate(1);
+            staffCurrentViewMonth.setHours(0, 0, 0, 0);
+            if (!staffIsMonthWise && new Date().getDate() >= 21) {
+                staffCurrentViewMonth.setMonth(staffCurrentViewMonth.getMonth() + 1);
+            }
+            staffIsTodayMode = false;
+            updateStaffTodayButtonUI();
+            initStaffApp();
+            showToast('Jumped to Current Cycle');
+        }
+
+        function generateStaffCycleDates() {
+            staffCycleDates = [];
+            if (!staffIsMonthWise) {
+                let startD = new Date(staffCurrentViewMonth.getFullYear(), staffCurrentViewMonth.getMonth() - 1, 21);
+                let endD = new Date(staffCurrentViewMonth.getFullYear(), staffCurrentViewMonth.getMonth(), 20);
+                let d = new Date(startD);
+                while (d <= endD) {
+                    staffCycleDates.push(new Date(d));
+                    d.setDate(d.getDate() + 1);
+                }
+            } else {
+                let startD = new Date(staffCurrentViewMonth.getFullYear(), staffCurrentViewMonth.getMonth(), 1);
+                let endD = new Date(staffCurrentViewMonth.getFullYear(), staffCurrentViewMonth.getMonth() + 1, 0);
+                let d = new Date(startD);
+                while (d <= endD) {
+                    staffCycleDates.push(new Date(d));
+                    d.setDate(d.getDate() + 1);
+                }
+            }
+        }
+
+        function updateStaffCycleLabel() {
+            if (staffCycleDates.length === 0) return;
+            let startD = staffCycleDates[0];
+            let endD = staffCycleDates[staffCycleDates.length - 1];
+
+            let startStr = `${startD.getDate()} ${startD.toLocaleDateString('en-GB', { month: 'short', year: 'numeric' })}`;
+            let endStr = `${endD.getDate()} ${endD.toLocaleDateString('en-GB', { month: 'short', year: 'numeric' })}`;
+            const disp = document.getElementById('staffCycleDisplay');
+            if (disp) disp.innerText = `${startStr} - ${endStr}`;
+
+            let cycleStrHindi = "";
+            if (staffIsMonthWise) {
+                cycleStrHindi = `${hindiMonths[startD.getMonth()]} ${startD.getFullYear()}`;
+            } else {
+                let startMonthStr = hindiMonths[startD.getMonth()];
+                let endMonthStr = hindiMonths[endD.getMonth()];
+                cycleStrHindi = `21 ${startMonthStr} ${startD.getFullYear()} से 20 ${endMonthStr} ${endD.getFullYear()}`;
+            }
+            const periodTitle = document.getElementById('staffAttendancePeriodTitle');
+            if (periodTitle) periodTitle.innerText = `उपस्थिति अवधि (${cycleStrHindi})`;
+        }
+
+        function renderStaffHeaders() {
+            let tr = document.getElementById('staffDatesRow');
+            if (!tr) return;
+            tr.innerHTML = '';
+
+            staffCycleDates.forEach((d, index) => {
+                let th = document.createElement('th');
+                th.className = `staff-date-col staff-date-idx-${index}`;
+
+                let dStr = formatStaffDate(d);
+                const isGh = staffGlobalData.ghDates.includes(dStr) || !!appData.holidays[dStr];
+                if (d.getDay() === 0) th.classList.add('staff-is-sunday');
+                if (isGh) {
+                    th.classList.add('staff-is-gh-date');
+                    th.title = appData.holidays[dStr] ? `GH: ${appData.holidays[dStr]}` : 'Gazetted Holiday (GH)';
+                }
+
+                if (staffIsTodayMode && index === staffCurrentSingleViewIndex) {
+                    th.style.minWidth = "86px";
+                    th.innerHTML = `
+                        <div style="display:flex; justify-content:space-between; align-items:center; width:100%; gap:4px;">
+                            <span onclick="shiftStaffDay(event, -1)" style="cursor:pointer; font-size:13px; color:var(--primary); padding:0 4px;">◀</span>
+                            <span style="font-size:13px; font-weight:700;">${d.getDate()} ${engMonths[d.getMonth()]}</span>
+                            <span onclick="shiftStaffDay(event, 1)" style="cursor:pointer; font-size:13px; color:var(--primary); padding:0 4px;">▶</span>
+                        </div>
+                    `;
+                } else {
+                    th.innerText = d.getDate();
+                }
+                tr.appendChild(th);
+            });
+
+            tr.insertAdjacentHTML('beforeend', `
+                <th class="staff-calc-col">CL</th><th class="staff-calc-col">ML</th>
+                <th class="staff-calc-col">CL</th><th class="staff-calc-col">ML</th>
+                <th class="staff-calc-col">CL</th><th class="staff-calc-col">ML</th>
+            `);
+            adjustStaffColspans();
+        }
+
+        function renderStaffRows() {
+            let tbody = document.getElementById('staffBody');
+            if (!tbody) return;
+            tbody.innerHTML = '';
+            let cycleKey = getStaffCycleKey();
+            const searchQ = (document.getElementById('staffSearchInput')?.value || '').trim().toLowerCase();
+
+            let visibleCount = 0;
+            staffGlobalData.staffList.forEach((staff) => {
+                if (searchQ) {
+                    const hay = `${staff.name || ''} ${staff.post || ''} ${staff.place || ''} ${staff.type || ''}`.toLowerCase();
+                    if (!hay.includes(searchQ)) return;
+                }
+                visibleCount++;
+                let tr = document.createElement('tr');
+                tr.dataset.type = staff.type;
+                tr.dataset.staffId = staff.id;
+
+                tr.innerHTML = `
+                    <td class="staff-readonly">${staff.name}<span class="staff-type-pill staff-type-${staff.type}">${staff.type}</span></td>
+                    <td class="staff-readonly staff-col-post">${staff.post || ''}</td>
+                    <td class="staff-readonly staff-col-place">${staff.place || ''}</td>
+                `;
+
+                staffCycleDates.forEach((d, index) => {
+                    let dStr = formatStaffDate(d);
+                    let cellVal = staffGlobalData.cellData[`${staff.id}_${dStr}`] || '';
+                    const isGh = staffGlobalData.ghDates.includes(dStr) || !!appData.holidays[dStr];
+
+                    let td = document.createElement('td');
+                    td.className = `staff-att-cell staff-date-col staff-date-idx-${index}`;
+
+                    if (d.getDay() === 0) td.classList.add('staff-is-sunday');
+                    if (isGh && staff.type === 'GH') {
+                        td.classList.add('staff-is-gh-date');
+                    }
+                    if (isGh && appData.holidays[dStr]) {
+                        td.title = `${dStr}: ${appData.holidays[dStr]}`;
+                    }
+
+                    td.dataset.date = dStr;
+                    td.dataset.isSun = (d.getDay() === 0);
+                    td.dataset.isGh = isGh;
+
+                    td.innerText = cellVal;
+                    if (cellVal !== '') {
+                        let safeClass = cellVal === 'D/O' ? 'DO' : cellVal;
+                        td.classList.add('staff-status-' + safeClass);
+                    }
+
+                    // Single click cycles status; long-press or right-click opens direct status picker
+                    let pressTimer = null;
+                    let isLongPress = false;
+                    const startPress = () => {
+                        isLongPress = false;
+                        pressTimer = setTimeout(() => {
+                            isLongPress = true;
+                            openStaffCellPicker(staff, dStr, td, tr);
+                        }, 420);
+                    };
+                    const cancelPress = () => clearTimeout(pressTimer);
+
+                    td.addEventListener('touchstart', startPress, { passive: true });
+                    td.addEventListener('touchend', cancelPress);
+                    td.addEventListener('touchmove', cancelPress, { passive: true });
+                    td.addEventListener('mousedown', startPress);
+                    td.addEventListener('mouseup', cancelPress);
+                    td.addEventListener('mouseleave', cancelPress);
+                    td.addEventListener('contextmenu', function(e) {
+                        e.preventDefault();
+                        clearTimeout(pressTimer);
+                        openStaffCellPicker(staff, dStr, td, tr);
+                    });
+
+                    td.addEventListener('click', function(e) {
+                        if (isLongPress) {
+                            e.preventDefault();
+                            return;
+                        }
+                        handleStaffCellClick(this, tr, staff.id, dStr);
+                    });
+                    tr.appendChild(td);
+                });
+
+                let uptoCL = staffGlobalData.cellData[`${staff.id}_${cycleKey}_uptocl`] || '';
+                let uptoML = staffGlobalData.cellData[`${staff.id}_${cycleKey}_uptoml`] || '';
+
+                tr.insertAdjacentHTML('beforeend', `
+                    <td class="staff-editable staff-calc-col upto-cl" contenteditable="true" oninput="saveStaffManualCount(this, '${staff.id}', 'uptocl')">${uptoCL}</td>
+                    <td class="staff-editable staff-calc-col upto-ml" contenteditable="true" oninput="saveStaffManualCount(this, '${staff.id}', 'uptoml')">${uptoML}</td>
+                    <td class="staff-calc-val staff-calc-col curr-cl"></td>
+                    <td class="staff-calc-val staff-calc-col curr-ml"></td>
+                    <td class="staff-calc-val staff-calc-col total-cl"></td>
+                    <td class="staff-calc-val staff-calc-col total-ml"></td>
+                `);
+                tbody.appendChild(tr);
+                calculateStaffRow(tr);
+            });
+
+            if (visibleCount === 0) {
+                const emptyTr = document.createElement('tr');
+                emptyTr.className = 'staff-empty-row staff-no-print';
+                const totalCols = (staffIsTodayMode ? 1 : 3) + (staffIsTodayMode ? 1 : staffCycleDates.length) + (staffIsTodayMode ? 0 : 6);
+                emptyTr.innerHTML = `<td colspan="${totalCols}">कोई कर्मचारी मौजूद नहीं है। नया कर्मचारी जोड़ने के लिए <b>➕ Add</b> बटन पर क्लिक करें।</td>`;
+                tbody.appendChild(emptyTr);
+            }
+
+            if (staffIsTodayMode) applyStaffTodayModeUI();
+            updateStaffSummaryKPIs();
+        }
+
+        function handleStaffCellClick(cell, row, staffId, dStr) {
+            let staffType = row.dataset.type;
+            let currentVal = cell.innerText.trim();
+            let cycle = (staffType === 'GH')
+                ? ['', 'P', 'CL', 'GH', 'ML', 'CCL', 'PL']
+                : ['', 'P', 'D/O', 'CL', 'ML', 'CCL', 'PL'];
+
+            let currentIndex = cycle.indexOf(currentVal);
+            if (currentIndex === -1) currentIndex = 0;
+            let nextVal = cycle[(currentIndex + 1) % cycle.length];
+
+            applyStaffCellValue(cell, row, staffId, dStr, nextVal);
+        }
+
+        function applyStaffCellValue(cell, row, staffId, dStr, nextVal) {
+            cell.innerText = nextVal;
+            cell.className = cell.className.replace(/staff-status-\w+/g, '').trim();
+
+            if (nextVal !== '') {
+                let safeClass = nextVal === 'D/O' ? 'DO' : nextVal;
+                cell.classList.add('staff-status-' + safeClass);
+                staffGlobalData.cellData[`${staffId}_${dStr}`] = nextVal;
+            } else {
+                delete staffGlobalData.cellData[`${staffId}_${dStr}`];
+            }
+
+            saveStaffData();
+            calculateStaffRow(row);
+            updateStaffSummaryKPIs();
+        }
+
+        function openStaffCellPicker(staff, dStr, cell, row) {
+            activeStaffQuickCell = { staffId: staff.id, dStr, cell, row };
+            document.getElementById('staff-cell-picker-title').textContent = `${staff.name} (${staff.type})`;
+            document.getElementById('staff-cell-picker-sub').textContent = `Date: ${dStr}${appData.holidays[dStr] ? ' • GH: ' + appData.holidays[dStr] : ''}`;
+            document.getElementById('staff-cell-picker-modal').classList.add('active');
+        }
+
+        function closeStaffCellPicker() {
+            document.getElementById('staff-cell-picker-modal').classList.remove('active');
+            activeStaffQuickCell = null;
+        }
+
+        function applyStaffQuickStatus(st) {
+            if (!activeStaffQuickCell) return;
+            const { staffId, dStr, cell, row } = activeStaffQuickCell;
+            applyStaffCellValue(cell, row, staffId, dStr, st);
+            closeStaffCellPicker();
+        }
+
+        function saveStaffManualCount(element, staffId, field) {
+            let cycleKey = getStaffCycleKey();
+            staffGlobalData.cellData[`${staffId}_${cycleKey}_${field}`] = element.innerText.trim();
+            saveStaffData();
+            calculateStaffRow(element.parentElement);
+            updateStaffSummaryKPIs();
+        }
+
+        function calculateStaffRow(row) {
+            let cells = row.querySelectorAll('.staff-att-cell');
+            let cCL = 0, cML = 0;
+
+            cells.forEach(c => {
+                if (c.innerText === 'CL') cCL++;
+                if (c.innerText === 'ML') cML++;
+            });
+
+            const currClEl = row.querySelector('.curr-cl');
+            const currMlEl = row.querySelector('.curr-ml');
+            const totClEl = row.querySelector('.total-cl');
+            const totMlEl = row.querySelector('.total-ml');
+            if (!currClEl) return;
+
+            currClEl.innerText = cCL || '-';
+            currMlEl.innerText = cML || '-';
+
+            let upCL = parseFloat(row.querySelector('.upto-cl')?.innerText) || 0;
+            let upML = parseFloat(row.querySelector('.upto-ml')?.innerText) || 0;
+
+            totClEl.innerText = (upCL + cCL) || '-';
+            totMlEl.innerText = (upML + cML) || '-';
+        }
+
+        function updateStaffSummaryKPIs() {
+            const totalStaff = staffGlobalData.staffList.length;
+            let ghStaffCount = 0, doStaffCount = 0;
+            staffGlobalData.staffList.forEach(s => {
+                if (s.type === 'GH') ghStaffCount++;
+                else doStaffCount++;
+            });
+
+            let cycleP = 0, cycleCL = 0, cycleML = 0, cycleOtherLeave = 0, todayP = 0;
+            const todayStr = formatStaffDate(new Date());
+            let cycleGhDatesCount = 0;
+
+            staffCycleDates.forEach(d => {
+                const dStr = formatStaffDate(d);
+                if (staffGlobalData.ghDates.includes(dStr) || appData.holidays[dStr]) {
+                    cycleGhDatesCount++;
+                }
+                staffGlobalData.staffList.forEach(s => {
+                    const v = staffGlobalData.cellData[`${s.id}_${dStr}`] || '';
+                    if (v === 'P') {
+                        cycleP++;
+                        if (dStr === todayStr) todayP++;
+                    } else if (v === 'CL') cycleCL++;
+                    else if (v === 'ML') cycleML++;
+                    else if (v === 'PL' || v === 'CCL') cycleOtherLeave++;
+                });
+            });
+
+            const totalLeaves = cycleCL + cycleML + cycleOtherLeave;
+
+            document.getElementById('mini-staff-total').textContent = totalStaff;
+            document.getElementById('mini-staff-p').textContent = cycleP;
+            document.getElementById('mini-staff-leave').textContent = totalLeaves;
+            document.getElementById('mini-staff-gh').textContent = cycleGhDatesCount;
+
+            document.getElementById('staffKpiTotal').textContent = totalStaff;
+            document.getElementById('staffKpiSplit').textContent = `GH: ${ghStaffCount} | D/O: ${doStaffCount}`;
+            document.getElementById('staffKpiPresent').textContent = cycleP;
+            document.getElementById('staffKpiTodayP').textContent = `Today P: ${todayP}/${totalStaff}`;
+            document.getElementById('staffKpiLeaves').textContent = totalLeaves;
+            document.getElementById('staffKpiLeaveBreak').textContent = `CL: ${cycleCL} | ML: ${cycleML}`;
+            document.getElementById('staffKpiGH').textContent = cycleGhDatesCount;
+            document.getElementById('staffKpiGHSub').textContent = `${ Object.keys(appData.holidays || {}).length } Total in Settings`;
+        }
+
+        // Today Single-Day Mode in Staff Attendance
+        function updateStaffTodayButtonUI() {
+            const btn = document.getElementById('staffTodayBtn');
+            if (!btn) return;
+            if (staffIsTodayMode) {
+                btn.innerHTML = '📅 All Days';
+                btn.className = 'staff-btn staff-btn-success';
+            } else {
+                btn.innerHTML = '🕒 Today';
+                btn.className = 'staff-btn staff-btn-warning';
+            }
+        }
+
+        function toggleStaffTodayMode() {
+            staffIsTodayMode = !staffIsTodayMode;
+            if (staffIsTodayMode) {
+                let todayStr = formatStaffDate(new Date());
+                staffCurrentSingleViewIndex = staffCycleDates.findIndex(d => formatStaffDate(d) === todayStr);
+                if (staffCurrentSingleViewIndex === -1) staffCurrentSingleViewIndex = 0;
+            }
+            updateStaffTodayButtonUI();
+            renderStaffHeaders();
+            applyStaffTodayModeUI();
+        }
+
+        function shiftStaffDay(e, offset) {
+            e.stopPropagation();
+            let newIdx = staffCurrentSingleViewIndex + offset;
+            if (newIdx >= 0 && newIdx < staffCycleDates.length) {
+                staffCurrentSingleViewIndex = newIdx;
+                renderStaffHeaders();
+                applyStaffTodayModeUI();
+            }
+        }
+
+        function applyStaffTodayModeUI() {
+            let cols = document.querySelectorAll('#staffAttendanceTable .staff-date-col');
+            let calcCols = document.querySelectorAll('#staffAttendanceTable .staff-calc-col');
+            let postTh = document.getElementById('staffPostTh');
+            let placeTh = document.getElementById('staffPlaceTh');
+            let colPosts = document.querySelectorAll('#staffAttendanceTable .staff-col-post');
+            let colPlaces = document.querySelectorAll('#staffAttendanceTable .staff-col-place');
+
+            if (staffIsTodayMode) {
+                calcCols.forEach(col => col.style.display = 'none');
+                if (postTh) postTh.style.display = 'none';
+                if (placeTh) placeTh.style.display = 'none';
+                colPosts.forEach(c => c.style.display = 'none');
+                colPlaces.forEach(c => c.style.display = 'none');
+
+                cols.forEach(col => {
+                    let isMatch = col.classList.contains(`staff-date-idx-${staffCurrentSingleViewIndex}`);
+                    col.style.display = isMatch ? 'table-cell' : 'none';
+                });
+            } else {
+                calcCols.forEach(col => col.style.display = 'table-cell');
+                if (postTh) postTh.style.display = 'table-cell';
+                if (placeTh) placeTh.style.display = 'table-cell';
+                colPosts.forEach(c => c.style.display = 'table-cell');
+                colPlaces.forEach(c => c.style.display = 'table-cell');
+                cols.forEach(col => col.style.display = 'table-cell');
+            }
+            adjustStaffColspans();
+        }
+
+        function adjustStaffColspans() {
+            let mainTitleSpan = staffIsTodayMode ? 1 : 3;
+            let periodSpan = staffIsTodayMode ? 1 : staffCycleDates.length;
+            const periodEl = document.getElementById('staffAttendancePeriodTitle');
+            const mainTitleEl = document.getElementById('staffMainTitleColspan');
+            if (periodEl) periodEl.colSpan = periodSpan;
+            if (mainTitleEl) mainTitleEl.colSpan = mainTitleSpan + periodSpan;
+        }
+
+        // Staff Modals & CRUD
+        function openStaffModal() {
+            document.getElementById('staffModal').classList.add('active');
+        }
+
+        function openStaffModalFromManage() {
+            closeStaffModals();
+            openStaffModal();
+        }
+
+        function closeStaffModals() {
+            ['staffModal', 'manageStaffModal', 'staffCreateModal', 'staffGhModal'].forEach(id => {
+                document.getElementById(id)?.classList.remove('active');
+            });
+        }
+
+        function saveNewStaff() {
+            let n = document.getElementById('sName').value.trim();
+            let p = document.getElementById('sPost').value.trim();
+            let pl = document.getElementById('sPlace').value.trim() || 'शेषा';
+            let t = document.getElementById('sType').value;
+
+            if (!n) {
+                showToast('कृपया कर्मचारी का नाम दर्ज करें');
+                return;
+            }
+
+            let newStaff = { id: 'stf_' + Date.now(), name: n, post: p, place: pl, type: t };
+            // If GH staff, auto-apply GH on existing GH dates
+            if (t === 'GH') {
+                staffGlobalData.ghDates.forEach(dStr => {
+                    staffGlobalData.cellData[`${newStaff.id}_${dStr}`] = 'GH';
+                });
+            }
+            staffGlobalData.staffList.push(newStaff);
+            saveStaffData();
+
+            document.getElementById('sName').value = '';
+            document.getElementById('sPost').value = '';
+            closeStaffModals();
+            renderStaffRows();
+            showToast(`Added ${n}`);
+        }
+
+        function openManageStaffModal() {
+            renderManageStaffList();
+            document.getElementById('manageStaffModal').classList.add('active');
+        }
+
+        function renderManageStaffList() {
+            let cont = document.getElementById('manageStaffList');
+            if (!cont) return;
+            cont.innerHTML = '';
+            if (staffGlobalData.staffList.length === 0) {
+                cont.innerHTML = '<p style="color:var(--text-muted); font-size:12px; text-align:center; padding:16px;">कोई कर्मचारी मौजूद नहीं है।</p>';
+                return;
+            }
+
+            staffGlobalData.staffList.forEach((s, i) => {
+                const row = document.createElement('div');
+                row.className = 'staff-manage-row';
+                row.innerHTML = `
+                    <span style="font-weight:700; width:22px; font-size:11px;">${i + 1}.</span>
+                    <input type="text" value="${(s.name || '').replace(/"/g, '&quot;')}" onchange="updateStaffInfo(${i}, 'name', this.value)" style="flex:1.5; min-width:110px;" placeholder="नाम">
+                    <input type="text" value="${(s.post || '').replace(/"/g, '&quot;')}" onchange="updateStaffInfo(${i}, 'post', this.value)" style="flex:1; min-width:85px;" placeholder="पद">
+                    <input type="text" value="${(s.place || '').replace(/"/g, '&quot;')}" onchange="updateStaffInfo(${i}, 'place', this.value)" style="flex:0.8; min-width:70px;" placeholder="स्थान">
+                    <select onchange="updateStaffInfo(${i}, 'type', this.value)" style="width:70px;">
+                        <option value="GH" ${s.type === 'GH' ? 'selected' : ''}>GH</option>
+                        <option value="DO" ${s.type === 'DO' ? 'selected' : ''}>D/O</option>
+                    </select>
+                    <button type="button" class="staff-btn staff-btn-outline" onclick="moveStaffOrder(${i}, -1)" title="Move Up">▲</button>
+                    <button type="button" class="staff-btn staff-btn-outline" onclick="moveStaffOrder(${i}, 1)" title="Move Down">▼</button>
+                    <button type="button" class="staff-btn staff-btn-danger" onclick="deleteStaffMember(${i})" title="Delete">✕</button>
+                `;
+                cont.appendChild(row);
+            });
+        }
+
+        function updateStaffInfo(index, field, val) {
+            if (!staffGlobalData.staffList[index]) return;
+            staffGlobalData.staffList[index][field] = val;
+            if (field === 'type' && val === 'GH') {
+                const stf = staffGlobalData.staffList[index];
+                staffGlobalData.ghDates.forEach(dStr => {
+                    if (!staffGlobalData.cellData[`${stf.id}_${dStr}`]) {
+                        staffGlobalData.cellData[`${stf.id}_${dStr}`] = 'GH';
+                    }
+                });
+            }
+            saveStaffData();
+            renderStaffRows();
+        }
+
+        function moveStaffOrder(index, direction) {
+            if (index + direction < 0 || index + direction >= staffGlobalData.staffList.length) return;
+            let temp = staffGlobalData.staffList[index];
+            staffGlobalData.staffList[index] = staffGlobalData.staffList[index + direction];
+            staffGlobalData.staffList[index + direction] = temp;
+            saveStaffData();
+            renderManageStaffList();
+            renderStaffRows();
+        }
+
+        function deleteStaffMember(index) {
+            const stf = staffGlobalData.staffList[index];
+            if (!stf) return;
+            showAppConfirm(
+                'Delete Staff Member',
+                `क्या आप सच में "${stf.name}" को सूची से हटाना चाहते हैं?`,
+                () => {
+                    staffGlobalData.staffList.splice(index, 1);
+                    saveStaffData();
+                    renderManageStaffList();
+                    renderStaffRows();
+                    showToast('Staff Removed');
+                }
+            );
+        }
+
+        // Staff GH Modal (Two-Way Synced with Settings)
+        function openStaffGHModal() {
+            let cont = document.getElementById('staffGhListContainer');
+            if (!cont) return;
+            cont.innerHTML = '';
+
+            staffCycleDates.forEach(d => {
+                let dStr = formatStaffDate(d);
+                let isSun = d.getDay() === 0;
+                let checked = (staffGlobalData.ghDates.includes(dStr) || !!appData.holidays[dStr]) ? 'checked' : '';
+                let holName = appData.holidays[dStr] || '';
+
+                const item = document.createElement('div');
+                item.className = 'staff-gh-item';
+                item.innerHTML = `
+                    <label>
+                        <input type="checkbox" class="staff-gh-chk" value="${dStr}" ${checked}>
+                        <span style="${isSun ? 'color:var(--opd-warning);' : ''}">${d.getDate()} ${hindiMonths[d.getMonth()]} (${hindiDays[d.getDay()]})</span>
+                    </label>
+                    <input type="text" class="staff-gh-name-input" data-date="${dStr}" value="${holName.replace(/"/g, '&quot;')}" placeholder="अवकाश का नाम (GH)">
+                `;
+                cont.appendChild(item);
+            });
+            document.getElementById('staffGhModal').classList.add('active');
+        }
+
+        function saveStaffGHDates() {
+            const checkboxes = document.querySelectorAll('#staffGhListContainer .staff-gh-chk');
+            const cycleDateStrings = staffCycleDates.map(d => formatStaffDate(d));
+            const selectedInCycle = new Set();
+
+            checkboxes.forEach(chk => {
+                const dStr = chk.value;
+                const nameInp = document.querySelector(`#staffGhListContainer .staff-gh-name-input[data-date="${dStr}"]`);
+                const customName = (nameInp?.value || '').trim();
+
+                if (chk.checked) {
+                    selectedInCycle.add(dStr);
+                    if (!staffGlobalData.ghDates.includes(dStr)) {
+                        staffGlobalData.ghDates.push(dStr);
+                    }
+                    appData.holidays[dStr] = customName || appData.holidays[dStr] || 'राजपत्रित अवकाश (GH)';
+                    // Auto-apply GH to GH Staff
+                    staffGlobalData.staffList.forEach(staff => {
+                        if (staff.type === 'GH') {
+                            staffGlobalData.cellData[`${staff.id}_${dStr}`] = 'GH';
+                        }
+                    });
+                } else {
+                    // Unchecked in this cycle -> remove from both Staff ghDates & Settings holidays
+                    staffGlobalData.ghDates = staffGlobalData.ghDates.filter(x => x !== dStr);
+                    delete appData.holidays[dStr];
+                    staffGlobalData.staffList.forEach(staff => {
+                        if (staff.type === 'GH' && staffGlobalData.cellData[`${staff.id}_${dStr}`] === 'GH') {
+                            delete staffGlobalData.cellData[`${staff.id}_${dStr}`];
+                        }
+                    });
+                }
+            });
+
+            staffGlobalData.ghDates.sort();
+            safeSetItem('sarkari_dashboard_data', JSON.stringify(appData));
+            saveStaffData();
+            closeStaffModals();
+            renderHolidayList();
+            renderCycle();
+            renderStaffHeaders();
+            renderStaffRows();
+            showToast('GH Holidays Applied & Synced with Settings!');
+        }
+
+        // Bulk Actions in Staff Attendance
+        function openStaffCreateModal() {
+            document.getElementById('staffCreateModal').classList.add('active');
+        }
+
+        function markAllStaffPresent() {
+            closeStaffModals();
+            showAppConfirm(
+                'Mark All Present (Full Cycle)',
+                'क्या आप सुनिश्चित हैं कि इस पूरे साइकिल के लिए सभी स्टाफ को Present (P) करना है? (GH स्टाफ को राजपत्रित अवकाश वाले दिन स्वतः GH लगेगा)',
+                () => {
+                    staffCycleDates.forEach(d => {
+                        let dStr = formatStaffDate(d);
+                        let isGhDate = staffGlobalData.ghDates.includes(dStr) || !!appData.holidays[dStr];
+                        staffGlobalData.staffList.forEach(staff => {
+                            if (staff.type === 'GH' && isGhDate) {
+                                staffGlobalData.cellData[`${staff.id}_${dStr}`] = 'GH';
+                            } else {
+                                staffGlobalData.cellData[`${staff.id}_${dStr}`] = 'P';
+                            }
+                        });
+                    });
+                    saveStaffData();
+                    renderStaffRows();
+                    showToast('Marked All Staff Present (P) for Cycle!');
+                }
+            );
+        }
+
+        function autoFillStaffTillToday() {
+            closeStaffModals();
+            const today = new Date();
+            today.setHours(23, 59, 59, 999);
+            let filled = 0;
+            staffCycleDates.forEach(d => {
+                if (d <= today) {
+                    let dStr = formatStaffDate(d);
+                    let isGhDate = staffGlobalData.ghDates.includes(dStr) || !!appData.holidays[dStr];
+                    staffGlobalData.staffList.forEach(staff => {
+                        const existing = staffGlobalData.cellData[`${staff.id}_${dStr}`];
+                        if (!existing) {
+                            if (staff.type === 'GH' && isGhDate) {
+                                staffGlobalData.cellData[`${staff.id}_${dStr}`] = 'GH';
+                            } else {
+                                staffGlobalData.cellData[`${staff.id}_${dStr}`] = 'P';
+                            }
+                            filled++;
+                        }
+                    });
+                }
+            });
+            saveStaffData();
+            renderStaffRows();
+            showToast(`Auto-filled ${filled} entries up to Today!`);
+        }
+
+        function markStaffTodayAllPresent() {
+            const todayStr = formatStaffDate(new Date());
+            const isGhDate = staffGlobalData.ghDates.includes(todayStr) || !!appData.holidays[todayStr];
+            if (staffGlobalData.staffList.length === 0) {
+                showToast('Add staff members first');
+                return;
+            }
+            staffGlobalData.staffList.forEach(staff => {
+                if (staff.type === 'GH' && isGhDate) {
+                    staffGlobalData.cellData[`${staff.id}_${todayStr}`] = 'GH';
+                } else {
+                    staffGlobalData.cellData[`${staff.id}_${todayStr}`] = 'P';
+                }
+            });
+            saveStaffData();
+            renderStaffRows();
+            showToast('Today marked Present (P) for all staff!');
+        }
+
+        function clearAllStaffCycle() {
+            closeStaffModals();
+            showAppConfirm(
+                'Clear Current Cycle Data',
+                'चेतावनी: क्या आप सच में इस साइकिल का सारा स्टाफ उपस्थिति डेटा खाली करना चाहते हैं?',
+                () => {
+                    staffCycleDates.forEach(d => {
+                        let dStr = formatStaffDate(d);
+                        staffGlobalData.staffList.forEach(staff => {
+                            delete staffGlobalData.cellData[`${staff.id}_${dStr}`];
+                        });
+                    });
+                    saveStaffData();
+                    renderStaffRows();
+                    showToast('Cleared current cycle staff attendance');
+                }
+            );
+        }
+
+        function triggerStaffPrint() {
+            // Set exact @page margin from staff attendence.html: A4 landscape; margin: 15mm 5mm 5mm 5mm;
+            let style = document.getElementById('dynamic-print-style');
+            if (!style) {
+                style = document.createElement('style');
+                style.id = 'dynamic-print-style';
+                document.head.appendChild(style);
+            }
+            style.innerHTML = `@page { size: A4 landscape; margin: 15mm 5mm 5mm 5mm; }`;
+
+            const wasTodayMode = staffIsTodayMode;
+            const prevSearch = document.getElementById('staffSearchInput')?.value || '';
+            if (wasTodayMode || prevSearch) {
+                staffIsTodayMode = false;
+                if (document.getElementById('staffSearchInput')) document.getElementById('staffSearchInput').value = '';
+                renderStaffHeaders();
+                renderStaffRows();
+            }
+
+            document.body.classList.add('print-staff');
+            setTimeout(() => {
+                window.print();
+                document.body.classList.remove('print-staff');
+                if (wasTodayMode || prevSearch) {
+                    staffIsTodayMode = wasTodayMode;
+                    if (document.getElementById('staffSearchInput')) document.getElementById('staffSearchInput').value = prevSearch;
+                    updateStaffTodayButtonUI();
+                    renderStaffHeaders();
+                    renderStaffRows();
+                }
+            }, 280);
+        }
+
+        // ================= INITIALIZATION & REAL-TIME LIVE SERVER SYNC =================
+        let appCoreStarted = false;
+
         window.onload = () => {
             let today = new Date();
             if (today.getDate() < 21) {
                 currentCycleDate.setMonth(currentCycleDate.getMonth() - 1);
             }
 
+            // Start immediately with local data so UI is instant, then bind real-time Firebase listener
+            startAppCore();
+
+            if (connectedRef) {
+                connectedRef.on('value', (snap) => {
+                    if (snap.val() === true) {
+                        const tStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                        updateSyncIndicator('', `Live ${tStr}`);
+                    } else {
+                        updateSyncIndicator('offline', 'Offline Mode');
+                    }
+                });
+            }
+
             if (publicDbRef) {
-                updateSyncIndicator('syncing', 'Syncing...');
-                publicDbRef.once('value').then((snapshot) => {
+                updateSyncIndicator('syncing', 'Connecting...');
+                publicDbRef.on('value', (snapshot) => {
                     if (snapshot.exists()) {
                         const data = snapshot.val();
-                        if (data.appData) safeSetItem('sarkari_dashboard_data', JSON.stringify(data.appData));
-                        if (data.opdData) safeSetItem('phc_shesha_opd_data', JSON.stringify(data.opdData));
-                        updateSyncIndicator('', 'Cloud Synced');
-                        showToast("Server Sync Complete!");
+                        // Ignore echo of our own very recent local write (< 2.5s) to avoid interrupting active typing
+                        if (data.clientId === SESSION_CLIENT_ID && (Date.now() - lastLocalWriteEpoch) < 2500) {
+                            const tStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                            updateSyncIndicator('', `Live ${tStr}`);
+                            return;
+                        }
+                        const hadLocalStaff = staffGlobalData.staffList.length > 0;
+                        applyCloudSnapshotData(data, false);
+                        // If server didn't have staffData yet but local storage did, push unified state up
+                        if (!data.staffData && hadLocalStaff) {
+                            syncToFirebase(false);
+                        }
                     } else {
                         syncToFirebase(false);
                     }
-                    startAppCore();
-                }).catch(() => {
+                }, () => {
                     updateSyncIndicator('offline', 'Offline Ready');
-                    startAppCore();
                 });
             } else {
                 updateSyncIndicator('offline', 'Local Ready');
-                startAppCore();
             }
         };
 
         function startAppCore() {
             loadSharedData();
+            loadStaffDataFromStorage();
+            syncHolidaysBetweenSettingsAndStaff(false);
+
             initAgeApp();
             initAttendance();
+            initStaffApp();
 
             const now = new Date();
             const yyyy = now.getFullYear();
             const mm = String(now.getMonth() + 1).padStart(2, '0');
-            document.getElementById('opdMonthPicker').value = `${yyyy}-${mm}`;
+            const opdPicker = document.getElementById('opdMonthPicker');
+            if (opdPicker && !opdPicker.value) {
+                opdPicker.value = `${yyyy}-${mm}`;
+            }
             generateOpdTable();
 
-            switchTab('present', document.querySelectorAll('.nav-item')[1], 'Attendance Pro', true);
+            if (!appCoreStarted) {
+                appCoreStarted = true;
+                switchTab('present', document.getElementById('nav-present'), 'Attendance Pro', true);
+            }
         }
     </script>
 </body>
