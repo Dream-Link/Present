@@ -599,6 +599,10 @@
             flex-shrink: 0;
         }
         @media (max-width: 640px) { .stats-grid { grid-template-columns: repeat(3, 1fr); } }
+      
+        body.print-att #tab-present { display: block !important; }
+body.print-staff #tab-staff { display: block !important; }
+body.print-opd #tab-opd { display: block !important; }
 
         .stat-card {
             background: var(--surface);
@@ -1659,9 +1663,9 @@
                 margin: 0;
             }
 
-            .app-bar, .bottom-nav, .controls-row, .summary-collapse-btn, .stats-header, .stats-grid, .att-insight-strip, .register-container, .toast, .modal-overlay, .no-print, #tab-age, #tab-settings {
-                display: none !important;
-            }
+            .app-bar, .bottom-nav, .controls-row, .summary-collapse-btn, .stats-header, .stats-grid, .att-insight-strip, .register-container, .toast, .modal-overlay, .no-print, #tab-age, #tab-settings, #tab-present, #tab-staff, #tab-opd {
+    display: none !important;
+}
 
             /* -- ATTENDANCE PRINT MODE (EXACT SARKARI REGISTER FORMAT) -- */
             body.print-att #tab-opd, body.print-att #printAllContainer { display: none !important; }
@@ -4237,24 +4241,28 @@
             return h;
         }
 
-        function triggerPrint() {
-            if (currentActiveTab === 'staff') {
-                triggerStaffPrint();
-                return;
-            }
-            if (currentActiveTab === 'opd') {
-                printOpdCurrentMonth();
-                return;
-            }
-            setPrintPageStyle('landscape');
-            document.body.classList.add('print-att');
-            const pv = document.getElementById('print-view');
-            pv.innerHTML = buildAttendancePrintHTML();
-            setTimeout(() => {
-                window.print();
-                document.body.classList.remove('print-att');
-            }, 300);
-        }
+       function triggerPrint() {
+    if (currentActiveTab === 'staff') {
+        triggerStaffPrint();
+        return;
+    }
+    if (currentActiveTab === 'opd') {
+        printOpdCurrentMonth();
+        return;
+    }
+    setPrintPageStyle('landscape');
+    
+    // पुरानी क्लास हटाएं और सिर्फ नई लगाएं
+    document.body.classList.remove('print-opd', 'print-staff');
+    document.body.classList.add('print-att');
+    
+    const pv = document.getElementById('print-view');
+    pv.innerHTML = buildAttendancePrintHTML();
+    setTimeout(() => {
+        window.print();
+        document.body.classList.remove('print-att');
+    }, 300);
+}
 
         // ================= PRINT PREVIEW MODAL =================
         function openPrintPreview() {
