@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Smart OPD &amp; Attendance Pro NEW</title>
+    <title>Smart PHC</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -1507,9 +1507,34 @@ body.print-opd #tab-opd { display: block !important; }
             background: var(--surface-subtle);
             outline: none;
         }
-        #staffAttendanceTable .staff-main-title:focus {
+       #staffAttendanceTable .staff-main-title:focus {
             background: var(--primary-light);
             box-shadow: inset 0 0 0 2px var(--primary);
+        }
+
+        /* Sticky Column for Staff Name (Left Scroll Fix) */
+        .staff-sticky-col {
+            position: sticky;
+            left: 0;
+            z-index: 5;
+            background-color: var(--surface) !important;
+            border-right: 1.5px solid var(--border) !important;
+            box-shadow: 3px 0px 6px rgba(0,0,0,0.06);
+        }
+        th.staff-sticky-col {
+            background-color: var(--surface-subtle) !important;
+            z-index: 6 !important;
+        }
+        [data-theme="dark"] .staff-sticky-col {
+            box-shadow: 3px 0px 6px rgba(0,0,0,0.4);
+        }
+        
+        @media print {
+            .staff-sticky-col {
+                position: static !important;
+                box-shadow: none !important;
+                border-right: 1px solid #000 !important;
+            }
         }
 
         /* Interactive Staff Attendance Cells */
@@ -2072,7 +2097,7 @@ body.print-opd #tab-opd { display: block !important; }
 
                         <!-- Row 2 -->
                         <tr>
-                            <th rowspan="2" style="width:140px;">कर्मचारी का नाम</th>
+                            <th rowspan="2" style="width:140px;" class="staff-sticky-col">कर्मचारी का नाम</th>
                             <th rowspan="2" id="staffPostTh" style="width:110px;">पद</th>
                             <th rowspan="2" id="staffPlaceTh" style="width:100px;">स्थान</th>
                             <th id="staffAttendancePeriodTitle" colspan="31">उपस्थिति अवधि</th>
@@ -5245,7 +5270,7 @@ body.print-opd #tab-opd { display: block !important; }
                 tr.dataset.staffId = staff.id;
 
                 tr.innerHTML = `
-                    <td class="staff-readonly">${staff.name}<span class="staff-type-pill staff-type-${staff.type}">${staff.type}</span></td>
+                    <td class="staff-readonly staff-sticky-col">${staff.name}<span class="staff-type-pill staff-type-${staff.type}">${staff.type}</span></td>
                     <td class="staff-readonly staff-col-post">${staff.post || ''}</td>
                     <td class="staff-readonly staff-col-place">${staff.place || ''}</td>
                 `;
