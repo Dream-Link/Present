@@ -603,6 +603,83 @@
         body.print-att #tab-present { display: block !important; }
 body.print-staff #tab-staff { display: block !important; }
 body.print-opd #tab-opd { display: block !important; }
+body.print-patra #tab-patra { display: block !important; }
+
+        /* Top-Right Triple Dot Menu */
+        .top-menu-wrap {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+        }
+        .top-dot-btn {
+            font-size: 18px;
+            font-weight: 800;
+            line-height: 1;
+            letter-spacing: -1px;
+        }
+        .top-dot-dropdown {
+            position: absolute;
+            top: calc(100% + 6px);
+            right: 0;
+            min-width: 225px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            box-shadow: 0 12px 28px rgba(15, 23, 42, 0.18);
+            padding: 6px;
+            z-index: 120;
+            display: none;
+            flex-direction: column;
+            gap: 2px;
+        }
+        .top-dot-dropdown.open {
+            display: flex;
+            animation: menuFadeIn 0.15s ease-out;
+        }
+        @keyframes menuFadeIn {
+            from { opacity: 0; transform: translateY(-6px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .top-menu-item {
+            width: 100%;
+            background: transparent;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 10px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            cursor: pointer;
+            text-align: left;
+            transition: background var(--transition), color var(--transition);
+        }
+        .top-menu-item:hover {
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+        .top-menu-item-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .top-menu-badge {
+            font-size: 10px;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 999px;
+            background: var(--surface-subtle);
+            border: 1px solid var(--border-light);
+            color: var(--text-muted);
+        }
+        .top-menu-divider {
+            height: 1px;
+            background: var(--border-light);
+            margin: 3px 4px;
+        }
 
         .stat-card {
             background: var(--surface);
@@ -800,17 +877,20 @@ body.print-opd #tab-opd { display: block !important; }
            ========================================== */
         .opd-dashboard-controls {
             background: var(--surface);
-            padding: 6px 8px;
+            padding: 5px 8px;
             border-radius: 8px;
             border: 1px solid var(--border-light);
             margin-bottom: 6px;
             display: flex;
-            flex-wrap: wrap;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            scrollbar-width: none;
             gap: 6px;
             align-items: center;
             justify-content: space-between;
             flex-shrink: 0;
         }
+        .opd-dashboard-controls::-webkit-scrollbar { display: none; }
         .opd-control-group { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
         .opd-dashboard-controls label { font-weight: 600; color: var(--text-muted); font-size: 11px; }
         .opd-dashboard-controls input[type="month"] {
@@ -882,48 +962,63 @@ body.print-opd #tab-opd { display: block !important; }
 
         .opd-quick-entry-bar {
             background: var(--surface);
-            border: 1px solid var(--border-light);
-            border-left: 3px solid var(--opd-success);
-            border-radius: 8px;
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--opd-success);
+            border-radius: 9px;
             padding: 6px 8px;
+            margin-top: 6px;
             display: flex;
-            flex-wrap: wrap;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            scrollbar-width: none;
             align-items: center;
             justify-content: space-between;
             gap: 6px;
             flex-shrink: 0;
+            position: sticky;
+            bottom: 0;
+            z-index: 10;
+            box-shadow: 0 -2px 10px rgba(15, 23, 42, 0.06);
         }
+        .opd-quick-entry-bar::-webkit-scrollbar { display: none; }
         .opd-quick-left {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 5px;
+            flex-shrink: 0;
         }
         .opd-quick-badge {
             background: var(--c-present);
             color: var(--t-present);
-            font-size: 10px;
-            font-weight: 700;
-            padding: 2px 7px;
+            font-size: 11px;
+            font-weight: 800;
+            padding: 3px 7px;
             border-radius: 5px;
+            white-space: nowrap;
         }
         .opd-quick-inputs {
             display: flex;
             align-items: center;
-            gap: 4px;
-            flex-wrap: wrap;
+            gap: 5px;
+            flex-wrap: nowrap;
+            flex-shrink: 0;
         }
         .opd-quick-input {
-            width: 84px;
-            height: 28px;
+            width: 92px;
+            height: 30px;
             border: 1px solid var(--border);
             border-radius: 6px;
             background: var(--surface-subtle);
             color: var(--text-main);
             text-align: center;
             font-size: 12px;
-            font-weight: 600;
+            font-weight: 700;
             font-family: 'JetBrains Mono', monospace;
             outline: none;
+        }
+        .opd-quick-input:focus {
+            border-color: var(--primary);
+            background: var(--primary-light);
         }
 
         .opd-print-container {
@@ -991,14 +1086,14 @@ body.print-opd #tab-opd { display: block !important; }
             background: var(--primary-light);
         }
         .opd-readonly-input {
-            background-color: var(--opd-readonly-bg);
-            color: var(--text-muted);
-            cursor: not-allowed;
+            background-color: transparent;
+            color: var(--text-main);
+            cursor: default;
             pointer-events: none;
         }
         .opd-count-editable {
-            background-color: var(--surface-subtle);
-            color: var(--primary);
+            background-color: transparent;
+            color: var(--text-main);
             font-weight: 700;
         }
         .opd-input-error {
@@ -1424,19 +1519,50 @@ body.print-opd #tab-opd { display: block !important; }
             gap: 5px;
             flex-shrink: 0;
         }
+        .staff-detail-summary-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 11px;
+            background: var(--surface);
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        .staff-detail-summary-table th,
+        .staff-detail-summary-table td {
+            border: 1px solid var(--border-light);
+            padding: 5px 6px;
+            text-align: center;
+            white-space: nowrap;
+        }
+        .staff-detail-summary-table th {
+            background: var(--surface-subtle);
+            color: var(--text-secondary);
+            font-weight: 700;
+            font-size: 10px;
+            text-transform: uppercase;
+        }
+        .staff-detail-summary-table td:first-child,
+        .staff-detail-summary-table th:first-child {
+            text-align: left;
+        }
         @media (max-width: 640px) {
-            .staff-kpi-grid { grid-template-columns: repeat(2, 1fr); }
-            .staff-controls-card { flex-direction: column; align-items: stretch; }
-            .staff-date-nav-group { width: 100%; justify-content: space-between; }
-            .staff-date-capsule { flex: 1; display: flex; }
-            .staff-cycle-label { flex: 1; }
-            .staff-actions-group {
-                display: grid;
-                grid-template-columns: repeat(3, 1fr);
+            .staff-controls-card {
+                flex-direction: row;
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                scrollbar-width: none;
                 gap: 5px;
-                width: 100%;
+                padding: 5px 6px;
             }
-            .staff-btn { width: 100%; padding: 0 4px; font-size: 11px; }
+            .staff-controls-card::-webkit-scrollbar { display: none; }
+            .staff-date-nav-group { flex-shrink: 0; gap: 4px; }
+            .staff-actions-group {
+                display: flex;
+                flex-wrap: nowrap;
+                gap: 4px;
+                flex-shrink: 0;
+            }
+            .staff-btn { width: auto; padding: 0 8px; font-size: 11px; flex-shrink: 0; }
         }
 
         .staff-filter-bar {
@@ -1688,7 +1814,7 @@ body.print-opd #tab-opd { display: block !important; }
                 margin: 0;
             }
 
-            .app-bar, .bottom-nav, .controls-row, .summary-collapse-btn, .stats-header, .stats-grid, .att-insight-strip, .register-container, .toast, .modal-overlay, .no-print, #tab-age, #tab-settings, #tab-present, #tab-staff, #tab-opd {
+            .app-bar, .bottom-nav, .controls-row, .summary-collapse-btn, .stats-header, .stats-grid, .att-insight-strip, .register-container, .toast, .modal-overlay, .no-print, #tab-age, #tab-settings, #tab-present, #tab-staff, #tab-opd, #tab-patra {
     display: none !important;
 }
 
@@ -1845,7 +1971,444 @@ body.print-opd #tab-opd { display: block !important; }
                 -webkit-print-color-adjust: exact;
                 print-color-adjust: exact;
             }
+
+            /* -- PATRA REGISTER PRINT MODE -- */
+            body.print-patra #tab-present,
+            body.print-patra #tab-staff,
+            body.print-patra #tab-opd,
+            body.print-patra #printAllContainer,
+            body.print-patra .patra-no-print {
+                display: none !important;
+            }
+            body.print-patra #tab-patra {
+                display: block !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+            body.print-patra #patra-print-view {
+                display: block !important;
+                width: 100% !important;
+            }
         }
+
+        /* ==========================================
+           TAB 5: PATRA REGISTER (SMART DISPATCH TRACKER) STYLES
+           ========================================== */
+        #tab-patra {
+            font-family: 'Inter', 'Noto Sans Devanagari', sans-serif;
+            position: relative;
+        }
+        .patra-header-card {
+            background: var(--surface);
+            border: 1px solid var(--border-light);
+            border-radius: 10px;
+            padding: 8px 10px;
+            margin-bottom: 6px;
+            flex-shrink: 0;
+            box-shadow: var(--shadow-xs);
+        }
+        .patra-top-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .patra-brand-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-width: 0;
+        }
+        .patra-brand-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 9px;
+            background: linear-gradient(135deg, #1e293b, #334155);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            flex-shrink: 0;
+        }
+        .patra-title-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+        .patra-title-row h2 {
+            font-size: 14px;
+            font-weight: 800;
+            color: var(--text-main);
+            margin: 0;
+        }
+        .patra-saved-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 2px 7px;
+            border-radius: 999px;
+            font-size: 10px;
+            font-weight: 700;
+            background: var(--c-present);
+            color: var(--t-present);
+            border: 1px solid var(--b-present);
+            transition: transform 0.15s ease;
+        }
+        .patra-saved-pill.pulse {
+            transform: scale(1.06);
+        }
+        .patra-sub-stats {
+            font-size: 11px;
+            color: var(--text-muted);
+            font-weight: 600;
+            margin-top: 1px;
+        }
+        .patra-top-actions {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+        .patra-btn {
+            height: 30px;
+            padding: 0 10px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            border: 1px solid var(--border-light);
+            background: var(--surface-subtle);
+            color: var(--text-main);
+            transition: all var(--transition);
+            white-space: nowrap;
+        }
+        .patra-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: var(--primary-light);
+        }
+        .patra-btn:active { transform: scale(0.96); }
+        .patra-btn-primary {
+            background: var(--primary);
+            color: #fff;
+            border-color: transparent;
+        }
+        .patra-btn-primary:hover {
+            background: var(--primary-dark);
+            color: #fff;
+        }
+        .patra-search-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 7px;
+        }
+        .patra-search-wrap {
+            position: relative;
+            flex: 1;
+            min-width: 0;
+        }
+        .patra-search-input {
+            width: 100%;
+            height: 32px;
+            padding: 0 28px 0 28px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--surface-subtle);
+            color: var(--text-main);
+            font-size: 12px;
+            font-weight: 500;
+            outline: none;
+        }
+        .patra-search-input:focus {
+            border-color: var(--primary);
+            background: var(--surface);
+        }
+        .patra-search-icon {
+            position: absolute;
+            left: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 12px;
+            color: var(--text-muted);
+            pointer-events: none;
+        }
+        .patra-search-clear {
+            position: absolute;
+            right: 6px;
+            top: 50%;
+            transform: translateY(-50%);
+            border: none;
+            background: transparent;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 13px;
+            padding: 2px 4px;
+            display: none;
+        }
+        .patra-sort-select {
+            height: 32px;
+            padding: 0 8px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--surface-subtle);
+            color: var(--text-main);
+            font-size: 11px;
+            font-weight: 700;
+            outline: none;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+        .patra-tabs-bar {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            overflow-x: auto;
+            padding-top: 7px;
+            margin-top: 7px;
+            border-top: 1px solid var(--border-light);
+            scrollbar-width: none;
+        }
+        .patra-tabs-bar::-webkit-scrollbar { display: none; }
+        .patra-tab-chip {
+            flex-shrink: 0;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 700;
+            border: 1px solid var(--border-light);
+            background: var(--surface-subtle);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all var(--transition);
+        }
+        .patra-tab-chip.active {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+        }
+        .patra-tab-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+        }
+        .patra-tab-count {
+            font-size: 10px;
+            padding: 1px 5px;
+            border-radius: 5px;
+            background: rgba(15, 23, 42, 0.08);
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .patra-tab-chip.active .patra-tab-count {
+            background: rgba(255, 255, 255, 0.22);
+            color: #fff;
+        }
+        .patra-status-strip {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 2px 4px 6px;
+            font-size: 11px;
+            color: var(--text-muted);
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+        .patra-list-wrap {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+            padding-bottom: 68px;
+        }
+        .patra-card {
+            background: var(--surface);
+            border: 1px solid var(--border-light);
+            border-radius: 11px;
+            padding: 10px 12px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            box-shadow: var(--shadow-xs);
+            transition: border-color var(--transition), box-shadow var(--transition);
+        }
+        .patra-card:hover {
+            border-color: var(--primary);
+        }
+        .patra-kramank-badge {
+            min-width: 58px;
+            border-radius: 10px;
+            background: linear-gradient(145deg, #0f172a, #1e293b);
+            color: #fff;
+            padding: 7px 6px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            text-align: center;
+            border: 1px solid #334155;
+        }
+        [data-theme="dark"] .patra-kramank-badge {
+            background: linear-gradient(145deg, #1e293b, #334155);
+            border-color: #475569;
+        }
+        .patra-kramank-lbl {
+            font-size: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            color: #94a3b8;
+            font-weight: 700;
+        }
+        .patra-kramank-num {
+            font-size: 15px;
+            font-weight: 800;
+            font-family: 'JetBrains Mono', monospace;
+            line-height: 1.2;
+            margin-top: 2px;
+        }
+        .patra-card-body {
+            flex: 1;
+            min-width: 0;
+        }
+        .patra-card-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 6px;
+        }
+        .patra-meta-badges {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+        .patra-cat-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 2px 7px;
+            border-radius: 6px;
+            font-size: 10px;
+            font-weight: 700;
+            border: 1px solid var(--border-light);
+            background: var(--surface-subtle);
+            color: var(--text-secondary);
+        }
+        .patra-date-lbl {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-muted);
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .patra-office-place-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-top: 5px;
+        }
+        .patra-office-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-main);
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .patra-place-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+            padding: 2px 8px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 700;
+            background: var(--primary-light);
+            color: var(--primary);
+            border: 1px solid rgba(37, 99, 235, 0.22);
+        }
+        .patra-details-text {
+            margin-top: 5px;
+            font-size: 12px;
+            color: var(--text-secondary);
+            line-height: 1.45;
+            word-break: break-word;
+        }
+        .patra-card-actions {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            flex-shrink: 0;
+        }
+        .patra-icon-btn {
+            width: 26px;
+            height: 26px;
+            border-radius: 7px;
+            border: 1px solid transparent;
+            background: transparent;
+            color: var(--text-muted);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            transition: all var(--transition);
+        }
+        .patra-icon-btn:hover {
+            background: var(--surface-subtle);
+            border-color: var(--border-light);
+            color: var(--primary);
+        }
+        .patra-icon-btn.del:hover {
+            background: var(--c-absent);
+            color: var(--t-absent);
+        }
+        .patra-empty-box {
+            background: var(--surface);
+            border: 1px dashed var(--border);
+            border-radius: 12px;
+            padding: 28px 16px;
+            text-align: center;
+            margin-top: 8px;
+        }
+        .patra-fab {
+            position: fixed;
+            bottom: 62px;
+            right: 16px;
+            z-index: 35;
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            font-size: 24px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 22px rgba(37, 99, 235, 0.38);
+            cursor: pointer;
+            transition: transform var(--transition), box-shadow var(--transition);
+        }
+        .patra-fab:active { transform: scale(0.95); }
+        .patra-fab-pill {
+            background: rgba(255, 255, 255, 0.22);
+            padding: 1px 6px;
+            border-radius: 999px;
+            font-size: 10px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        #patra-print-view { display: none; }
     </style>
 </head>
 <body>
@@ -1862,9 +2425,28 @@ body.print-opd #tab-opd { display: block !important; }
             </div>
         </div>
         <div class="header-actions">
-            <button class="icon-btn" id="btn-preview-print" onclick="openPrintPreview()" title="Preview Print Report">👁️</button>
+            <button class="icon-btn" id="btn-preview-print" onclick="openPrintPreview()" style="display:none !important;" aria-hidden="true">👁️</button>
             <button class="icon-btn" id="btn-print" onclick="triggerPrint()" title="Print Report">🖨️</button>
-            <button class="icon-btn" onclick="toggleTheme()" title="Toggle Theme">🌓</button>
+            <div class="top-menu-wrap" id="top-menu-wrap">
+                <button type="button" class="icon-btn top-dot-btn" id="btn-top-menu" onclick="toggleTopDotMenu(event)" title="Settings &amp; Options">⋮</button>
+                <div class="top-dot-dropdown" id="top-dot-menu">
+                    <button type="button" class="top-menu-item" id="nav-settings" onclick="openSettingsFromMenu()">
+                        <span class="top-menu-item-left"><span>⚙️</span><span>Settings &amp; Backup</span></span>
+                        <span class="top-menu-badge">Open</span>
+                    </button>
+                    <button type="button" class="top-menu-item" onclick="toggleThemeFromMenu()">
+                        <span class="top-menu-item-left"><span>🌓</span><span>Theme Mode</span></span>
+                        <span class="top-menu-badge" id="menu-theme-badge">Light</span>
+                    </button>
+                    <div class="top-menu-divider"></div>
+                    <button type="button" class="top-menu-item" onclick="manualCloudSync(); closeTopDotMenu();">
+                        <span class="top-menu-item-left"><span>🔄</span><span>Sync to Cloud Now</span></span>
+                    </button>
+                    <button type="button" class="top-menu-item" onclick="pullFromCloudNow(); closeTopDotMenu();">
+                        <span class="top-menu-item-left"><span>⬇️</span><span>Pull from Cloud</span></span>
+                    </button>
+                </div>
+            </div>
         </div>
     </header>
 
@@ -2000,7 +2582,7 @@ body.print-opd #tab-opd { display: block !important; }
 
         <!-- ================= TAB 2B: STAFF ATTENDANCE & LEAVE REGISTER ================= -->
         <main id="tab-staff" class="tab-content">
-            <!-- Top Controls Header -->
+            <!-- Top Controls Header (Single-Row Android Adapted, No Duplicate Print) -->
             <div class="staff-controls-card staff-no-print">
                 <div class="staff-date-nav-group">
                     <div class="staff-date-capsule">
@@ -2011,75 +2593,71 @@ body.print-opd #tab-opd { display: block !important; }
                         </div>
                         <button type="button" class="staff-nav-btn" onclick="changeStaffCycle(1)" title="Next Cycle/Month">▶</button>
                     </div>
-                    <button type="button" class="quick-chip-btn" onclick="jumpToCurrentStaffCycle()" title="Jump to Current Cycle">🎯 Now</button>
                 </div>
 
                 <div class="staff-actions-group">
                     <button type="button" id="staffTodayBtn" onclick="toggleStaffTodayMode()" class="staff-btn staff-btn-warning" title="Toggle Single-Day Today View">
                         🕒 Today
                     </button>
-                    <button type="button" class="staff-btn staff-btn-outline" onclick="openStaffGHModal()" title="Set Gazetted Holidays (Synced with Settings)">
-                        🎉 + GH
+                    <button type="button" class="staff-btn staff-btn-outline" onclick="openStaffGHModal()" title="Set Gazetted Holidays">
+                        🎉 +GH
                     </button>
-                    <button type="button" class="staff-btn staff-btn-outline" onclick="openManageStaffModal()" title="Edit, Reorder or Delete Staff">
+                    <button type="button" class="staff-btn staff-btn-outline" onclick="openManageStaffModal()" title="Manage Staff">
                         ⚙️ Staff
                     </button>
                     <button type="button" class="staff-btn staff-btn-outline" style="border-color: var(--primary); color: var(--primary);" onclick="openStaffCreateModal()" title="Bulk Fill or Clear Cycle">
-                        ⚡ Create
+                        ⚡ Auto
                     </button>
                     <button type="button" class="staff-btn staff-btn-primary" onclick="openStaffModal()" title="Add New Employee">
                         ➕ Add
                     </button>
-                    <button type="button" class="staff-btn staff-btn-success" onclick="triggerStaffPrint()" title="Print Official Register (A4 Landscape)">
-                        🖨️ Print
-                    </button>
                 </div>
             </div>
 
-            <!-- Collapsible Summary & Filter Bar -->
+            <!-- Collapsible Per-Staff Detailed Summary Bar -->
             <button type="button" class="summary-collapse-btn staff-no-print" onclick="toggleDrawer('staffSummaryDrawer', 'staffSumChevron')">
                 <div class="summary-collapse-left">
-                    <span>👥 <strong>Staff Summary &amp; Quick Tools</strong></span>
+                    <span>👥 <strong>Staff Detailed Summary (प्रत्येक कर्मचारी का विवरण)</strong></span>
                     <div class="summary-mini-pills">
-                        <span class="mini-tag" style="color:var(--primary);">Staff:<span id="mini-staff-total">0</span></span>
-                        <span class="mini-tag" style="color:var(--t-present);">P:<span id="mini-staff-p">0</span></span>
-                        <span class="mini-tag" style="color:var(--t-absent);">CL/ML:<span id="mini-staff-leave">0</span></span>
-                        <span class="mini-tag" style="color:var(--t-holiday);">GH:<span id="mini-staff-gh">0</span></span>
+                        <span class="mini-tag" style="color:var(--primary);">कुल स्टाफ: <span id="mini-staff-total">0</span></span>
+                        <span id="mini-staff-p" style="display:none;">0</span>
+                        <span id="mini-staff-leave" style="display:none;">0</span>
+                        <span id="mini-staff-gh" style="display:none;">0</span>
                     </div>
                 </div>
                 <span class="summary-chevron" id="staffSumChevron">Show ▼</span>
             </button>
 
             <div id="staffSummaryDrawer" class="collapsible-panel staff-no-print">
-                <div class="staff-kpi-grid">
-                    <div class="opd-kpi-card">
-                        <span class="opd-kpi-label">Total Staff</span>
-                        <span class="opd-kpi-val" id="staffKpiTotal">0</span>
-                        <span class="opd-kpi-sub" id="staffKpiSplit">GH: 0 | D/O: 0</span>
-                    </div>
-                    <div class="opd-kpi-card">
-                        <span class="opd-kpi-label">Cycle Present (P)</span>
-                        <span class="opd-kpi-val" id="staffKpiPresent" style="color:var(--t-present);">0</span>
-                        <span class="opd-kpi-sub" id="staffKpiTodayP">Today P: 0</span>
-                    </div>
-                    <div class="opd-kpi-card">
-                        <span class="opd-kpi-label">Leaves (CL / ML / Other)</span>
-                        <span class="opd-kpi-val" id="staffKpiLeaves" style="color:var(--t-absent);">0</span>
-                        <span class="opd-kpi-sub" id="staffKpiLeaveBreak">CL: 0 | ML: 0</span>
-                    </div>
-                    <div class="opd-kpi-card">
-                        <span class="opd-kpi-label">Synced GH Holidays</span>
-                        <span class="opd-kpi-val" id="staffKpiGH" style="color:var(--t-holiday);">0</span>
-                        <span class="opd-kpi-sub" id="staffKpiGHSub">Synced with Settings</span>
-                    </div>
+                <!-- Hidden legacy KPI spans so IDs remain intact -->
+                <div style="display:none;">
+                    <span id="staffKpiTotal">0</span><span id="staffKpiSplit"></span>
+                    <span id="staffKpiPresent">0</span><span id="staffKpiTodayP"></span>
+                    <span id="staffKpiLeaves">0</span><span id="staffKpiLeaveBreak"></span>
+                    <span id="staffKpiGH">0</span><span id="staffKpiGHSub"></span>
                 </div>
 
                 <div class="staff-filter-bar">
                     <input type="text" id="staffSearchInput" class="staff-search-input" placeholder="🔍 कर्मचारी खोजें (Name, Post, Place, GH/DO)..." oninput="renderStaffRows()">
-                    <div style="display:flex; align-items:center; gap:5px; flex-wrap:wrap;">
-                        <button type="button" class="quick-chip-btn" onclick="markStaffTodayAllPresent()" title="Mark all staff Present (P) for Today">⚡ Today All P</button>
-                        <button type="button" class="quick-chip-btn" onclick="autoFillStaffTillToday()" title="Fill P up to Today for current cycle">📅 Auto-Fill Till Today</button>
-                    </div>
+                </div>
+
+                <div style="background:var(--surface); border:1px solid var(--border-light); border-radius:8px; overflow-x:auto;">
+                    <table class="staff-detail-summary-table">
+                        <thead>
+                            <tr>
+                                <th>कर्मचारी का नाम व पद</th>
+                                <th style="color:var(--t-present);">Present (P)</th>
+                                <th style="color:var(--t-holiday);">GH / D/O</th>
+                                <th>गत माह (CL/ML)</th>
+                                <th style="color:var(--t-absent);">इस माह (CL/ML)</th>
+                                <th>अन्य (PL/CCL)</th>
+                                <th style="color:var(--primary);">कुल योग (CL/ML)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="staffDetailedSummaryBody">
+                            <!-- Per-staff detailed rows populated via JS -->
+                        </tbody>
+                    </table>
                 </div>
             </div>
 
@@ -2122,33 +2700,27 @@ body.print-opd #tab-opd { display: block !important; }
 
         <!-- ================= TAB 3: OPD REPORT ================= -->
         <main id="tab-opd" class="tab-content">
+            <!-- Single-Line Android-Friendly Top Bar -->
             <div class="opd-dashboard-controls no-print">
-                <div class="opd-control-group" style="display: flex; width: 100%; justify-content: space-between; align-items: center; gap: 6px;">
-                    <button class="month-btn" onclick="changeOpdMonth(-1)" style="flex-shrink: 0;">◀ Prev</button>
-                    <input type="month" id="opdMonthPicker" onchange="generateOpdTable()" style="flex: 1; text-align: center;">
-                    <button class="month-btn" onclick="changeOpdMonth(1)" style="flex-shrink: 0;">Next ▶</button>
+                <div style="display:flex; align-items:center; gap:4px; flex:1; min-width:0;">
+                    <button type="button" class="month-btn" onclick="changeOpdMonth(-1)" style="flex-shrink:0; padding:4px 8px;">◀</button>
+                    <input type="month" id="opdMonthPicker" onchange="generateOpdTable()" style="flex:1; min-width:115px; text-align:center;">
+                    <button type="button" class="month-btn" onclick="changeOpdMonth(1)" style="flex-shrink:0; padding:4px 8px;">▶</button>
                 </div>
-                <div class="opd-control-group" style="width:100%; justify-content:space-between;">
-                    <div style="display:flex; align-items:center; gap:4px; flex-wrap:wrap;">
-                        <button onclick="exportOpdDataExcel()" class="opd-btn opd-btn-success" title="Download Excel Sheet">📊 Excel</button>
-                        <button onclick="document.getElementById('opd-import-file').click()" class="opd-btn opd-btn-info" title="Import Excel or JSON OPD">📥 Import</button>
-                        <input type="file" id="opd-import-file" style="display:none" accept=".json,.xlsx,.xls" onchange="importOpdUniversalData(event)">
-                        <button onclick="clearOpdData()" class="opd-btn opd-btn-danger" title="Clear Current Month">🗑️ Clear</button>
-                    </div>
-                    <div style="display:flex; align-items:center; gap:4px; flex-wrap:wrap;">
-                        <label style="display:inline-flex; align-items:center; gap:3px; font-size:10px; cursor:pointer;" title="Include summary footer in OPD print">
-                            <input type="checkbox" id="opdPrintSummaryToggle" checked onchange="toggleOpdSummaryInPrint(this.checked)"> +Sum
-                        </label>
-                        <button onclick="printOpdCurrentMonth()" class="opd-btn opd-btn-primary" title="Print currently visible month">🖨️ Month</button>
-                        <button onclick="printOpdAllMonths()" class="opd-btn opd-btn-primary" title="Print all saved months">🖨️ All</button>
-                    </div>
+                <div style="display:flex; align-items:center; gap:5px; flex-shrink:0;">
+                    <label style="display:inline-flex; align-items:center; gap:3px; font-size:10px; font-weight:700; cursor:pointer; white-space:nowrap;" title="Include summary footer in OPD print">
+                        <input type="checkbox" id="opdPrintSummaryToggle" checked onchange="toggleOpdSummaryInPrint(this.checked)"> +Sum
+                    </label>
+                    <button type="button" onclick="printOpdAllMonths()" class="opd-btn opd-btn-primary" title="Print all saved months">🖨️ All</button>
+                    <button type="button" onclick="clearOpdData()" class="opd-btn opd-btn-danger" title="Clear Current Month">🗑️</button>
+                    <input type="file" id="opd-import-file" style="display:none" accept=".json,.xlsx,.xls" onchange="importOpdUniversalData(event)">
                 </div>
             </div>
 
-            <!-- Collapsible OPD Summary & Quick Entry Toggle Button (Click to Show/Hide) -->
+            <!-- Collapsible OPD Summary Toggle Button -->
             <button type="button" class="summary-collapse-btn no-print" onclick="toggleDrawer('opdSummaryDrawer', 'opdSumChevron')">
                 <div class="summary-collapse-left">
-                    <span>📊 <strong>OPD Summary &amp; Quick Fill</strong></span>
+                    <span>📊 <strong>OPD Summary</strong></span>
                     <div class="summary-mini-pills">
                         <span class="mini-tag" style="color:var(--primary);">Total:<span id="mini-opd-total">0</span></span>
                         <span class="mini-tag" style="color:var(--opd-success);">Avg:<span id="mini-opd-avg">0</span></span>
@@ -2158,7 +2730,7 @@ body.print-opd #tab-opd { display: block !important; }
                 <span class="summary-chevron" id="opdSumChevron">Show ▼</span>
             </button>
 
-            <!-- Collapsible OPD Summary & Fast Entry Drawer (Hidden by default so table gets full screen) -->
+            <!-- Collapsible OPD Summary Drawer -->
             <div id="opdSummaryDrawer" class="collapsible-panel no-print">
                 <div class="opd-kpi-grid">
                     <div class="opd-kpi-card">
@@ -2180,19 +2752,6 @@ body.print-opd #tab-opd { display: block !important; }
                         <span class="opd-kpi-label">Red / Holidays</span>
                         <span class="opd-kpi-val" id="opdKpiRed" style="color:var(--opd-danger);">0</span>
                         <span class="opd-kpi-sub">Sundays &amp; GH</span>
-                    </div>
-                </div>
-
-                <div class="opd-quick-entry-bar">
-                    <div class="opd-quick-left">
-                        <span class="opd-quick-badge" id="opdNextDateBadge">Day 1</span>
-                        <span style="font-size:11px; font-weight:700; color:var(--text-secondary);" id="opdNextStartLabel">Start: -</span>
-                    </div>
-                    <div class="opd-quick-inputs">
-                        <input type="number" id="opdQuickEndInput" class="opd-quick-input" placeholder="End Range">
-                        <span style="font-size:10px; color:var(--text-muted); font-weight:700;">OR</span>
-                        <input type="number" id="opdQuickCountInput" class="opd-quick-input" placeholder="Today Count">
-                        <button type="button" class="opd-btn opd-btn-success" onclick="applyQuickOpdEntry()">✓ Fill</button>
                     </div>
                 </div>
             </div>
@@ -2239,13 +2798,102 @@ body.print-opd #tab-opd { display: block !important; }
                     </div>
                 </div>
             </div>
+
+            <!-- Always-Visible Quick Fill Tab Directly Below OPD Table (Supports Both End Range & Count) -->
+            <div class="opd-quick-entry-bar no-print">
+                <div class="opd-quick-left">
+                    <span class="opd-quick-badge" id="opdNextDateBadge">Day 01</span>
+                    <span style="font-size:11px; font-weight:700; color:var(--text-secondary); white-space:nowrap;" id="opdNextStartLabel">Start: 1</span>
+                </div>
+                <div class="opd-quick-inputs">
+                    <input type="number" id="opdQuickEndInput" class="opd-quick-input" placeholder="End Range" onkeydown="if(event.key==='Enter'){event.preventDefault();applyQuickOpdEntry();}">
+                    <span style="font-size:10px; color:var(--text-muted); font-weight:800;">या</span>
+                    <input type="number" id="opdQuickCountInput" class="opd-quick-input" placeholder="Count (संख्या)" onkeydown="if(event.key==='Enter'){event.preventDefault();applyQuickOpdEntry();}">
+                    <button type="button" class="opd-btn opd-btn-success" style="height:30px; padding:0 12px;" onclick="applyQuickOpdEntry()">✓ Fill</button>
+                </div>
+            </div>
         </main>
 
         <!-- Hidden Container for Printing All OPD Months -->
         <div id="printAllContainer"></div>
 
+        <!-- ================= TAB 5: PATRA REGISTER (SMART DISPATCH TRACKER) ================= -->
+        <main id="tab-patra" class="tab-content">
+            <div class="patra-header-card patra-no-print">
+                <!-- Single-Line Search + Sort + Category Button Row -->
+                <div class="patra-search-row" style="margin-top:0;">
+                    <div class="patra-search-wrap">
+                        <span class="patra-search-icon">🔍</span>
+                        <input
+                            id="patraSearchInput"
+                            type="text"
+                            placeholder="क्रमांक (101), कार्यालय, स्थान, या विवरण खोजें..."
+                            class="patra-search-input"
+                            oninput="renderPatraLetters()"
+                        />
+                        <button id="patraBtnClearSearch" type="button" class="patra-search-clear" onclick="clearPatraSearch()">✕</button>
+                    </div>
+
+                    <select id="patraSortSelect" class="patra-sort-select" onchange="renderPatraLetters()">
+                        <option value="kramank_asc">क्रमांक (1 → 999)</option>
+                        <option value="kramank_desc">क्रमांक (नया पहले)</option>
+                        <option value="date_desc">दिनांक (नवीनतम)</option>
+                    </select>
+
+                    <button type="button" class="patra-btn" style="height:32px; flex-shrink:0;" onclick="openPatraCategoryModal()" title="कैटेगरी टैब सेटिंग्स">
+                        <span>🏷️</span><span>कैटेगरी</span>
+                    </button>
+                </div>
+
+                <!-- Category Filter Tabs Bar -->
+                <div id="patraCategoryTabsBar" class="patra-tabs-bar"></div>
+            </div>
+
+            <!-- Compact Status Strip -->
+            <div class="patra-status-strip patra-no-print">
+                <div>
+                    <strong id="patraActiveCategoryTitle" style="color:var(--text-main);">सभी पत्र (All)</strong>
+                    <span> • </span>
+                    <span id="patraVisibleCountLabel">0 पत्र</span>
+                </div>
+                <span id="patraHeaderStatsText">अगला क्रमांक #1</span>
+                <span id="patraSavedBadge" style="display:none;"></span>
+            </div>
+
+            <!-- Letters Cards List -->
+            <div id="patraLettersContainer" class="patra-list-wrap patra-no-print"></div>
+
+            <!-- Clean Empty State (No Duplicate Add Button) -->
+            <div id="patraEmptyState" class="patra-empty-box patra-no-print" style="display:none;">
+                <div style="font-size:24px; margin-bottom:6px;">✉️</div>
+                <h3 style="font-size:14px; font-weight:700; color:var(--text-main);">कोई पत्र दर्ज नहीं है</h3>
+                <p style="font-size:11px; color:var(--text-muted); margin:4px auto 0; max-width:280px;">
+                    नया पत्र जोड़ने के लिए नीचे दाईं ओर दिए गए <b>+</b> बटन पर क्लिक करें।
+                </p>
+            </div>
+
+            <!-- Single Floating Action Button (+ Icon Only) -->
+            <button type="button" id="patraFabNewLetter" class="patra-fab patra-no-print" onclick="openPatraLetterModal(null)" title="नया पत्र जोड़ें">
+                <span>+</span>
+                <span id="patraFabNextPill" style="display:none;">#1</span>
+            </button>
+
+            <!-- Print View for Patra Register -->
+            <div id="patra-print-view"></div>
+        </main>
+
         <!-- ================= TAB 4: SETTINGS ================= -->
         <main id="tab-settings" class="tab-content">
+            <div class="settings-card" style="padding:8px 12px; display:flex; align-items:center; justify-content:space-between;">
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <span style="font-size:16px;">⚙️</span>
+                    <div>
+                        <h2 style="font-size:13px; font-weight:800; color:var(--text-main);">App Settings &amp; Master Controls</h2>
+                        <p style="font-size:10px; color:var(--text-muted);">Profile, Cloud Sync, Gazetted Holidays &amp; Backups</p>
+                    </div>
+                </div>
+                <div style="display:flex; align-items:center; gap:6px;"><button type="button" class="icon-btn" onclick="toggleTheme()" title="Toggle Theme">🌓</button><button type="button" class="month-btn" onclick="switchTab(lastNonSettingsTab || 'present', document.getElementById('nav-' + (lastNonSettingsTab || 'present')), 'Attendance Pro', true)">← Back</button></div>
+            </div>
             <div class="settings-card">
                 <div class="settings-header">
                     <h2>☁️ Cloud Synchronization</h2>
@@ -2274,7 +2922,6 @@ body.print-opd #tab-opd { display: block !important; }
             <div class="settings-card">
                 <div class="settings-header">
                     <h2>🎉 Manage Holidays (GH)</h2>
-                    <button type="button" class="quick-chip-btn" onclick="loadPresetHolidays2026()">✨ + 2026 Govt Holidays</button>
                 </div>
                 <div style="display:flex; flex-wrap: wrap; gap:6px; margin-bottom:10px;">
                     <input type="date" id="hol-date" style="flex:1 1 45%; height:34px; border-radius:7px; border:1px solid var(--border); padding:0 8px; font-size:12px; background:var(--surface-subtle); color:var(--text-main);">
@@ -2285,18 +2932,23 @@ body.print-opd #tab-opd { display: block !important; }
             </div>
 
             <div class="settings-card">
-                <div class="settings-header"><h2>💾 Data Management</h2></div>
+                <div class="settings-header">
+                    <h2>💾 Master Data Backup &amp; Restore (.js)</h2>
+                    <span style="font-size:10px; color:var(--text-muted); font-weight:600;">All 5 Modes Included</span>
+                </div>
+                <p style="font-size:11px; color:var(--text-muted); margin-bottom:8px;">
+                    यहाँ से सभी 5 मोड्स (Age, Present, Staff, OPD, Patra) और सेटिंग्स का पूरा डेटा <b>.js</b> फ़ाइल में डाउनलोड या रीस्टोर करें:
+                </p>
                 <div class="action-btn-row">
-                    <button class="btn-primary" style="background:var(--c-ml); color:var(--t-ml); border: 1px solid var(--b-ml);" onclick="exportData()">📤 Export Data</button>
-                    <button class="btn-primary" style="background:var(--c-present); color:var(--t-present); border: 1px solid var(--b-present);" onclick="document.getElementById('import-file').click()">📥 Import Data</button>
-                    <button class="btn-primary" style="background:var(--c-holiday); color:var(--t-holiday); border: 1px solid var(--b-holiday);" onclick="exportOpdDataJSON()">📄 OPD JSON</button>
-                    <input type="file" id="import-file" style="display:none" accept=".json" onchange="importData(event)">
+                    <button type="button" class="btn-primary" style="background:var(--c-ml); color:var(--t-ml); border: 1px solid var(--b-ml);" onclick="exportData()">⬇️ Download Backup (.js)</button>
+                    <button type="button" class="btn-primary" style="background:var(--c-present); color:var(--t-present); border: 1px solid var(--b-present);" onclick="document.getElementById('import-file').click()">⬆️ Restore Backup (.js)</button>
+                    <input type="file" id="import-file" style="display:none" accept=".js,.json,application/javascript,application/json,text/javascript" onchange="importData(event)">
                 </div>
             </div>
         </main>
     </div>
 
-    <!-- Bottom Navigation Bar -->
+    <!-- Bottom Navigation Bar (5 Clear Modes) -->
     <nav class="bottom-nav">
         <div class="nav-item" id="nav-age" onclick="switchTab('age', this, 'Smart Age', false)">
             <span class="nav-icon">🎂</span>
@@ -2314,9 +2966,9 @@ body.print-opd #tab-opd { display: block !important; }
             <span class="nav-icon">🏥</span>
             <span class="nav-text">OPD</span>
         </div>
-        <div class="nav-item" id="nav-settings" onclick="switchTab('settings', this, 'Settings', false)">
-            <span class="nav-icon">⚙️</span>
-            <span class="nav-text">Settings</span>
+        <div class="nav-item" id="nav-patra" onclick="switchTab('patra', this, 'पत्र रजिस्टर (Patra)', true)">
+            <span class="nav-icon">✉️</span>
+            <span class="nav-text">Patra</span>
         </div>
     </nav>
 
@@ -2461,9 +3113,8 @@ body.print-opd #tab-opd { display: block !important; }
                 </div>
                 <button type="button" class="close-btn" onclick="closeStaffModals()">&times;</button>
             </div>
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; gap:6px;">
-                <button type="button" class="quick-chip-btn" onclick="loadPresetHolidays2026(); openStaffGHModal();">✨ + Load 2026 Govt Holidays</button>
-                <span style="font-size:10px; color:var(--text-muted); font-weight:600;" id="staffGhCycleHint">Cycle Dates</span>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; gap:6px;">
+                <span style="font-size:10px; color:var(--text-muted); font-weight:600;" id="staffGhCycleHint">Cycle Dates (Tick to set GH)</span>
             </div>
             <div class="staff-gh-list-container" id="staffGhListContainer">
                 <!-- Checkboxes populated by JS -->
@@ -2493,6 +3144,105 @@ body.print-opd #tab-opd { display: block !important; }
                 <button type="button" class="picker-btn staff-status-PL" onclick="applyStaffQuickStatus('PL')">PL</button>
                 <button type="button" class="picker-btn" style="background:var(--surface-subtle); color:var(--text-muted); border:1px solid var(--border); font-size:12px;" onclick="applyStaffQuickStatus('')">Clear</button>
             </div>
+        </div>
+    </div>
+
+    <!-- Patra Add / Edit Letter Modal (Separate Office Name & Place Boxes) -->
+    <div class="modal-overlay" id="patraLetterModal">
+        <div class="modal-content" style="max-width: 440px;">
+            <div class="modal-header">
+                <div>
+                    <h2 id="patraModalHeading" style="font-size:15px; font-weight:800;">नया पत्र दर्ज करें</h2>
+                    <p style="font-size:10px; color:var(--text-muted);">क्रमांक ऑटोमैटिक क्रम से सेट है, आप चाहें तो बदल सकते हैं</p>
+                </div>
+                <button type="button" class="close-btn" onclick="closePatraLetterModal()">&times;</button>
+            </div>
+            <form id="patraLetterForm" onsubmit="savePatraLetterForm(event)">
+                <input type="hidden" id="patraInputLetterId" value="">
+                <div style="display:grid; grid-template-columns: 5fr 7fr; gap:8px;">
+                    <div class="form-group">
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <label for="patraInputKramank">पत्र क्रमांक *</label>
+                            <button type="button" onclick="resetPatraAutoKramank()" style="background:none; border:none; color:var(--primary); font-size:10px; font-weight:700; cursor:pointer;">Auto #</button>
+                        </div>
+                        <input type="text" id="patraInputKramank" placeholder="101" required style="font-family:'JetBrains Mono',monospace; font-weight:800; color:var(--primary);">
+                    </div>
+                    <div class="form-group">
+                        <label for="patraInputDate">दिनांक (Date) *</label>
+                        <input type="date" id="patraInputDate" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="patraInputCategory">कैटेगरी (Category Tab) *</label>
+                    <select id="patraInputCategory" required style="width:100%; height:34px; padding:0 10px; border:1px solid var(--border); border-radius:7px; background:var(--surface-subtle); color:var(--text-main); font-size:12px; font-weight:600; outline:none;"></select>
+                </div>
+
+                <div class="form-group">
+                    <label for="patraInputOffice">भेजने वाला कार्यालय (Office Name) *</label>
+                    <input type="text" id="patraInputOffice" placeholder="जैसे: मुख्य चिकित्सा एवं स्वास्थ्य अधिकारी / BCMO कार्यालय..." required>
+                </div>
+
+                <div class="form-group">
+                    <label for="patraInputPlace">स्थान (Place / Location) *</label>
+                    <input type="text" id="patraInputPlace" placeholder="जैसे: सवाई माधोपुर / मलारना डूंगर / जयपुर..." required>
+                </div>
+
+                <div class="form-group">
+                    <label for="patraInputDetails">पत्र का विवरण / विषय (Details) *</label>
+                    <textarea id="patraInputDetails" rows="3" placeholder="पत्र का मुख्य विषय या विवरण संक्षेप में लिखें..." required style="width:100%; padding:8px 10px; border:1px solid var(--border); border-radius:7px; background:var(--surface-subtle); color:var(--text-main); font-size:12px; font-weight:500; outline:none; resize:vertical;"></textarea>
+                </div>
+
+                <div class="action-btn-row" style="margin-top:10px;">
+                    <button type="button" class="btn-primary" style="background:var(--surface-subtle); color:var(--text-main); border:1px solid var(--border);" onclick="closePatraLetterModal()">रद्द करें</button>
+                    <button type="submit" class="btn-primary" id="patraSubmitBtnLabel">💾 सेव करें (Save)</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Patra Backup & Restore (.js / .json) Modal -->
+    <div class="modal-overlay" id="patraBackupModal">
+        <div class="modal-content" style="max-width: 400px;">
+            <div class="modal-header">
+                <div>
+                    <h2 style="font-size:15px; font-weight:800;">💾 पत्र रजिस्टर बैकअप (.js फ़ाइल)</h2>
+                    <p style="font-size:10px; color:var(--text-muted);">Server और Local दोनों जगह ऑटो-सेव चालू है</p>
+                </div>
+                <button type="button" class="close-btn" onclick="closePatraBackupModal()">&times;</button>
+            </div>
+            <div style="background:var(--c-present); color:var(--t-present); border:1px solid var(--b-present); padding:8px 10px; border-radius:8px; font-size:11px; font-weight:600; margin-bottom:10px;" id="patraBackupSummaryText">
+                कुल पत्र और कैटेगरी सुरक्षित हैं।
+            </div>
+            <div style="border:1px solid var(--border-light); background:var(--surface-subtle); padding:10px; border-radius:9px; margin-bottom:10px;">
+                <div style="font-size:12px; font-weight:700; color:var(--text-main); margin-bottom:3px;">1. बैकअप फ़ाइल डाउनलोड करें (.js)</div>
+                <p style="font-size:11px; color:var(--text-muted); margin-bottom:8px;">अपने सभी पत्रों को <b>patra_register_backup.js</b> फ़ाइल में सुरक्षित डाउनलोड करें।</p>
+                <button type="button" class="btn-primary" onclick="downloadPatraJsBackup()">⬇️ JS बैकअप फ़ाइल डाउनलोड करें</button>
+            </div>
+            <div style="border:1px solid var(--border-light); background:var(--surface-subtle); padding:10px; border-radius:9px;">
+                <div style="font-size:12px; font-weight:700; color:var(--text-main); margin-bottom:3px;">2. पुरानी बैकअप फ़ाइल अपलोड करें (.js / .json)</div>
+                <p style="font-size:11px; color:var(--text-muted); margin-bottom:8px;">पहले से सेव की गई <b>.js</b> या <b>.json</b> फ़ाइल चुनें, सारा डेटा तुरंत रीस्टोर व क्लाउड सिंक हो जाएगा।</p>
+                <input type="file" id="patraUploadBackupInput" accept=".js,.json" style="display:none;" onchange="handlePatraBackupUpload(event)">
+                <button type="button" class="btn-primary" style="background:var(--accent);" onclick="document.getElementById('patraUploadBackupInput').click()">⬆️ .JS बैकअप फ़ाइल अपलोड करें</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Patra Category Manager Modal -->
+    <div class="modal-overlay" id="patraCategoryModal">
+        <div class="modal-content" style="max-width: 400px;">
+            <div class="modal-header">
+                <div>
+                    <h2 style="font-size:15px; font-weight:800;">🏷️ कैटेगरी टैब्स (Manage Tabs)</h2>
+                    <p style="font-size:10px; color:var(--text-muted);">नई कैटेगरी जोड़ें या नाम बदलें</p>
+                </div>
+                <button type="button" class="close-btn" onclick="closePatraCategoryModal()">&times;</button>
+            </div>
+            <form onsubmit="addNewPatraCategory(event)" style="display:flex; gap:6px; margin-bottom:10px;">
+                <input type="text" id="patraNewCatInput" maxlength="28" placeholder="नई कैटेगरी का नाम (जैसे: गोपनीय, बिल)..." required style="flex:1; height:34px; padding:0 10px; border:1px solid var(--border); border-radius:7px; background:var(--surface-subtle); color:var(--text-main); font-size:12px; outline:none;">
+                <button type="submit" class="opd-btn" style="height:34px; padding:0 12px;">+ जोड़ें</button>
+            </form>
+            <div id="patraCategoryManagerList" style="display:flex; flex-direction:column; gap:6px; max-height:280px; overflow-y:auto;"></div>
         </div>
     </div>
 
@@ -2565,6 +3315,9 @@ body.print-opd #tab-opd { display: block !important; }
         const DASHBOARD_STORAGE_KEY = 'sarkari_dashboard_data';
         const STAFF_STORAGE_KEY = 'premiumAttData';
         const AGE_STORAGE_KEY = 'smart_age_data_v2';
+        const PATRA_STORAGE_KEY = 'patra_register_data_v2';
+        const PATRA_LEGACY_CAT_KEY = 'patra_register_categories_v1';
+        const PATRA_LEGACY_LET_KEY = 'patra_register_letters_v1';
         const SYNC_META_KEY = 'smart_opd_sync_meta_v2';
         const SESSION_CLIENT_ID = 'client_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8);
 
@@ -2754,11 +3507,138 @@ body.print-opd #tab-opd { display: block !important; }
             };
         }
 
+        function getDefaultPatraCategories() {
+            return [
+                { id: 'cat_upasthiti', name: 'Upasthiti', color: 'emerald' },
+                { id: 'cat_area_staff', name: 'Area Staff', color: 'indigo' },
+                { id: 'cat_documents', name: 'Documents', color: 'amber' }
+            ];
+        }
+
+        function getDefaultPatraLetters() {
+            return [
+                {
+                    id: 'let_101',
+                    categoryId: 'cat_upasthiti',
+                    kramank: '101',
+                    date: '2026-10-19',
+                    office: 'जिला मुख्यालय',
+                    place: 'जयपुर',
+                    details: 'मासिक उपस्थिति विवरण एवं स्टाफ हाजिरी रजिस्टर सत्यापन प्रेषित।'
+                },
+                {
+                    id: 'let_102',
+                    categoryId: 'cat_area_staff',
+                    kramank: '102',
+                    date: '2026-10-21',
+                    office: 'क्षेत्रीय कार्यालय',
+                    place: 'जोधपुर',
+                    details: 'फील्ड एरिया स्टाफ की नई ड्यूटी लिस्ट और कार्यक्षेत्र आवंटन के संबंध में सूचना।'
+                },
+                {
+                    id: 'let_103',
+                    categoryId: 'cat_documents',
+                    kramank: '103',
+                    date: '2026-10-23',
+                    office: 'निदेशालय कार्यालय',
+                    place: 'बीकानेर',
+                    details: 'वार्षिक ऑडिट फाइल, मूल दस्तावेज एवं सत्यापित प्रमाण-पत्रों का बंडल प्रेषित।'
+                },
+                {
+                    id: 'let_104',
+                    categoryId: 'cat_upasthiti',
+                    kramank: '104',
+                    date: '2026-10-25',
+                    office: 'उपखंड कार्यालय',
+                    place: 'अजमेर',
+                    details: 'आकस्मिक अवकाश एवं बायोमेट्रिक उपस्थिति रिपोर्ट का मिलान पत्र।'
+                },
+                {
+                    id: 'let_105',
+                    categoryId: 'cat_area_staff',
+                    kramank: '105',
+                    date: '2026-10-26',
+                    office: 'तहसील कार्यालय',
+                    place: 'कोटा',
+                    details: 'एरिया स्टाफ के निरीक्षण दौरे और साप्ताहिक प्रगति रिपोर्ट भेजने बाबत।'
+                },
+                {
+                    id: 'let_106',
+                    categoryId: 'cat_documents',
+                    kramank: '106',
+                    date: '2026-10-27',
+                    office: 'मुख्य लेखा शाखा',
+                    place: 'उदयपुर',
+                    details: 'कार्यालय उपकरण क्रय बिल एवं संबंधित वाउचर दस्तावेजों की प्रतियां।'
+                }
+            ];
+        }
+
+        function getDefaultPatraData() {
+            return {
+                categories: getDefaultPatraCategories(),
+                letters: getDefaultPatraLetters()
+            };
+        }
+
+        function normalizePatraLetterItem(item) {
+            if (!item || typeof item !== 'object') return null;
+            const id = item.id ? String(item.id) : ('let_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6));
+            const categoryId = item.categoryId ? String(item.categoryId) : 'cat_upasthiti';
+            const kramank = item.kramank !== undefined && item.kramank !== null ? String(item.kramank).trim() : '1';
+            const date = item.date ? String(item.date) : new Date().toISOString().split('T')[0];
+            const details = item.details ? String(item.details).trim() : '';
+
+            let office = item.office !== undefined && item.office !== null ? String(item.office).trim() : '';
+            let place = item.place !== undefined && item.place !== null ? String(item.place).trim() : '';
+
+            // Backward compatibility: if only `place` was saved as "कार्यालय, स्थान", split cleanly
+            if (!office && place) {
+                if (place.includes(',')) {
+                    const parts = place.split(',');
+                    office = parts[0].trim();
+                    place = parts.slice(1).join(',').trim();
+                } else {
+                    office = place;
+                }
+            }
+            return { id, categoryId, kramank, date, office, place, details };
+        }
+
+        function normalizePatraDataObj(rawPatra) {
+            const def = getDefaultPatraData();
+            if (!rawPatra || typeof rawPatra !== 'object') return def;
+
+            const rawCats = Array.isArray(rawPatra.categories)
+                ? rawPatra.categories
+                : (rawPatra.categories && typeof rawPatra.categories === 'object' ? Object.values(rawPatra.categories) : null);
+            const categories = (rawCats && rawCats.length > 0)
+                ? rawCats.filter(c => c && typeof c === 'object' && c.id && c.name).map(c => ({
+                    id: String(c.id),
+                    name: String(c.name).trim(),
+                    color: c.color ? String(c.color) : 'indigo'
+                }))
+                : def.categories;
+
+            let rawLets = null;
+            if (Array.isArray(rawPatra.letters)) {
+                rawLets = rawPatra.letters;
+            } else if (rawPatra.letters && typeof rawPatra.letters === 'object') {
+                rawLets = Object.values(rawPatra.letters);
+            }
+            const letters = (rawLets !== null)
+                ? rawLets.map(normalizePatraLetterItem).filter(Boolean)
+                : def.letters;
+
+            return { categories: categories.length > 0 ? categories : def.categories, letters };
+        }
+
         function getCurrentLocalStateBundle() {
             let curApp = appData;
             let curOpd = {};
             let curStaff = typeof staffGlobalData !== 'undefined' ? staffGlobalData : normalizeStaffDataObj(null);
             let curAge = typeof ageData !== 'undefined' ? ageData : getDefaultAgeData();
+            let curPatra = typeof patraData !== 'undefined' ? patraData : getDefaultPatraData();
             try {
                 const rawApp = safeGetItem(DASHBOARD_STORAGE_KEY);
                 if (rawApp) curApp = normalizeAppDataObj(JSON.parse(rawApp));
@@ -2775,11 +3655,16 @@ body.print-opd #tab-opd { display: block !important; }
                 const rawAge = safeGetItem(AGE_STORAGE_KEY);
                 if (rawAge) curAge = normalizeAgeDataObj(JSON.parse(rawAge));
             } catch (e) {}
+            try {
+                const rawPatra = safeGetItem(PATRA_STORAGE_KEY);
+                if (rawPatra) curPatra = normalizePatraDataObj(JSON.parse(rawPatra));
+            } catch (e) {}
             return {
                 appData: normalizeAppDataObj(curApp),
                 opdData: normalizeOpdDataObj(curOpd),
                 staffData: normalizeStaffDataObj(curStaff),
-                ageData: normalizeAgeDataObj(curAge)
+                ageData: normalizeAgeDataObj(curAge),
+                patraData: normalizePatraDataObj(curPatra)
             };
         }
 
@@ -2790,12 +3675,14 @@ body.print-opd #tab-opd { display: block !important; }
             let cOpd = cloudVal.opdData;
             let cStaff = cloudVal.staffData;
             let cAge = cloudVal.ageData;
+            let cPatra = cloudVal.patraData;
 
             if (cloudVal.rawBundle && typeof cloudVal.rawBundle === 'object') {
                 try { if (cloudVal.rawBundle.appData) cApp = JSON.parse(cloudVal.rawBundle.appData); } catch (e) {}
                 try { if (cloudVal.rawBundle.opdData) cOpd = JSON.parse(cloudVal.rawBundle.opdData); } catch (e) {}
                 try { if (cloudVal.rawBundle.staffData) cStaff = JSON.parse(cloudVal.rawBundle.staffData); } catch (e) {}
                 try { if (cloudVal.rawBundle.ageData) cAge = JSON.parse(cloudVal.rawBundle.ageData); } catch (e) {}
+                try { if (cloudVal.rawBundle.patraData) cPatra = JSON.parse(cloudVal.rawBundle.patraData); } catch (e) {}
             }
 
             return {
@@ -2803,6 +3690,7 @@ body.print-opd #tab-opd { display: block !important; }
                 opdData: normalizeOpdDataObj(cOpd),
                 staffData: normalizeStaffDataObj(cStaff),
                 ageData: normalizeAgeDataObj(cAge),
+                patraData: normalizePatraDataObj(cPatra),
                 schemaVersion: cloudVal.schemaVersion || 1,
                 updatedAt: cloudVal.updatedAt || (cloudVal.lastSync ? new Date(cloudVal.lastSync).getTime() : 0) || 0,
                 clientId: cloudVal.clientId || '',
@@ -2827,7 +3715,8 @@ body.print-opd #tab-opd { display: block !important; }
             const hasStaff = (bundle.staffData?.staffList || []).length > 0 || Object.keys(bundle.staffData?.cellData || {}).length > 0;
             const hasOpd = Object.values(bundle.opdData || {}).some(m => hasMonthRealOpdEntries(m));
             const hasAge = !!(bundle.ageData && bundle.ageData.activeAgeYear);
-            return hasCustomEmp || hasAtt || hasHol || hasNotes || hasStaff || hasOpd || hasAge;
+            const hasPatra = (bundle.patraData?.letters || []).length > 0;
+            return hasCustomEmp || hasAtt || hasHol || hasNotes || hasStaff || hasOpd || hasAge || hasPatra;
         }
 
         // Smart non-destructive merge between local and cloud states (used for legacy migration or offline edit reconciliation)
@@ -2941,11 +3830,24 @@ body.print-opd #tab-opd { display: block !important; }
                 exactDob: primary.ageData.exactDob || secondary.ageData.exactDob || ''
             });
 
+            // 5. Merge Patra Register Data (categories & letters by ID)
+            const catMap = new Map();
+            (secondary.patraData?.categories || []).forEach(c => { if (c && c.id) catMap.set(c.id, { ...c }); });
+            (primary.patraData?.categories || []).forEach(c => { if (c && c.id) catMap.set(c.id, { ...(catMap.get(c.id) || {}), ...c }); });
+            const letMap = new Map();
+            (secondary.patraData?.letters || []).forEach(l => { if (l && l.id) letMap.set(l.id, { ...l }); });
+            (primary.patraData?.letters || []).forEach(l => { if (l && l.id) letMap.set(l.id, { ...(letMap.get(l.id) || {}), ...l }); });
+            const mergedPatraData = normalizePatraDataObj({
+                categories: Array.from(catMap.values()),
+                letters: Array.from(letMap.values())
+            });
+
             return {
                 appData: mergedAppData,
                 opdData: mergedOpdData,
                 staffData: mergedStaffData,
-                ageData: mergedAgeData
+                ageData: mergedAgeData,
+                patraData: mergedPatraData
             };
         }
 
@@ -2969,11 +3871,13 @@ body.print-opd #tab-opd { display: block !important; }
                 opdData: bundle.opdData,
                 staffData: bundle.staffData,
                 ageData: bundle.ageData,
+                patraData: bundle.patraData,
                 rawBundle: {
                     appData: JSON.stringify(bundle.appData),
                     opdData: JSON.stringify(bundle.opdData),
                     staffData: JSON.stringify(bundle.staffData),
-                    ageData: JSON.stringify(bundle.ageData)
+                    ageData: JSON.stringify(bundle.ageData),
+                    patraData: JSON.stringify(bundle.patraData)
                 },
                 clientId: SESSION_CLIENT_ID,
                 writeId: writeId,
@@ -3038,18 +3942,26 @@ body.print-opd #tab-opd { display: block !important; }
                     safeSetItem('recentAgeYears_v1', JSON.stringify(bundle.ageData.recentAgeYears));
                 }
             }
+            if (bundle.patraData) {
+                safeSetItem(PATRA_STORAGE_KEY, JSON.stringify(bundle.patraData));
+                safeSetItem(PATRA_LEGACY_CAT_KEY, JSON.stringify(bundle.patraData.categories || []));
+                safeSetItem(PATRA_LEGACY_LET_KEY, JSON.stringify(bundle.patraData.letters || []));
+            }
         }
 
         function refreshAllTabsUI() {
             loadSharedData();
             loadStaffDataFromStorage();
             loadAgeDataFromStorage();
+            loadPatraDataFromStorage();
             syncHolidaysBetweenSettingsAndStaff(false);
 
             initAgeApp();
             initAttendance();
             generateOpdTable();
             initStaffApp();
+            initPatraApp();
+            updateThemeMenuBadge();
         }
 
         function applyCloudSnapshotData(data, isManualPull) {
@@ -3112,12 +4024,48 @@ body.print-opd #tab-opd { display: block !important; }
             setTimeout(() => toast.classList.remove('show'), 2500);
         }
 
+        function updateThemeMenuBadge() {
+            const b = document.getElementById('menu-theme-badge');
+            if (b) b.textContent = appData.theme === 'dark' ? 'Dark' : 'Light';
+        }
+
         function toggleTheme() {
             appData.theme = appData.theme === 'dark' ? 'light' : 'dark';
             document.documentElement.setAttribute('data-theme', appData.theme);
+            updateThemeMenuBadge();
             saveData();
             showToast(appData.theme === 'dark' ? 'Dark Mode Active' : 'Light Mode Active');
         }
+
+        function toggleTopDotMenu(e) {
+            if (e) e.stopPropagation();
+            const menu = document.getElementById('top-dot-menu');
+            if (!menu) return;
+            updateThemeMenuBadge();
+            menu.classList.toggle('open');
+        }
+
+        function closeTopDotMenu() {
+            const menu = document.getElementById('top-dot-menu');
+            if (menu) menu.classList.remove('open');
+        }
+
+        function openSettingsFromMenu() {
+            closeTopDotMenu();
+            switchTab('settings', null, 'Settings', false);
+        }
+
+        function toggleThemeFromMenu() {
+            toggleTheme();
+            closeTopDotMenu();
+        }
+
+        document.addEventListener('click', (e) => {
+            const wrap = document.getElementById('top-menu-wrap');
+            if (wrap && !wrap.contains(e.target)) {
+                closeTopDotMenu();
+            }
+        });
 
         function saveData() {
             safeSetItem(DASHBOARD_STORAGE_KEY, JSON.stringify(appData));
@@ -3142,21 +4090,32 @@ body.print-opd #tab-opd { display: block !important; }
         function exportData() {
             const bundle = getCurrentLocalStateBundle();
             const masterBackup = {
-                schemaVersion: 2,
+                schemaVersion: 3,
                 appData: bundle.appData,
                 opdData: bundle.opdData,
                 staffData: bundle.staffData,
                 ageData: bundle.ageData,
+                patraData: bundle.patraData,
                 exportedAt: new Date().toISOString()
             };
-            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(masterBackup, null, 2));
+            const jsContent =
+                `// Smart PHC Master Backup File (.js) — All 5 Modes (Age, Present, Staff, OPD, Patra)
+` +
+                `// Generated on: ${new Date().toLocaleString()}
+` +
+                `window.SMART_PHC_MASTER_BACKUP = ${JSON.stringify(masterBackup, null, 2)};
+`;
+            const blob = new Blob([jsContent], { type: 'application/javascript;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const dateStamp = new Date().toISOString().slice(0, 10);
             const dl = document.createElement('a');
-            dl.setAttribute("href", dataStr);
-            dl.setAttribute("download", "Smart_Dashboard_Master_Backup.json");
+            dl.href = url;
+            dl.download = `Smart_PHC_Master_Backup_${dateStamp}.js`;
             document.body.appendChild(dl);
             dl.click();
-            dl.remove();
-            showToast('Master Backup (All Modes) Exported!');
+            document.body.removeChild(dl);
+            URL.revokeObjectURL(url);
+            showToast('Master Backup (.js) Downloaded!');
         }
 
         function importData(event) {
@@ -3165,8 +4124,22 @@ body.print-opd #tab-opd { display: block !important; }
             const reader = new FileReader();
             reader.onload = function(e) {
                 try {
-                    const parsed = JSON.parse(e.target.result);
-                    if (parsed.appData || parsed.opdData || parsed.staffData || parsed.ageData) {
+                    const rawText = String(e.target.result || '').trim();
+                    let parsed = null;
+                    const jsonStart = rawText.indexOf('{');
+                    const jsonEnd = rawText.lastIndexOf('}');
+                    if (jsonStart !== -1 && jsonEnd !== -1 && jsonEnd > jsonStart) {
+                        parsed = JSON.parse(rawText.substring(jsonStart, jsonEnd + 1));
+                    } else {
+                        parsed = JSON.parse(rawText);
+                    }
+                    if (parsed && (parsed.appData || parsed.opdData || parsed.staffData || parsed.ageData || parsed.patraData)) {
+                        if (parsed.patraData) {
+                            patraData = normalizePatraDataObj(parsed.patraData);
+                            safeSetItem(PATRA_STORAGE_KEY, JSON.stringify(patraData));
+                            safeSetItem(PATRA_LEGACY_CAT_KEY, JSON.stringify(patraData.categories));
+                            safeSetItem(PATRA_LEGACY_LET_KEY, JSON.stringify(patraData.letters));
+                        }
                         if (parsed.appData) {
                             appData = normalizeAppDataObj(parsed.appData);
                             safeSetItem(DASHBOARD_STORAGE_KEY, JSON.stringify(appData));
@@ -3191,6 +4164,15 @@ body.print-opd #tab-opd { display: block !important; }
                         isInitialCloudSyncDone = true;
                         syncToFirebase(true, true);
                         showToast('Master Data Imported & Synced!');
+                    } else if (parsed && Array.isArray(parsed.letters)) {
+                        patraData = normalizePatraDataObj(parsed);
+                        safeSetItem(PATRA_STORAGE_KEY, JSON.stringify(patraData));
+                        safeSetItem(PATRA_LEGACY_CAT_KEY, JSON.stringify(patraData.categories));
+                        safeSetItem(PATRA_LEGACY_LET_KEY, JSON.stringify(patraData.letters));
+                        refreshAllTabsUI();
+                        isInitialCloudSyncDone = true;
+                        syncToFirebase(true, true);
+                        showToast('Patra Register Backup Restored & Synced!');
                     } else if (parsed && Array.isArray(parsed.staffList)) {
                         staffGlobalData = normalizeStaffDataObj(parsed);
                         safeSetItem(STAFF_STORAGE_KEY, JSON.stringify(staffGlobalData));
@@ -3220,17 +4202,27 @@ body.print-opd #tab-opd { display: block !important; }
 
         // ================= TAB SWITCH & SCROLL LOGIC =================
         let currentActiveTab = 'present';
+        let lastNonSettingsTab = 'present';
         function switchTab(tabId, navElement, title, showPrint) {
             currentActiveTab = tabId;
+            if (tabId !== 'settings') {
+                lastNonSettingsTab = tabId;
+            }
+            closeTopDotMenu();
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
 
-            document.getElementById('tab-' + tabId).classList.add('active');
-            if (navElement) navElement.classList.add('active');
+            const targetTabEl = document.getElementById('tab-' + tabId);
+            if (targetTabEl) targetTabEl.classList.add('active');
+            const resolvedNav = navElement || (tabId !== 'settings' ? document.getElementById('nav-' + tabId) : null);
+            if (resolvedNav && resolvedNav.classList.contains('nav-item')) {
+                resolvedNav.classList.add('active');
+            }
 
             document.getElementById('header-title').textContent = title;
-            document.getElementById('btn-print').style.display = showPrint ? 'flex' : 'none';
-            document.getElementById('btn-preview-print').style.display = (tabId === 'present' || tabId === 'staff' || tabId === 'opd') ? 'flex' : 'none';
+            const canPrint = (tabId === 'present' || tabId === 'staff' || tabId === 'opd' || tabId === 'patra');
+            document.getElementById('btn-print').style.display = (showPrint || canPrint) ? 'flex' : 'none';
+            document.getElementById('btn-preview-print').style.display = 'none';
 
             if (tabId === 'age') {
                 setTimeout(() => {
@@ -4275,10 +5267,14 @@ body.print-opd #tab-opd { display: block !important; }
         printOpdCurrentMonth();
         return;
     }
+    if (currentActiveTab === 'patra') {
+        triggerPatraPrint();
+        return;
+    }
     setPrintPageStyle('landscape');
     
     // पुरानी क्लास हटाएं और सिर्फ नई लगाएं
-    document.body.classList.remove('print-opd', 'print-staff');
+    document.body.classList.remove('print-opd', 'print-staff', 'print-patra');
     document.body.classList.add('print-att');
     
     const pv = document.getElementById('print-view');
@@ -4293,6 +5289,12 @@ body.print-opd #tab-opd { display: block !important; }
         function openPrintPreview() {
             const box = document.getElementById('preview-scroll-box');
             const title = document.getElementById('preview-modal-title');
+            if (currentActiveTab === 'patra') {
+                title.textContent = 'पत्र रजिस्टर (Dispatch Register) — Print Preview';
+                box.innerHTML = buildPatraPrintHTML();
+                document.getElementById('print-preview-modal').classList.add('active');
+                return;
+            }
             if (currentActiveTab === 'opd') {
                 title.textContent = 'OPD Report — Print Preview';
                 box.innerHTML = document.getElementById('opdPrintArea').outerHTML;
@@ -4355,6 +5357,7 @@ body.print-opd #tab-opd { display: block !important; }
             closePrintPreview();
             if (currentActiveTab === 'opd') printOpdCurrentMonth();
             else if (currentActiveTab === 'staff') triggerStaffPrint();
+            else if (currentActiveTab === 'patra') triggerPatraPrint();
             else triggerPrint();
         }
 
@@ -4433,7 +5436,7 @@ body.print-opd #tab-opd { display: block !important; }
                 const isStartReadonly = (i !== 1) ? 'readonly tabindex="-1"' : '';
                 const startClass = (i !== 1) ? 'opd-readonly-input' : '';
 
-                // Total Count is now ALSO directly editable so user can type either End Range OR Total Count!
+                // Only End Range is fillable in table (Day 1 Start Range optional); Total Count is strictly readonly & no watermarks!
                 tr.innerHTML = `
                     <td id="opd-date-cell-${i}" class="${dateClass}"
                         onmousedown="opdStartPress(event, 'opd-date-cell-${i}')"
@@ -4443,9 +5446,9 @@ body.print-opd #tab-opd { display: block !important; }
                         oncontextmenu="return false;" title="Long press to mark Holiday (Red)">
                         <b>${dateStr} <span class="opd-day-name">(${dayStr})</span></b>
                     </td>
-                    <td><input type="number" class="opd-cell-input opd-start-input ${startClass}" id="opd-start-${i}" value="${valS}" oninput="opdOnRangeLiveInput(${i})" onchange="opdRecalculateAll(${i}, true)" placeholder="Start" ${isStartReadonly}></td>
-                    <td><input type="number" class="opd-cell-input opd-end-input" id="opd-end-${i}" value="${valE}" oninput="opdOnRangeLiveInput(${i})" onchange="opdRecalculateAll(${i}, true)" placeholder="End"></td>
-                    <td><input type="number" class="opd-cell-input opd-count-input opd-count-editable" id="opd-count-${i}" value="${valC}" oninput="opdOnCountInput(${i})" onchange="opdOnCountInput(${i})" placeholder="Count"></td>
+                    <td><input type="number" class="opd-cell-input opd-start-input ${startClass}" id="opd-start-${i}" value="${valS}" oninput="opdOnRangeLiveInput(${i})" onchange="opdRecalculateAll(${i}, true)" ${isStartReadonly}></td>
+                    <td><input type="number" class="opd-cell-input opd-end-input" id="opd-end-${i}" value="${valE}" onfocus="opdOnEndFocus(${i})" onblur="opdOnEndBlur(${i})" oninput="opdOnRangeLiveInput(${i})" onchange="opdRecalculateAll(${i}, true)"></td>
+                    <td><input type="number" class="opd-cell-input opd-count-input opd-readonly-input" id="opd-count-${i}" value="${valC}" readonly tabindex="-1"></td>
                 `;
                 tbody.appendChild(tr);
             }
@@ -4478,6 +5481,23 @@ body.print-opd #tab-opd { display: block !important; }
             return running;
         }
 
+        function opdOnEndFocus(dayIdx) {
+            const startElem = document.getElementById(`opd-start-${dayIdx}`);
+            if (!startElem) return;
+            if (startElem.value.trim() === '') {
+                startElem.value = getRunningStartForDay(dayIdx);
+            }
+        }
+
+        function opdOnEndBlur(dayIdx) {
+            const startElem = document.getElementById(`opd-start-${dayIdx}`);
+            const endElem = document.getElementById(`opd-end-${dayIdx}`);
+            if (!startElem || !endElem) return;
+            if (endElem.value.trim() === '' && dayIdx > 1) {
+                startElem.value = '';
+            }
+        }
+
         // Live typing handler for Start/End Range so mobile users don't lose data if they don't blur the input
         function opdOnRangeLiveInput(dayIdx) {
             const startElem = document.getElementById(`opd-start-${dayIdx}`);
@@ -4485,12 +5505,14 @@ body.print-opd #tab-opd { display: block !important; }
             if (!startElem || !endElem) return;
             const eRaw = endElem.value.trim();
             if (eRaw === '') {
+                if (dayIdx > 1) startElem.value = '';
                 opdRecalculateAll(-1, true);
                 return;
             }
             let sVal = parseInt(startElem.value, 10);
             if (isNaN(sVal) || sVal <= 0) {
                 sVal = getRunningStartForDay(dayIdx);
+                startElem.value = sVal;
             }
             const eVal = parseInt(eRaw, 10);
             // Only auto-recalculate & save while typing once eVal >= sVal (so multi-digit typing isn't interrupted)
@@ -4499,26 +5521,8 @@ body.print-opd #tab-opd { display: block !important; }
             }
         }
 
-        // Direct Count entry in the table row!
         function opdOnCountInput(dayIdx) {
-            const countElem = document.getElementById(`opd-count-${dayIdx}`);
-            const endElem = document.getElementById(`opd-end-${dayIdx}`);
-            const startElem = document.getElementById(`opd-start-${dayIdx}`);
-            const cVal = parseInt(countElem.value, 10);
-
-            if (isNaN(cVal) || cVal <= 0) {
-                endElem.value = '';
-                countElem.value = '';
-                opdRecalculateAll(-1, true);
-                return;
-            }
-
-            let sVal = parseInt(startElem.value, 10);
-            if (isNaN(sVal) || sVal <= 0) {
-                sVal = getRunningStartForDay(dayIdx);
-                if (dayIdx === 1) startElem.value = sVal;
-            }
-            endElem.value = sVal + cVal - 1;
+            // Kept for legacy compatibility; table count input is strictly readonly
             opdRecalculateAll(dayIdx, true);
         }
 
@@ -4528,7 +5532,8 @@ body.print-opd #tab-opd { display: block !important; }
 
             const [year, month] = picker.split('-');
             const days = getOpdDaysInMonth(year, month);
-            let currentStart = parseInt(document.getElementById('opd-start-1').value, 10);
+            let day1StartVal = parseInt(document.getElementById('opd-start-1')?.value, 10);
+            let currentStart = (!isNaN(day1StartVal) && day1StartVal > 0) ? day1StartVal : 1;
 
             for (let i = 1; i <= days; i++) {
                 const startElem = document.getElementById(`opd-start-${i}`);
@@ -4537,66 +5542,42 @@ body.print-opd #tab-opd { display: block !important; }
 
                 endElem.classList.remove('opd-input-error');
 
-                let hasEnd = !isNaN(parseInt(endElem.value, 10));
-                let futureEndExists = false;
-                for (let j = i + 1; j <= days; j++) {
-                    if (!isNaN(parseInt(document.getElementById(`opd-end-${j}`).value, 10))) {
-                        futureEndExists = true;
-                        break;
-                    }
-                }
+                let e = parseInt(endElem.value, 10);
+                let hasEnd = !isNaN(e);
 
-                if (i > 1) {
-                    if (!isNaN(currentStart) && currentStart > 0) {
-                        if (hasEnd || !futureEndExists) {
-                            startElem.value = currentStart;
-                        } else {
-                            // Skipped day (e.g. Sunday/Holiday) before a filled future day
-                            startElem.value = '';
-                        }
-                    } else {
+                if (i === 1) {
+                    if (hasEnd && (isNaN(day1StartVal) || day1StartVal <= 0)) {
+                        startElem.value = currentStart;
+                    }
+                } else {
+                    if (hasEnd) {
+                        startElem.value = currentStart;
+                    } else if (document.activeElement !== endElem) {
+                        // Keep unfilled rows completely blank!
                         startElem.value = '';
                     }
                 }
 
                 let s = parseInt(startElem.value, 10);
-                let e = parseInt(endElem.value, 10);
 
-                if (!isNaN(s) && !isNaN(e)) {
+                if (hasEnd && !isNaN(s)) {
                     if (e < s) {
-                        // Smart check: if user typed a small number in End Range by mistake, show clear message
                         if (i === changedIndex) {
-                            showAppAlert('Invalid End Range', `Date ${i}: End Range (${e}) Start Range (${s}) se chhota nahi ho sakta! Agar aap patients ki sankhya (Count) bharna chahte hain to "Total Count" wale column me bharein.`);
+                            showAppAlert('Invalid End Range', `Date ${i}: End Range (${e}) Start Range (${s}) से छोटा नहीं हो सकता! कृपया सही अंतिम रेंज (End Range) दर्ज करें।`);
                         }
                         endElem.classList.add('opd-input-error');
                         endElem.value = '';
                         countElem.value = '';
+                        if (i > 1) startElem.value = '';
                     } else {
                         countElem.value = e - s + 1;
                         currentStart = e + 1;
                     }
                 } else {
                     countElem.value = '';
-                    // IMPORTANT FIX: Do NOT reset currentStart to NaN when a day (like Sunday) is left blank!
-                    // Keep currentStart intact so subsequent days get the exact carried-forward Start Range!
-                }
-            }
-
-            // Second pass: ensure only the FIRST trailing unfilled day displays the next Start preview
-            let lastFilledDay = 0;
-            for (let i = 1; i <= days; i++) {
-                if (!isNaN(parseInt(document.getElementById(`opd-end-${i}`).value, 10))) {
-                    lastFilledDay = i;
-                }
-            }
-            if (lastFilledDay > 0) {
-                for (let i = lastFilledDay + 2; i <= days; i++) {
-                    document.getElementById(`opd-start-${i}`).value = '';
-                }
-            } else {
-                // No end range filled anywhere yet: only Day 1 keeps its start value
-                for (let i = 2; i <= days; i++) {
-                    document.getElementById(`opd-start-${i}`).value = '';
+                    if (i > 1 && document.activeElement !== endElem) {
+                        startElem.value = '';
+                    }
                 }
             }
 
@@ -5447,47 +6428,52 @@ body.print-opd #tab-opd { display: block !important; }
 
         function updateStaffSummaryKPIs() {
             const totalStaff = staffGlobalData.staffList.length;
-            let ghStaffCount = 0, doStaffCount = 0;
+            const cycleKey = getStaffCycleKey();
+            const miniTotal = document.getElementById('mini-staff-total');
+            if (miniTotal) miniTotal.textContent = totalStaff;
+
+            const detailTbody = document.getElementById('staffDetailedSummaryBody');
+            if (!detailTbody) return;
+
+            if (totalStaff === 0) {
+                detailTbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding:12px; color:var(--text-muted);">कोई कर्मचारी दर्ज नहीं है।</td></tr>`;
+                return;
+            }
+
+            let rowsHtml = '';
             staffGlobalData.staffList.forEach(s => {
-                if (s.type === 'GH') ghStaffCount++;
-                else doStaffCount++;
-            });
-
-            let cycleP = 0, cycleCL = 0, cycleML = 0, cycleOtherLeave = 0, todayP = 0;
-            const todayStr = formatStaffDate(new Date());
-            let cycleGhDatesCount = 0;
-
-            staffCycleDates.forEach(d => {
-                const dStr = formatStaffDate(d);
-                if (staffGlobalData.ghDates.includes(dStr) || appData.holidays[dStr]) {
-                    cycleGhDatesCount++;
-                }
-                staffGlobalData.staffList.forEach(s => {
+                let pCount = 0, ghDoCount = 0, cCL = 0, cML = 0, otherL = 0;
+                staffCycleDates.forEach(d => {
+                    const dStr = formatStaffDate(d);
                     const v = staffGlobalData.cellData[`${s.id}_${dStr}`] || '';
-                    if (v === 'P') {
-                        cycleP++;
-                        if (dStr === todayStr) todayP++;
-                    } else if (v === 'CL') cycleCL++;
-                    else if (v === 'ML') cycleML++;
-                    else if (v === 'PL' || v === 'CCL') cycleOtherLeave++;
+                    if (v === 'P') pCount++;
+                    else if (v === 'GH' || v === 'D/O') ghDoCount++;
+                    else if (v === 'CL') cCL++;
+                    else if (v === 'ML') cML++;
+                    else if (v === 'PL' || v === 'CCL') otherL++;
                 });
+
+                const upCL = parseFloat(staffGlobalData.cellData[`${s.id}_${cycleKey}_uptocl`]) || 0;
+                const upML = parseFloat(staffGlobalData.cellData[`${s.id}_${cycleKey}_uptoml`]) || 0;
+                const totCL = upCL + cCL;
+                const totML = upML + cML;
+
+                rowsHtml += `
+                    <tr>
+                        <td>
+                            <div style="font-weight:700; color:var(--text-main);">${s.name || '-'} <span class="staff-type-pill staff-type-${s.type}">${s.type}</span></div>
+                            <div style="font-size:10px; color:var(--text-muted);">${s.post || '-'} (${s.place || '-'})</div>
+                        </td>
+                        <td style="font-weight:800; color:var(--t-present); font-family:'JetBrains Mono',monospace;">${pCount}</td>
+                        <td style="font-weight:700; color:var(--t-holiday); font-family:'JetBrains Mono',monospace;">${ghDoCount}</td>
+                        <td style="font-family:'JetBrains Mono',monospace;">CL:${upCL} | ML:${upML}</td>
+                        <td style="font-weight:700; color:var(--t-absent); font-family:'JetBrains Mono',monospace;">CL:${cCL} | ML:${cML}</td>
+                        <td style="font-family:'JetBrains Mono',monospace;">${otherL || '-'}</td>
+                        <td style="font-weight:800; color:var(--primary); font-family:'JetBrains Mono',monospace;">CL:${totCL} | ML:${totML}</td>
+                    </tr>
+                `;
             });
-
-            const totalLeaves = cycleCL + cycleML + cycleOtherLeave;
-
-            document.getElementById('mini-staff-total').textContent = totalStaff;
-            document.getElementById('mini-staff-p').textContent = cycleP;
-            document.getElementById('mini-staff-leave').textContent = totalLeaves;
-            document.getElementById('mini-staff-gh').textContent = cycleGhDatesCount;
-
-            document.getElementById('staffKpiTotal').textContent = totalStaff;
-            document.getElementById('staffKpiSplit').textContent = `GH: ${ghStaffCount} | D/O: ${doStaffCount}`;
-            document.getElementById('staffKpiPresent').textContent = cycleP;
-            document.getElementById('staffKpiTodayP').textContent = `Today P: ${todayP}/${totalStaff}`;
-            document.getElementById('staffKpiLeaves').textContent = totalLeaves;
-            document.getElementById('staffKpiLeaveBreak').textContent = `CL: ${cycleCL} | ML: ${cycleML}`;
-            document.getElementById('staffKpiGH').textContent = cycleGhDatesCount;
-            document.getElementById('staffKpiGHSub').textContent = `${ Object.keys(appData.holidays || {}).length } Total in Settings`;
+            detailTbody.innerHTML = rowsHtml;
         }
 
         // Today Single-Day Mode in Staff Attendance
@@ -5881,6 +6867,579 @@ body.print-opd #tab-opd { display: block !important; }
             }, 280);
         }
 
+        // ================= APP 5: PATRA REGISTER (SMART DISPATCH TRACKER) ENGINE =================
+        const PATRA_COLOR_DOTS = {
+            emerald: '#10b981',
+            indigo: '#4f46e5',
+            amber: '#f59e0b',
+            sky: '#0ea5e9',
+            rose: '#f43f5e',
+            purple: '#a855f7'
+        };
+        const PATRA_COLOR_KEYS = Object.keys(PATRA_COLOR_DOTS);
+
+        let patraData = getDefaultPatraData();
+        let patraActiveTabId = 'ALL';
+
+        function loadPatraDataFromStorage() {
+            const rawV2 = safeGetItem(PATRA_STORAGE_KEY);
+            if (rawV2) {
+                try {
+                    patraData = normalizePatraDataObj(JSON.parse(rawV2));
+                    return;
+                } catch (e) {}
+            }
+            // Fallback to legacy v1 keys if present
+            const rawCats = safeGetItem(PATRA_LEGACY_CAT_KEY);
+            const rawLets = safeGetItem(PATRA_LEGACY_LET_KEY);
+            if (rawCats || rawLets) {
+                try {
+                    patraData = normalizePatraDataObj({
+                        categories: rawCats ? JSON.parse(rawCats) : null,
+                        letters: rawLets ? JSON.parse(rawLets) : null
+                    });
+                    safeSetItem(PATRA_STORAGE_KEY, JSON.stringify(patraData));
+                    return;
+                } catch (e) {}
+            }
+            patraData = getDefaultPatraData();
+        }
+
+        function savePatraData() {
+            patraData = normalizePatraDataObj(patraData);
+            safeSetItem(PATRA_STORAGE_KEY, JSON.stringify(patraData));
+            safeSetItem(PATRA_LEGACY_CAT_KEY, JSON.stringify(patraData.categories));
+            safeSetItem(PATRA_LEGACY_LET_KEY, JSON.stringify(patraData.letters));
+            const badge = document.getElementById('patraSavedBadge');
+            if (badge) {
+                badge.classList.add('pulse');
+                setTimeout(() => badge.classList.remove('pulse'), 220);
+            }
+            syncToFirebase(false);
+        }
+
+        function extractPatraKramankNumber(kramankStr) {
+            const s = String(kramankStr || '').trim();
+            if (!s) return 0;
+            const matches = s.match(/\d+/g);
+            if (!matches || matches.length === 0) return 0;
+            return parseInt(matches[matches.length - 1], 10) || 0;
+        }
+
+        function getNextPatraKramankNumber() {
+            const list = patraData.letters || [];
+            if (list.length === 0) return '1';
+            let maxNum = 0;
+            list.forEach(item => {
+                const n = extractPatraKramankNumber(item.kramank);
+                if (n > maxNum) maxNum = n;
+            });
+            return String(maxNum > 0 ? maxNum + 1 : list.length + 1);
+        }
+
+        function escapePatraHtml(str) {
+            return String(str || '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        function formatPatraReadableDate(dateStr) {
+            if (!dateStr) return '-';
+            const parts = String(dateStr).split('-');
+            if (parts.length !== 3) return dateStr;
+            const m = parseInt(parts[1], 10) - 1;
+            return `${parts[2]} ${engMonths[m] || parts[1]} ${parts[0]}`;
+        }
+
+        function getPatraCategoryById(catId) {
+            return (patraData.categories || []).find(c => c.id === catId) || null;
+        }
+
+        function initPatraApp() {
+            renderPatraTabs();
+            renderPatraLetters();
+            const summary = document.getElementById('patraBackupSummaryText');
+            if (summary) {
+                summary.textContent = `कुल ${(patraData.letters || []).length} पत्र और ${(patraData.categories || []).length} कैटेगरी लोकल व सर्वर पर सुरक्षित हैं।`;
+            }
+        }
+
+        function renderPatraTabs() {
+            const bar = document.getElementById('patraCategoryTabsBar');
+            if (!bar) return;
+            const cats = patraData.categories || [];
+            const lets = patraData.letters || [];
+
+            if (patraActiveTabId !== 'ALL' && !cats.some(c => c.id === patraActiveTabId)) {
+                patraActiveTabId = 'ALL';
+            }
+
+            let html = `
+                <button type="button" class="patra-tab-chip ${patraActiveTabId === 'ALL' ? 'active' : ''}" onclick="selectPatraCategoryTab('ALL')">
+                    <span>सभी (All)</span>
+                    <span class="patra-tab-count">${lets.length}</span>
+                </button>
+            `;
+
+            cats.forEach(cat => {
+                const count = lets.filter(l => l.categoryId === cat.id).length;
+                const isActive = patraActiveTabId === cat.id;
+                const dotColor = PATRA_COLOR_DOTS[cat.color] || '#4f46e5';
+                html += `
+                    <button type="button" class="patra-tab-chip ${isActive ? 'active' : ''}" onclick="selectPatraCategoryTab('${escapePatraHtml(cat.id)}')">
+                        <span class="patra-tab-dot" style="background:${isActive ? '#34d399' : dotColor};"></span>
+                        <span>${escapePatraHtml(cat.name)}</span>
+                        <span class="patra-tab-count">${count}</span>
+                    </button>
+                `;
+            });
+
+            bar.innerHTML = html;
+        }
+
+        function selectPatraCategoryTab(tabId) {
+            patraActiveTabId = tabId;
+            renderPatraTabs();
+            renderPatraLetters();
+        }
+
+        function clearPatraSearch() {
+            const inp = document.getElementById('patraSearchInput');
+            if (inp) inp.value = '';
+            renderPatraLetters();
+        }
+
+        function getFilteredAndSortedPatraLetters() {
+            const lets = patraData.letters || [];
+            const searchInp = document.getElementById('patraSearchInput');
+            const sortSel = document.getElementById('patraSortSelect');
+            const query = (searchInp?.value || '').trim().toLowerCase();
+            const sortMode = sortSel ? sortSel.value : 'kramank_asc';
+
+            let list = lets.filter(item => {
+                if (patraActiveTabId !== 'ALL' && item.categoryId !== patraActiveTabId) return false;
+                if (query) {
+                    const cat = getPatraCategoryById(item.categoryId);
+                    const catName = cat ? cat.name.toLowerCase() : '';
+                    const numPart = String(extractPatraKramankNumber(item.kramank));
+                    const searchable = `${item.kramank} ${numPart} ${item.office || ''} ${item.place || ''} ${item.details || ''} ${item.date || ''} ${catName}`.toLowerCase();
+                    return searchable.includes(query);
+                }
+                return true;
+            });
+
+            list.sort((a, b) => {
+                const numA = extractPatraKramankNumber(a.kramank);
+                const numB = extractPatraKramankNumber(b.kramank);
+                if (sortMode === 'kramank_asc') {
+                    if (numA !== numB) return numA - numB;
+                    return String(a.kramank).localeCompare(String(b.kramank));
+                }
+                if (sortMode === 'kramank_desc') {
+                    if (numA !== numB) return numB - numA;
+                    return String(b.kramank).localeCompare(String(a.kramank));
+                }
+                const dComp = String(b.date || '').localeCompare(String(a.date || ''));
+                if (dComp !== 0) return dComp;
+                return numB - numA;
+            });
+            return list;
+        }
+
+        function renderPatraLetters() {
+            const container = document.getElementById('patraLettersContainer');
+            const emptyState = document.getElementById('patraEmptyState');
+            const headerStats = document.getElementById('patraHeaderStatsText');
+            const fabNext = document.getElementById('patraFabNextPill');
+            const activeTitle = document.getElementById('patraActiveCategoryTitle');
+            const visibleCount = document.getElementById('patraVisibleCountLabel');
+            const searchInp = document.getElementById('patraSearchInput');
+            const clearBtn = document.getElementById('patraBtnClearSearch');
+            if (!container) return;
+
+            const lets = patraData.letters || [];
+            const nextKramank = getNextPatraKramankNumber();
+            if (headerStats) headerStats.textContent = `कुल ${lets.length} पत्र • अगला क्रमांक #${nextKramank}`;
+            if (fabNext) fabNext.textContent = `#${nextKramank}`;
+
+            const query = (searchInp?.value || '').trim();
+            if (clearBtn) clearBtn.style.display = query.length > 0 ? 'block' : 'none';
+
+            const list = getFilteredAndSortedPatraLetters();
+
+            if (activeTitle) {
+                if (patraActiveTabId === 'ALL') activeTitle.textContent = 'सभी पत्र (All)';
+                else {
+                    const c = getPatraCategoryById(patraActiveTabId);
+                    activeTitle.textContent = c ? c.name : 'पत्र सूची';
+                }
+            }
+            if (visibleCount) visibleCount.textContent = `${list.length} पत्र`;
+
+            if (list.length === 0) {
+                container.innerHTML = '';
+                if (emptyState) emptyState.style.display = 'block';
+                return;
+            }
+            if (emptyState) emptyState.style.display = 'none';
+
+            container.innerHTML = list.map(item => {
+                const cat = getPatraCategoryById(item.categoryId);
+                const catName = cat ? cat.name : 'General';
+                const dotColor = PATRA_COLOR_DOTS[cat ? cat.color : 'indigo'] || '#4f46e5';
+                const cleanNum = extractPatraKramankNumber(item.kramank);
+                const displayKramank = String(item.kramank || '').trim();
+                const officeStr = String(item.office || '').trim();
+                const placeStr = String(item.place || '').trim();
+
+                return `
+                    <article class="patra-card">
+                        <div class="patra-kramank-badge">
+                            <span class="patra-kramank-lbl">क्रमांक</span>
+                            <span class="patra-kramank-num">${cleanNum > 0 && displayKramank.length > 6 ? '#' + cleanNum : escapePatraHtml(displayKramank)}</span>
+                        </div>
+                        <div class="patra-card-body">
+                            <div class="patra-card-top">
+                                <div style="min-width:0;">
+                                    <div class="patra-meta-badges">
+                                        <span class="patra-cat-pill">
+                                            <span class="patra-tab-dot" style="background:${dotColor};"></span>
+                                            <span>${escapePatraHtml(catName)}</span>
+                                        </span>
+                                        <span class="patra-date-lbl">📅 ${escapePatraHtml(formatPatraReadableDate(item.date))}</span>
+                                    </div>
+                                    <div class="patra-office-place-row">
+                                        <span class="patra-office-title">🏛️ ${escapePatraHtml(officeStr || placeStr || '-')}</span>
+                                        ${placeStr ? `<span class="patra-place-pill">📍 ${escapePatraHtml(placeStr)}</span>` : ''}
+                                    </div>
+                                </div>
+                                <div class="patra-card-actions">
+                                    <button type="button" class="patra-icon-btn" title="संपादित करें (Edit)" onclick="openPatraLetterModal('${escapePatraHtml(item.id)}')">✏️</button>
+                                    <button type="button" class="patra-icon-btn del" title="हटाएं (Delete)" onclick="deletePatraLetter('${escapePatraHtml(item.id)}')">🗑️</button>
+                                </div>
+                            </div>
+                            <p class="patra-details-text">${escapePatraHtml(item.details)}</p>
+                        </div>
+                    </article>
+                `;
+            }).join('');
+        }
+
+        function openPatraLetterModal(editId) {
+            const modal = document.getElementById('patraLetterModal');
+            const heading = document.getElementById('patraModalHeading');
+            const submitBtn = document.getElementById('patraSubmitBtnLabel');
+            const idInp = document.getElementById('patraInputLetterId');
+            const kramankInp = document.getElementById('patraInputKramank');
+            const dateInp = document.getElementById('patraInputDate');
+            const catSelect = document.getElementById('patraInputCategory');
+            const officeInp = document.getElementById('patraInputOffice');
+            const placeInp = document.getElementById('patraInputPlace');
+            const detailsInp = document.getElementById('patraInputDetails');
+            if (!modal || !catSelect) return;
+
+            const cats = patraData.categories || [];
+            catSelect.innerHTML = cats.map(c => `<option value="${escapePatraHtml(c.id)}">${escapePatraHtml(c.name)}</option>`).join('');
+
+            if (editId) {
+                const item = (patraData.letters || []).find(l => l.id === editId);
+                if (!item) return;
+                heading.textContent = `पत्र क्रमांक #${item.kramank} संपादित करें`;
+                submitBtn.textContent = '💾 अपडेट करें (Update)';
+                idInp.value = item.id;
+                kramankInp.value = item.kramank;
+                dateInp.value = item.date;
+                catSelect.value = item.categoryId;
+                officeInp.value = item.office || '';
+                placeInp.value = item.place || '';
+                detailsInp.value = item.details || '';
+            } else {
+                const nextNum = getNextPatraKramankNumber();
+                heading.textContent = 'नया पत्र दर्ज करें';
+                submitBtn.textContent = '💾 सेव करें (Save)';
+                idInp.value = '';
+                kramankInp.value = nextNum;
+                dateInp.value = new Date().toISOString().split('T')[0];
+                catSelect.value = (patraActiveTabId !== 'ALL' && getPatraCategoryById(patraActiveTabId)) ? patraActiveTabId : (cats[0]?.id || '');
+                officeInp.value = '';
+                placeInp.value = '';
+                detailsInp.value = '';
+            }
+
+            modal.classList.add('active');
+            setTimeout(() => officeInp.focus(), 60);
+        }
+
+        function closePatraLetterModal() {
+            document.getElementById('patraLetterModal')?.classList.remove('active');
+        }
+
+        function resetPatraAutoKramank() {
+            const inp = document.getElementById('patraInputKramank');
+            if (inp) inp.value = getNextPatraKramankNumber();
+        }
+
+        function savePatraLetterForm(e) {
+            e.preventDefault();
+            const id = document.getElementById('patraInputLetterId').value.trim();
+            const kramank = document.getElementById('patraInputKramank').value.trim();
+            const date = document.getElementById('patraInputDate').value;
+            const categoryId = document.getElementById('patraInputCategory').value;
+            const office = document.getElementById('patraInputOffice').value.trim();
+            const place = document.getElementById('patraInputPlace').value.trim();
+            const details = document.getElementById('patraInputDetails').value.trim();
+
+            if (!kramank || !date || !office || !place || !details) {
+                showToast('कृपया कार्यालय, स्थान व सभी आवश्यक जानकारी भरें');
+                return;
+            }
+
+            if (id) {
+                const target = (patraData.letters || []).find(l => l.id === id);
+                if (target) {
+                    target.kramank = kramank;
+                    target.date = date;
+                    target.categoryId = categoryId;
+                    target.office = office;
+                    target.place = place;
+                    target.details = details;
+                }
+                showToast(`क्रमांक #${kramank} अपडेट हो गया!`);
+            } else {
+                patraData.letters.push({
+                    id: 'let_' + Date.now(),
+                    kramank,
+                    date,
+                    categoryId,
+                    office,
+                    place,
+                    details
+                });
+                showToast(`पत्र क्रमांक #${kramank} सेव हो गया!`);
+            }
+
+            savePatraData();
+            closePatraLetterModal();
+            initPatraApp();
+        }
+
+        function deletePatraLetter(id) {
+            const target = (patraData.letters || []).find(l => l.id === id);
+            if (!target) return;
+            showAppConfirm(
+                `पत्र क्रमांक #${target.kramank} हटाएं?`,
+                `क्या आप "${target.office || ''} (${target.place || ''})" के इस पत्र को रजिस्टर से हटाना चाहते हैं?`,
+                () => {
+                    patraData.letters = (patraData.letters || []).filter(l => l.id !== id);
+                    savePatraData();
+                    initPatraApp();
+                    showToast(`क्रमांक #${target.kramank} हटाया गया`);
+                }
+            );
+        }
+
+        function openPatraCategoryModal() {
+            renderPatraCategoryManager();
+            document.getElementById('patraCategoryModal')?.classList.add('active');
+        }
+
+        function closePatraCategoryModal() {
+            document.getElementById('patraCategoryModal')?.classList.remove('active');
+        }
+
+        function renderPatraCategoryManager() {
+            const listEl = document.getElementById('patraCategoryManagerList');
+            if (!listEl) return;
+            const cats = patraData.categories || [];
+            const lets = patraData.letters || [];
+
+            listEl.innerHTML = cats.map(cat => {
+                const count = lets.filter(l => l.categoryId === cat.id).length;
+                const dotColor = PATRA_COLOR_DOTS[cat.color] || '#4f46e5';
+                return `
+                    <div class="hol-list-item">
+                        <span class="patra-tab-dot" style="background:${dotColor}; flex:0 0 8px;"></span>
+                        <input type="text" value="${escapePatraHtml(cat.name)}" onchange="renamePatraCategory('${escapePatraHtml(cat.id)}', this.value)" style="flex:1; height:28px; border:1px solid var(--border-light); border-radius:6px; padding:0 8px; font-size:12px; font-weight:700; background:var(--surface); color:var(--text-main);">
+                        <span style="font-size:10px; color:var(--text-muted); flex:0 0 auto;">${count} पत्र</span>
+                        <button type="button" class="hol-del-btn" onclick="deletePatraCategory('${escapePatraHtml(cat.id)}')" title="कैटेगरी हटाएं">&times;</button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function addNewPatraCategory(e) {
+            e.preventDefault();
+            const inp = document.getElementById('patraNewCatInput');
+            const name = (inp?.value || '').trim();
+            if (!name) return;
+            patraData.categories.push({
+                id: 'cat_' + Date.now(),
+                name,
+                color: PATRA_COLOR_KEYS[patraData.categories.length % PATRA_COLOR_KEYS.length]
+            });
+            inp.value = '';
+            savePatraData();
+            renderPatraCategoryManager();
+            initPatraApp();
+            showToast(`"${name}" कैटेगरी जोड़ी गई`);
+        }
+
+        function renamePatraCategory(catId, newName) {
+            const target = getPatraCategoryById(catId);
+            if (!target) return;
+            const trimmed = (newName || '').trim();
+            if (!trimmed) {
+                renderPatraCategoryManager();
+                return;
+            }
+            target.name = trimmed;
+            savePatraData();
+            initPatraApp();
+            showToast('कैटेगरी का नाम अपडेट हो गया');
+        }
+
+        function deletePatraCategory(catId) {
+            if ((patraData.categories || []).length <= 1) {
+                showToast('कम से कम 1 कैटेगरी आवश्यक है');
+                return;
+            }
+            const target = getPatraCategoryById(catId);
+            if (!target) return;
+            const fallback = patraData.categories.find(c => c.id !== catId);
+            (patraData.letters || []).forEach(l => {
+                if (l.categoryId === catId && fallback) l.categoryId = fallback.id;
+            });
+            patraData.categories = patraData.categories.filter(c => c.id !== catId);
+            if (patraActiveTabId === catId) patraActiveTabId = 'ALL';
+            savePatraData();
+            renderPatraCategoryManager();
+            initPatraApp();
+            showToast(`"${target.name}" कैटेगरी हटाई गई`);
+        }
+
+        function openPatraBackupModal() {
+            initPatraApp();
+            document.getElementById('patraBackupModal')?.classList.add('active');
+        }
+
+        function closePatraBackupModal() {
+            document.getElementById('patraBackupModal')?.classList.remove('active');
+        }
+
+        function downloadPatraJsBackup() {
+            const payload = {
+                app: 'PatraRegister',
+                version: 3,
+                exportedAt: new Date().toISOString(),
+                categories: patraData.categories,
+                letters: patraData.letters
+            };
+            const jsFileContent =
+                `// Patra Register Official Backup File (.js)\n` +
+                `// Generated on: ${new Date().toLocaleString()}\n` +
+                `window.PATRA_REGISTER_BACKUP = ${JSON.stringify(payload, null, 2)};\n`;
+
+            const blob = new Blob([jsFileContent], { type: 'application/javascript;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const dateStamp = new Date().toISOString().slice(0, 10);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `patra_register_backup_${dateStamp}.js`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            showToast('JS बैकअप फ़ाइल डाउनलोड हो गई!');
+        }
+
+        function handlePatraBackupUpload(event) {
+            const file = event.target.files && event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function (ev) {
+                try {
+                    const rawText = String(ev.target.result || '').trim();
+                    let parsed = null;
+                    const jsonStart = rawText.indexOf('{');
+                    const jsonEnd = rawText.lastIndexOf('}');
+                    if (jsonStart !== -1 && jsonEnd !== -1 && jsonEnd > jsonStart) {
+                        parsed = JSON.parse(rawText.substring(jsonStart, jsonEnd + 1));
+                    } else {
+                        parsed = JSON.parse(rawText);
+                    }
+                    if (!parsed || !Array.isArray(parsed.letters)) {
+                        showToast('अमान्य बैकअप फ़ाइल! कृपया सही .js फ़ाइल चुनें');
+                        return;
+                    }
+                    patraData = normalizePatraDataObj(parsed);
+                    patraActiveTabId = 'ALL';
+                    savePatraData();
+                    initPatraApp();
+                    closePatraBackupModal();
+                    isInitialCloudSyncDone = true;
+                    syncToFirebase(true, true);
+                    showToast(`सफलतापूर्वक ${patraData.letters.length} पत्र रीस्टोर व सिंक हो गए!`);
+                } catch (err) {
+                    showToast('फ़ाइल पढ़ने में त्रुटि! सही .js या .json बैकअप फ़ाइल चुनें।');
+                }
+            };
+            reader.readAsText(file);
+            event.target.value = '';
+        }
+
+        function buildPatraPrintHTML() {
+            const list = getFilteredAndSortedPatraLetters();
+            const officeHeading = staffGlobalData.mainTitle || DEFAULT_STAFF_TITLE;
+            let h = `<div style="text-align:center; margin-bottom:12px; color:#000;">
+                <div style="font-size:15px; font-weight:bold;">${escapePatraHtml(officeHeading)}</div>
+                <div style="font-size:13px; font-weight:bold; margin-top:4px; text-decoration:underline;">पत्र प्रेषण रजिस्टर (PATRA DISPATCH REGISTER)</div>
+            </div>`;
+            h += `<table style="width:100%; border-collapse:collapse; font-size:11px; color:#000; border:1px solid #000;">
+                <thead>
+                    <tr style="background:#e2e8f0; font-weight:bold;">
+                        <th style="border:1px solid #000; padding:6px 4px; width:10%;">पत्र क्रमांक</th>
+                        <th style="border:1px solid #000; padding:6px 4px; width:13%;">दिनांक</th>
+                        <th style="border:1px solid #000; padding:6px 4px; width:13%;">कैटेगरी</th>
+                        <th style="border:1px solid #000; padding:6px 6px; width:22%; text-align:left;">भेजने वाला कार्यालय</th>
+                        <th style="border:1px solid #000; padding:6px 6px; width:14%; text-align:left;">स्थान</th>
+                        <th style="border:1px solid #000; padding:6px 6px; width:28%; text-align:left;">पत्र का विवरण / विषय</th>
+                    </tr>
+                </thead>
+                <tbody>`;
+            if (list.length === 0) {
+                h += `<tr><td colspan="6" style="border:1px solid #000; padding:12px; text-align:center;">कोई पत्र दर्ज नहीं है</td></tr>`;
+            } else {
+                list.forEach(item => {
+                    const cat = getPatraCategoryById(item.categoryId);
+                    h += `<tr>
+                        <td style="border:1px solid #000; padding:5px 4px; text-align:center; font-weight:bold;">${escapePatraHtml(item.kramank)}</td>
+                        <td style="border:1px solid #000; padding:5px 4px; text-align:center;">${escapePatraHtml(formatPatraReadableDate(item.date))}</td>
+                        <td style="border:1px solid #000; padding:5px 4px; text-align:center;">${escapePatraHtml(cat ? cat.name : '-')}</td>
+                        <td style="border:1px solid #000; padding:5px 6px; text-align:left; font-weight:600;">${escapePatraHtml(item.office || '-')}</td>
+                        <td style="border:1px solid #000; padding:5px 6px; text-align:left;">${escapePatraHtml(item.place || '-')}</td>
+                        <td style="border:1px solid #000; padding:5px 6px; text-align:left;">${escapePatraHtml(item.details || '-')}</td>
+                    </tr>`;
+                });
+            }
+            h += `</tbody></table>`;
+            return h;
+        }
+
+        function triggerPatraPrint() {
+            setPrintPageStyle('portrait');
+            document.body.classList.remove('print-att', 'print-opd', 'print-staff');
+            document.body.classList.add('print-patra');
+            const pv = document.getElementById('patra-print-view');
+            if (pv) pv.innerHTML = buildPatraPrintHTML();
+            setTimeout(() => {
+                window.print();
+                document.body.classList.remove('print-patra');
+            }, 250);
+        }
+
         // ================= INITIALIZATION & REAL-TIME LIVE SERVER SYNC =================
         let appCoreStarted = false;
 
@@ -5941,7 +7500,7 @@ body.print-opd #tab-opd { display: block !important; }
             // Instant sync between multiple open tabs on the same device
             window.addEventListener('storage', (e) => {
                 if (!e.key || isApplyingRemoteSnapshot) return;
-                if ([DASHBOARD_STORAGE_KEY, OPD_STORAGE_KEY, STAFF_STORAGE_KEY, AGE_STORAGE_KEY].includes(e.key)) {
+                if ([DASHBOARD_STORAGE_KEY, OPD_STORAGE_KEY, STAFF_STORAGE_KEY, AGE_STORAGE_KEY, PATRA_STORAGE_KEY, PATRA_LEGACY_CAT_KEY, PATRA_LEGACY_LET_KEY].includes(e.key)) {
                     isApplyingRemoteSnapshot = true;
                     try {
                         refreshAllTabsUI();
@@ -6042,11 +7601,14 @@ body.print-opd #tab-opd { display: block !important; }
                 loadSharedData();
                 loadStaffDataFromStorage();
                 loadAgeDataFromStorage();
+                loadPatraDataFromStorage();
                 syncHolidaysBetweenSettingsAndStaff(false);
 
                 initAgeApp();
                 initAttendance();
                 initStaffApp();
+                initPatraApp();
+                updateThemeMenuBadge();
 
                 const now = new Date();
                 const yyyy = now.getFullYear();
