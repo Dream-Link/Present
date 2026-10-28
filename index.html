@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Smart PHC</title>
+    <title>My PHC</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -875,16 +875,15 @@ body.print-patra #tab-patra { display: block !important; }
         /* ==========================================
            TAB 3: OPD REPORT STYLES (DENSE & FULL WIDTH)
            ========================================== */
-        .opd-dashboard-controls {
+       .opd-dashboard-controls {
             background: var(--surface);
             padding: 5px 8px;
             border-radius: 8px;
             border: 1px solid var(--border-light);
             margin-bottom: 6px;
             display: flex;
-            flex-wrap: nowrap;
-            overflow-x: auto;
-            scrollbar-width: none;
+            flex-wrap: wrap;
+            overflow-x: visible;
             gap: 6px;
             align-items: center;
             justify-content: space-between;
@@ -959,8 +958,7 @@ body.print-patra #tab-patra { display: block !important; }
             color: var(--text-muted);
             font-weight: 500;
         }
-
-        .opd-quick-entry-bar {
+.opd-quick-entry-bar {
             background: var(--surface);
             border: 1px solid var(--border);
             border-left: 4px solid var(--opd-success);
@@ -968,9 +966,8 @@ body.print-patra #tab-patra { display: block !important; }
             padding: 6px 8px;
             margin-top: 6px;
             display: flex;
-            flex-wrap: nowrap;
-            overflow-x: auto;
-            scrollbar-width: none;
+            flex-wrap: wrap;
+            overflow-x: visible;
             align-items: center;
             justify-content: space-between;
             gap: 6px;
@@ -986,6 +983,8 @@ body.print-patra #tab-patra { display: block !important; }
             align-items: center;
             gap: 5px;
             flex-shrink: 0;
+            width: 100%;
+            justify-content: space-between;
         }
         .opd-quick-badge {
             background: var(--c-present);
@@ -1000,11 +999,14 @@ body.print-patra #tab-patra { display: block !important; }
             display: flex;
             align-items: center;
             gap: 5px;
-            flex-wrap: nowrap;
+            flex-wrap: wrap;
             flex-shrink: 0;
+            width: 100%;
+            justify-content: space-between;
         }
         .opd-quick-input {
-            width: 92px;
+            flex: 1;
+            min-width: 80px;
             height: 30px;
             border: 1px solid var(--border);
             border-radius: 6px;
@@ -1015,10 +1017,6 @@ body.print-patra #tab-patra { display: block !important; }
             font-weight: 700;
             font-family: 'JetBrains Mono', monospace;
             outline: none;
-        }
-        .opd-quick-input:focus {
-            border-color: var(--primary);
-            background: var(--primary-light);
         }
 
         .opd-print-container {
@@ -1548,23 +1546,35 @@ body.print-patra #tab-patra { display: block !important; }
         @media (max-width: 640px) {
             .staff-controls-card {
                 flex-direction: row;
-                flex-wrap: nowrap;
-                overflow-x: auto;
-                scrollbar-width: none;
+                flex-wrap: wrap;
+                overflow-x: visible;
                 gap: 5px;
                 padding: 5px 6px;
             }
             .staff-controls-card::-webkit-scrollbar { display: none; }
-            .staff-date-nav-group { flex-shrink: 0; gap: 4px; }
+            .staff-date-nav-group { 
+                flex-shrink: 0; 
+                gap: 4px; 
+                width: 100%;
+                justify-content: space-between;
+            }
             .staff-actions-group {
                 display: flex;
-                flex-wrap: nowrap;
+                flex-wrap: wrap;
                 gap: 4px;
                 flex-shrink: 0;
+                width: 100%;
+                justify-content: space-between;
             }
-            .staff-btn { width: auto; padding: 0 8px; font-size: 11px; flex-shrink: 0; }
+            .staff-btn { 
+                width: auto; 
+                padding: 0 8px; 
+                font-size: 11px; 
+                flex-shrink: 0; 
+                flex: 1;
+                text-align: center;
+            }
         }
-
         .staff-filter-bar {
             background: var(--surface);
             border: 1px solid var(--border-light);
