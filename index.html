@@ -607,42 +607,223 @@ body.print-patra #tab-patra { display: block !important; }
 
         
         /* ==========================================
-           UPGRADED STAFF REGISTER & PRINT META BAR STYLES (FROM index (1).html)
+           ULTRA-DENSE FLAT DESIGN OVERRIDES & COMPACT UI
            ========================================== */
+        :root {
+            --shadow-xs: none;
+            --shadow-sm: none;
+            --radius-card: 6px;
+            --radius-sm: 4px;
+        }
+        body {
+            font-size: 11.5px;
+            letter-spacing: -0.1px;
+        }
+        .app-bar {
+            height: 38px;
+            padding: 2px 8px;
+            box-shadow: none;
+        }
+        .brand-logo {
+            width: 24px;
+            height: 24px;
+            border-radius: 5px;
+            font-size: 12px;
+        }
+        .app-bar h1 {
+            font-size: 13px;
+            font-weight: 700;
+        }
+        .icon-btn {
+            height: 26px;
+            min-width: 26px;
+            padding: 2px 6px;
+            font-size: 12px;
+            border-radius: 5px;
+            box-shadow: none;
+        }
+        .container {
+            padding-bottom: 44px;
+        }
+        .tab-content {
+            padding: 4px 5px 8px;
+        }
+        .bottom-nav {
+            height: 44px;
+            box-shadow: none;
+        }
+        .nav-icon { font-size: 15px; }
+        .nav-text { font-size: 9.5px; font-weight: 600; }
+
+        /* Side-by-Side 1-Line Slim Dropdown Strip (Summary + Graphics) */
+        .flat-drawers-strip {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4px;
+            width: 100%;
+            margin-bottom: 4px;
+            flex-shrink: 0;
+        }
+        .summary-collapse-btn {
+            width: 100%;
+            height: 26px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 5px;
+            padding: 0 8px;
+            margin-bottom: 0 !important;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-main);
+            box-shadow: none !important;
+            user-select: none;
+            white-space: nowrap;
+            overflow: hidden;
+            transition: background 0.12s, border-color 0.12s;
+        }
+        .summary-collapse-btn:hover,
+        .summary-collapse-btn.active-drawer {
+            border-color: var(--primary);
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+        .summary-collapse-btn.graphics-collapse-btn:hover,
+        .summary-collapse-btn.graphics-collapse-btn.active-drawer {
+            border-color: var(--accent);
+            background: rgba(79, 70, 229, 0.1);
+            color: var(--accent);
+        }
+        .summary-collapse-left {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            min-width: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        /* Hide mini-pills inside the closed button so it never wraps or takes extra space */
+        .summary-collapse-btn .summary-mini-pills {
+            display: none !important;
+        }
+        .summary-chevron {
+            font-size: 10px;
+            color: var(--text-muted);
+            font-weight: 700;
+            margin-left: 4px;
+            flex-shrink: 0;
+        }
+        .summary-collapse-btn.active-drawer .summary-chevron {
+            color: inherit;
+        }
+
+        .collapsible-panel {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            margin-bottom: 5px;
+            padding: 6px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            flex-shrink: 0;
+        }
+        .collapsible-panel.open {
+            display: flex;
+        }
+
+        /* Flat Compact Controls & Inputs Across Modes */
+        .controls-row,
+        .staff-controls-card,
+        .opd-dashboard-controls,
+        .patra-header-card {
+            padding: 4px 6px !important;
+            margin-bottom: 4px !important;
+            border-radius: 6px !important;
+            box-shadow: none !important;
+            gap: 4px !important;
+        }
+        .month-btn, .segment-btn, .quick-chip-btn {
+            font-size: 10.5px !important;
+            padding: 2px 7px !important;
+            border-radius: 4px !important;
+            height: 24px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .month-title { font-size: 11.5px !important; }
+        .stat-card, .opd-kpi-card {
+            padding: 4px 6px !important;
+            border-radius: 5px !important;
+            box-shadow: none !important;
+        }
+        .stat-card h4, .opd-kpi-label { font-size: 8.5px !important; }
+        .stat-card .value, .opd-kpi-val { font-size: 13px !important; }
+        .opd-kpi-sub { font-size: 8.5px !important; }
+
+        /* ==========================================
+           STAFF MODE FLAT COMPACT TABLE & CONTROLS
+           ========================================== */
+        .staff-date-capsule {
+            height: 25px !important;
+            border-radius: 5px !important;
+        }
+        .staff-date-capsule .staff-nav-btn {
+            padding: 0 7px !important;
+            font-size: 10.5px !important;
+        }
+        .staff-cycle-label {
+            font-size: 10.5px !important;
+            padding: 0 7px !important;
+        }
+        .staff-mode-tag {
+            font-size: 8.5px !important;
+            padding: 1px 4px !important;
+        }
+        .staff-btn {
+            height: 25px !important;
+            padding: 0 7px !important;
+            font-size: 10.5px !important;
+            border-radius: 4px !important;
+        }
+
+        /* Ultra-Slim Print Meta & Hidden Status Strip */
         .print-meta-bar {
             background: var(--surface);
             border: 1px solid var(--border-light);
-            border-radius: 8px;
-            padding: 5px 8px;
-            margin-bottom: 6px;
+            border-radius: 5px;
+            padding: 3px 6px;
+            margin-bottom: 4px;
             display: flex;
             flex-wrap: wrap;
             align-items: center;
             justify-content: space-between;
-            gap: 8px;
+            gap: 4px;
             flex-shrink: 0;
-            box-shadow: var(--shadow-xs);
         }
         .print-meta-group {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 4px;
             flex-wrap: wrap;
-            flex: 1;
-            min-width: 240px;
         }
         .print-meta-field {
             display: inline-flex;
             align-items: center;
-            gap: 5px;
+            gap: 3px;
             background: var(--surface-subtle);
             border: 1px solid var(--border);
-            border-radius: 6px;
-            padding: 2px 7px;
-            height: 28px;
+            border-radius: 4px;
+            padding: 1px 5px;
+            height: 23px;
         }
         .print-meta-field label {
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 700;
             color: var(--text-secondary);
             white-space: nowrap;
@@ -652,59 +833,229 @@ body.print-patra #tab-patra { display: block !important; }
             border: none;
             background: transparent;
             color: var(--text-main);
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 600;
             outline: none;
-            width: 120px;
+            width: 88px;
             font-family: 'Inter', 'Noto Sans Devanagari', sans-serif;
         }
         .print-meta-right {
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 4px;
             flex-wrap: wrap;
         }
 
+        /* Hidden Rows Quick Restore Bar */
+        .hidden-rows-alert-bar {
+            background: var(--surface);
+            border: 1px dashed var(--primary);
+            border-radius: 5px;
+            padding: 3px 6px;
+            margin-bottom: 4px;
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            gap: 4px;
+            flex-wrap: wrap;
+            flex-shrink: 0;
+        }
+        .hidden-rows-alert-bar.visible {
+            display: flex;
+        }
+        .hidden-chip-list {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            flex-wrap: wrap;
+        }
+        .hidden-staff-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+            background: var(--c-absent);
+            color: var(--t-absent);
+            border: 1px solid var(--b-absent);
+            font-size: 9.5px;
+            font-weight: 700;
+            padding: 1px 6px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        /* Ultra-Dense, Crisp Staff Table Typography & Clean Name Cell */
+        .staff-table-container {
+            border-radius: 6px !important;
+            box-shadow: none !important;
+            border: 1px solid var(--border) !important;
+        }
+        #staffAttendanceTable th,
+        #staffAttendanceTable td {
+            border: 1px solid var(--border);
+            padding: 2px 3px !important;
+            height: 25px !important;
+            font-size: 10.5px !important;
+            line-height: 1.15 !important;
+        }
+        #staffAttendanceTable th {
+            font-size: 10px !important;
+            font-weight: 700;
+        }
+        #staffAttendanceTable .staff-main-title {
+            font-size: 12px !important;
+            padding: 4px 6px !important;
+            height: 26px !important;
+        }
+        .staff-att-cell {
+            min-width: 21px !important;
+            font-size: 10px !important;
+            font-weight: 700;
+        }
+        th.staff-sticky-col,
+        td.staff-sticky-col {
+            width: 112px !important;
+            min-width: 106px !important;
+            max-width: 132px !important;
+            padding: 2px 4px !important;
+            box-shadow: 1px 0 0 var(--border) !important;
+        }
+        #staffPostTh, td.staff-col-post {
+            width: 76px !important;
+            min-width: 68px !important;
+            max-width: 92px !important;
+            font-size: 10px !important;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        #staffPlaceTh, td.staff-col-place {
+            width: 56px !important;
+            min-width: 50px !important;
+            max-width: 68px !important;
+            font-size: 10px !important;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Clean Staff Name Cell: No permanent bulky buttons; tap name to open quick row action sheet */
+        .staff-name-cell-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2px;
+            width: 100%;
+            cursor: pointer;
+        }
+        .staff-name-cell-wrap:hover .staff-name-text {
+            color: var(--primary);
+        }
+        .staff-name-text {
+            text-align: left;
+            font-weight: 600;
+            font-size: 10.5px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            flex: 1;
+            min-width: 0;
+        }
+        .staff-type-pill {
+            font-size: 7.5px !important;
+            font-weight: 700;
+            padding: 0 3px !important;
+            border-radius: 2px !important;
+            margin-left: 2px !important;
+            vertical-align: super;
+        }
+        .staff-row-trigger-dot {
+            font-size: 10px;
+            color: var(--text-muted);
+            opacity: 0.55;
+            flex-shrink: 0;
+            padding: 0 1px;
+            line-height: 1;
+        }
+        .row-inline-tools {
+            display: none !important;
+        }
+        body.staff-inline-edit-on .row-inline-tools {
+            display: inline-flex !important;
+            align-items: center;
+            gap: 1px;
+            flex-shrink: 0;
+        }
+        body.staff-inline-edit-on .staff-row-trigger-dot {
+            display: none !important;
+        }
+        .row-mini-btn {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            border-radius: 3px;
+            width: 15px;
+            height: 15px;
+            font-size: 8px;
+            line-height: 1;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            padding: 0;
+        }
+        .row-mini-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: var(--primary-light);
+        }
+        tr.staff-row-hidden-screen {
+            opacity: 0.45;
+            background: rgba(239, 68, 68, 0.05);
+        }
+        tr.staff-row-hidden-screen td.staff-sticky-col .staff-name-text {
+            text-decoration: line-through;
+        }
+        .staff-manage-row.is-hidden-staff {
+            opacity: 0.6;
+            border-style: dashed;
+        }
+
+        /* Detailed Summary Box inside Summary Drawer */
         .detailed-summary-box {
             background: var(--surface);
             border: 1px solid var(--border-light);
-            border-radius: 8px;
-            padding: 6px 8px;
+            border-radius: 5px;
+            padding: 4px 6px;
             overflow: hidden;
         }
         .detailed-summary-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 6px;
-            margin-bottom: 6px;
+            gap: 4px;
+            margin-bottom: 4px;
             flex-wrap: wrap;
         }
         .detailed-summary-title {
-            font-size: 11px;
+            font-size: 10.5px;
             font-weight: 700;
             color: var(--text-main);
-            display: flex;
-            align-items: center;
-            gap: 5px;
         }
         .detailed-summary-scroll {
             overflow-x: auto;
-            max-height: 260px;
+            max-height: 220px;
             overflow-y: auto;
             border: 1px solid var(--border-light);
-            border-radius: 6px;
+            border-radius: 4px;
         }
         .detailed-summary-table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 11px;
+            font-size: 10px;
             white-space: nowrap;
         }
         .detailed-summary-table th,
         .detailed-summary-table td {
             border: 1px solid var(--border-light);
-            padding: 4px 6px;
+            padding: 3px 5px;
             text-align: center;
         }
         .detailed-summary-table th {
@@ -718,105 +1069,6 @@ body.print-patra #tab-patra { display: block !important; }
         .detailed-summary-table tr.is-row-hidden {
             opacity: 0.52;
             background: var(--surface-subtle);
-        }
-
-        /* Quick Print Row Order & Hide/Show Chips Bar */
-        .hidden-rows-alert-bar {
-            background: var(--surface);
-            border: 1px dashed var(--primary);
-            border-radius: 8px;
-            padding: 5px 8px;
-            margin-bottom: 6px;
-            display: none;
-            align-items: center;
-            justify-content: space-between;
-            gap: 6px;
-            flex-wrap: wrap;
-            flex-shrink: 0;
-        }
-        .hidden-rows-alert-bar.visible {
-            display: flex;
-        }
-        .hidden-chip-list {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            flex-wrap: wrap;
-        }
-        .hidden-staff-chip {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            background: var(--c-absent);
-            color: var(--t-absent);
-            border: 1px solid var(--b-absent);
-            font-size: 10px;
-            font-weight: 700;
-            padding: 2px 7px;
-            border-radius: 999px;
-            cursor: pointer;
-        }
-        .hidden-staff-chip:hover {
-            opacity: 0.85;
-        }
-
-        /* Inline Row Controls inside Name Cell (Screen Only, Hidden in Print) */
-        .staff-name-cell-wrap {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 4px;
-            width: 100%;
-        }
-        .staff-name-text {
-            text-align: left;
-            font-weight: 600;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        .row-inline-tools {
-            display: inline-flex;
-            align-items: center;
-            gap: 2px;
-            flex-shrink: 0;
-            margin-left: 3px;
-        }
-        .row-mini-btn {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            color: var(--text-secondary);
-            border-radius: 4px;
-            width: 19px;
-            height: 19px;
-            font-size: 9px;
-            line-height: 1;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            padding: 0;
-            transition: all 0.12s;
-        }
-        .row-mini-btn:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-            background: var(--primary-light);
-        }
-        .row-mini-btn.hide-btn:hover {
-            border-color: #dc2626;
-            color: #dc2626;
-            background: var(--c-absent);
-        }
-        tr.staff-row-hidden-screen {
-            opacity: 0.45;
-            background: rgba(239, 68, 68, 0.05);
-        }
-        tr.staff-row-hidden-screen td.staff-sticky-col .staff-name-text {
-            text-decoration: line-through;
-        }
-        .staff-manage-row.is-hidden-staff {
-            opacity: 0.6;
-            border-style: dashed;
         }
 
         /* Print Top Header Row (क्रमांक Left & Date Right above Table) */
@@ -834,79 +1086,27 @@ body.print-patra #tab-patra { display: block !important; }
         }
 
         /* ==========================================
-           SECTION PRINT TICK-MARK CHECKBOX & COLLAPSIBLE GRAPHICS STYLES
+           GRAPHICS DASHBOARD GRID & PRINT OPTIONS POPUP MODAL
            ========================================== */
-        .drawer-right-controls {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            flex-shrink: 0;
-        }
-        .print-tick-pill {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            padding: 2px 7px;
-            border-radius: 6px;
-            font-size: 10px;
-            font-weight: 700;
-            background: var(--surface-subtle);
-            border: 1px solid var(--border);
-            color: var(--text-secondary);
-            cursor: pointer;
-            user-select: none;
-            transition: all 0.15s ease;
-        }
-        .print-tick-pill:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-            background: var(--primary-light);
-        }
-        .print-tick-pill input[type="checkbox"] {
-            width: 13px;
-            height: 13px;
-            accent-color: var(--primary);
-            cursor: pointer;
-            margin: 0;
-        }
-        .print-tick-pill.checked {
-            background: var(--primary-light);
-            border-color: rgba(37, 99, 235, 0.45);
-            color: var(--primary);
-        }
-
-        .graphics-collapse-btn {
-            border-left: 3px solid var(--accent) !important;
-        }
-        .summary-collapse-btn:not(.graphics-collapse-btn) {
-            border-left: 3px solid var(--primary);
-        }
-
         .graphics-dashboard-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 8px;
+            gap: 6px;
             width: 100%;
         }
         @media (max-width: 768px) {
             .graphics-dashboard-grid {
                 grid-template-columns: 1fr;
             }
-            .print-meta-bar { flex-direction: column; align-items: stretch; gap: 6px; }
-            .print-meta-group { width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
-            .print-meta-field { width: 100%; }
-            .print-meta-field input { width: 100%; min-width: 0; }
-            .print-meta-right { width: 100%; justify-content: space-between; }
         }
         .graphic-card {
             background: var(--surface);
             border: 1px solid var(--border-light);
-            border-radius: 9px;
-            padding: 8px 10px;
+            border-radius: 6px;
+            padding: 6px 8px;
             display: flex;
             flex-direction: column;
-            gap: 6px;
-            box-shadow: var(--shadow-xs);
+            gap: 4px;
             overflow: hidden;
         }
         .graphic-card.full-span {
@@ -916,23 +1116,20 @@ body.print-patra #tab-patra { display: block !important; }
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 6px;
+            gap: 4px;
             border-bottom: 1px solid var(--border-light);
-            padding-bottom: 4px;
+            padding-bottom: 3px;
         }
         .graphic-card-title {
-            font-size: 11px;
+            font-size: 10.5px;
             font-weight: 700;
             color: var(--text-main);
-            display: flex;
-            align-items: center;
-            gap: 5px;
         }
         .graphic-card-badge {
-            font-size: 9px;
+            font-size: 8.5px;
             font-weight: 700;
-            padding: 1px 6px;
-            border-radius: 999px;
+            padding: 1px 5px;
+            border-radius: 4px;
             background: var(--surface-subtle);
             color: var(--text-muted);
             border: 1px solid var(--border-light);
@@ -943,7 +1140,7 @@ body.print-patra #tab-patra { display: block !important; }
             display: flex;
             align-items: center;
             justify-content: center;
-            min-height: 135px;
+            min-height: 120px;
             overflow-x: auto;
         }
         .graphic-legend-row {
@@ -951,37 +1148,35 @@ body.print-patra #tab-patra { display: block !important; }
             flex-wrap: wrap;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            font-size: 10px;
+            gap: 6px;
+            font-size: 9.5px;
             font-weight: 600;
             color: var(--text-secondary);
-            padding-top: 2px;
         }
         .graphic-legend-item {
             display: inline-flex;
             align-items: center;
-            gap: 4px;
+            gap: 3px;
         }
         .graphic-legend-dot {
-            width: 8px;
-            height: 8px;
+            width: 7px;
+            height: 7px;
             border-radius: 2px;
             display: inline-block;
         }
         .hbar-list {
             display: flex;
             flex-direction: column;
-            gap: 5px;
+            gap: 4px;
             width: 100%;
-            max-height: 190px;
+            max-height: 170px;
             overflow-y: auto;
-            padding-right: 2px;
         }
         .hbar-row {
             display: flex;
             flex-direction: column;
             gap: 2px;
-            font-size: 10px;
+            font-size: 9.5px;
         }
         .hbar-top {
             display: flex;
@@ -992,7 +1187,7 @@ body.print-patra #tab-patra { display: block !important; }
         }
         .hbar-track {
             width: 100%;
-            height: 8px;
+            height: 6px;
             background: var(--surface-subtle);
             border-radius: 999px;
             overflow: hidden;
@@ -1001,10 +1196,58 @@ body.print-patra #tab-patra { display: block !important; }
         }
         .hbar-fill {
             height: 100%;
-            transition: width 0.25s ease;
         }
 
-        /* Extra Print Containers for Ticked Summary & Graphics */
+        /* Print Popup Selection Checklist Cards */
+        .print-opt-list {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin: 8px 0 10px;
+        }
+        .print-opt-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            padding: 8px 10px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            background: var(--surface-subtle);
+            cursor: pointer;
+            user-select: none;
+            transition: border-color 0.12s, background 0.12s;
+        }
+        .print-opt-item:hover {
+            border-color: var(--primary);
+        }
+        .print-opt-item.checked {
+            border-color: var(--primary);
+            background: var(--primary-light);
+        }
+        .print-opt-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .print-opt-left input[type="checkbox"] {
+            width: 15px;
+            height: 15px;
+            accent-color: var(--primary);
+            cursor: pointer;
+            margin: 0;
+        }
+        .print-opt-title {
+            font-size: 11.5px;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+        .print-opt-sub {
+            font-size: 9.5px;
+            color: var(--text-muted);
+            display: block;
+        }
+
         .extra-print-block {
             display: none;
         }
@@ -1013,13 +1256,17 @@ body.print-patra #tab-patra { display: block !important; }
             body.print-age .age-display-wrapper,
             body.print-age .age-tools-bar,
             body.print-age .recent-ages-row,
-            body.print-age .selection-panel { display: none !important; }
+            body.print-age .selection-panel,
+            body.print-age .flat-drawers-strip { display: none !important; }
             body.print-age #age-print-view { display: block !important; width: 100% !important; }
+
+            .flat-drawers-strip { display: none !important; }
 
             body.print-staff .print-meta-bar,
             body.print-staff .hidden-rows-alert-bar,
             body.print-staff #staffGraphicsDrawer,
             body.print-staff .row-inline-tools,
+            body.print-staff .staff-row-trigger-dot,
             body.print-staff tr.staff-row-hidden-print {
                 display: none !important;
             }
@@ -1040,11 +1287,23 @@ body.print-patra #tab-patra { display: block !important; }
             body.print-staff .staff-name-text {
                 text-align: center !important;
                 text-decoration: none !important;
+                font-size: 9pt !important;
+            }
+            body.print-staff th.staff-sticky-col,
+            body.print-staff td.staff-sticky-col,
+            body.print-staff #staffPostTh,
+            body.print-staff td.staff-col-post,
+            body.print-staff #staffPlaceTh,
+            body.print-staff td.staff-col-place {
+                width: auto !important;
+                min-width: 0 !important;
+                max-width: none !important;
             }
             body.print-staff.hide-main-register #staffTableContainer {
                 display: none !important;
             }
-            body.print-opd.hide-main-register #opdActiveView {
+            body.print-opd.hide-main-register #opdTable,
+            body.print-opd.hide-main-register .opd-header-title {
                 display: none !important;
             }
             .extra-print-block.active-for-print {
@@ -2897,8 +3156,8 @@ body.print-patra #tab-patra { display: block !important; }
             </div>
         </div>
         <div class="header-actions">
-            <button class="icon-btn" id="btn-preview-print" onclick="openPrintPreview()" title="Print Preview (प्रिंट प्रीव्यू)">👁️</button>
-            <button class="icon-btn" id="btn-print" onclick="triggerPrint()" title="Print Report">🖨️</button>
+            <button class="icon-btn" id="btn-preview-print" onclick="openPrintPreview()" title="Quick Print Preview">👁️</button>
+            <button class="icon-btn" id="btn-print" onclick="openPrintOptionsModal()" title="Print Report (Select Sections to Print)">🖨️</button>
             <div class="top-menu-wrap" id="top-menu-wrap">
                 <button type="button" class="icon-btn top-dot-btn" id="btn-top-menu" onclick="toggleTopDotMenu(event)" title="Settings &amp; Options">⋮</button>
                 <div class="top-dot-dropdown" id="top-dot-menu">
@@ -2958,22 +3217,16 @@ body.print-patra #tab-patra { display: block !important; }
 
             <div class="recent-ages-row" id="recentAgesRow"></div>
 
-            <!-- Age Collapsible Summary Drawer with Print Tick -->
-            <div class="summary-collapse-btn no-print" onclick="toggleDrawer('ageSummaryDrawer', 'ageSumChevron')">
-                <div class="summary-collapse-left">
-                    <span>📊 <strong>Age &amp; Clinical Summary</strong></span>
-                    <div class="summary-mini-pills">
-                        <span class="mini-tag" style="color:var(--age-primary);">Age:<span id="mini-age-val">--</span></span>
-                        <span class="mini-tag" style="color:var(--age-secondary);">Group:<span id="mini-age-cat">-</span></span>
-                        <span class="mini-tag" style="color:var(--opd-success);">NCD 30+:<span id="mini-age-ncd">-</span></span>
-                    </div>
-                </div>
-                <div class="drawer-right-controls">
-                    <label class="print-tick-pill" onclick="event.stopPropagation();" title="Print में Age Summary शामिल करें">
-                        <input type="checkbox" id="chkPrint_age_summary" onchange="togglePrintSection('age', 'summary', this.checked)"> 🖨️ Print
-                    </label>
-                    <span class="summary-chevron" id="ageSumChevron">Show ▼</span>
-                </div>
+            <!-- Slim 1-Line Side-by-Side Dropdown Strip for Age Mode -->
+            <div class="flat-drawers-strip no-print">
+                <button type="button" class="summary-collapse-btn" onclick="toggleDrawer('ageSummaryDrawer', 'ageSumChevron')">
+                    <span class="summary-collapse-left">📊 <strong>Summary</strong></span>
+                    <span class="summary-chevron" id="ageSumChevron">▾</span>
+                </button>
+                <button type="button" class="summary-collapse-btn graphics-collapse-btn" onclick="toggleDrawer('ageGraphicsDrawer', 'ageGraphChevron')">
+                    <span class="summary-collapse-left">📈 <strong>Graphics</strong></span>
+                    <span class="summary-chevron" id="ageGraphChevron">▾</span>
+                </button>
             </div>
 
             <div id="ageSummaryDrawer" class="collapsible-panel no-print">
@@ -2998,22 +3251,6 @@ body.print-patra #tab-patra { display: block !important; }
                         <span class="opd-kpi-val" id="ageSumEligibility" style="color:var(--opd-success);">-</span>
                         <span class="opd-kpi-sub" id="ageSumSenior">Senior Citizen: -</span>
                     </div>
-                </div>
-            </div>
-
-            <!-- Age Collapsible Detailed Graphics Drawer with Print Tick -->
-            <div class="summary-collapse-btn graphics-collapse-btn no-print" onclick="toggleDrawer('ageGraphicsDrawer', 'ageGraphChevron')">
-                <div class="summary-collapse-left">
-                    <span>📈 <strong>Age Detailed Graphics &amp; Cohort Visuals</strong></span>
-                    <div class="summary-mini-pills">
-                        <span class="mini-tag" style="color:var(--accent);">Gauge • Cohort Donut • Decade Bars</span>
-                    </div>
-                </div>
-                <div class="drawer-right-controls">
-                    <label class="print-tick-pill" onclick="event.stopPropagation();" title="Print में Age Graphics शामिल करें">
-                        <input type="checkbox" id="chkPrint_age_graphics" onchange="togglePrintSection('age', 'graphics', this.checked)"> 🖨️ Print
-                    </label>
-                    <span class="summary-chevron" id="ageGraphChevron">Show ▼</span>
                 </div>
             </div>
 
@@ -3042,23 +3279,21 @@ body.print-patra #tab-patra { display: block !important; }
                 <button class="month-btn" onclick="changeMonth(1)">Next</button>
             </div>
 
-            <!-- Collapsible Summary & Profile Toggle Button (Click to Show/Hide) -->
-            <div class="summary-collapse-btn" onclick="toggleDrawer('attSummaryDrawer', 'attSumChevron')">
-                <div class="summary-collapse-left">
-                    <span>📊 <strong>Summary &amp; Profile</strong></span>
-                    <div class="summary-mini-pills">
-                        <span class="mini-tag" style="color:var(--t-present);">P:<span id="mini-att-p">0</span></span>
-                        <span class="mini-tag" style="color:var(--t-cl);">CL:<span id="mini-att-cl">0</span></span>
-                        <span class="mini-tag" style="color:var(--t-ml);">ML:<span id="mini-att-ml">0</span></span>
-                        <span class="mini-tag" style="color:var(--t-holiday);">GH:<span id="mini-att-gh">0</span></span>
-                    </div>
-                </div>
-                <div class="drawer-right-controls">
-                    <label class="print-tick-pill" onclick="event.stopPropagation();" title="Print में Summary &amp; Holiday Details शामिल करें">
-                        <input type="checkbox" id="chkPrint_present_summary" checked onchange="togglePrintSection('present', 'summary', this.checked)"> 🖨️ Print
-                    </label>
-                    <span class="summary-chevron" id="attSumChevron">Show ▼</span>
-                </div>
+            <!-- Slim 1-Line Side-by-Side Dropdown Strip for Attendance Pro -->
+            <div class="flat-drawers-strip no-print">
+                <button type="button" class="summary-collapse-btn" onclick="toggleDrawer('attSummaryDrawer', 'attSumChevron')">
+                    <span class="summary-collapse-left">
+                        <span>📊 <strong>Summary &amp; Profile</strong></span>
+                        <span class="summary-mini-pills">
+                            <span id="mini-att-p">0</span><span id="mini-att-cl">0</span><span id="mini-att-ml">0</span><span id="mini-att-gh">0</span>
+                        </span>
+                    </span>
+                    <span class="summary-chevron" id="attSumChevron">▾</span>
+                </button>
+                <button type="button" class="summary-collapse-btn graphics-collapse-btn" onclick="toggleDrawer('attGraphicsDrawer', 'attGraphChevron')">
+                    <span class="summary-collapse-left">📈 <strong>Graphics</strong></span>
+                    <span class="summary-chevron" id="attGraphChevron">▾</span>
+                </button>
             </div>
 
             <!-- Collapsible Drawer Content (Hidden by default to save space; Profile Card remains visible in Print) -->
@@ -3096,33 +3331,12 @@ body.print-patra #tab-patra { display: block !important; }
                 </div>
             </div>
 
-            <!-- Collapsible Detailed Graphics Drawer for Attendance Pro (Auto-Closed) -->
-            <div class="summary-collapse-btn graphics-collapse-btn no-print" onclick="toggleDrawer('attGraphicsDrawer', 'attGraphChevron')">
-                <div class="summary-collapse-left">
-                    <span>📈 <strong>Detailed Graphics &amp; Attendance Analytics</strong></span>
-                    <div class="summary-mini-pills">
-                        <span class="mini-tag" style="color:var(--accent);">Donut • Weekday Bars • Trend Curve • Quota Gauge</span>
-                    </div>
-                </div>
-                <div class="drawer-right-controls">
-                    <label class="print-tick-pill" onclick="event.stopPropagation();" title="Print में Detailed Graphics शामिल करें">
-                        <input type="checkbox" id="chkPrint_present_graphics" onchange="togglePrintSection('present', 'graphics', this.checked)"> 🖨️ Print
-                    </label>
-                    <span class="summary-chevron" id="attGraphChevron">Show ▼</span>
-                </div>
-            </div>
-
             <div id="attGraphicsDrawer" class="collapsible-panel no-print">
                 <div class="graphics-dashboard-grid" id="attGraphicsContainer"></div>
             </div>
 
             <div class="stats-header">
-                <div style="display:flex; align-items:center; gap:8px;">
-                    <h3>Attendance Log</h3>
-                    <label class="print-tick-pill no-print" title="Print में मुख्य Attendance Register Table शामिल करें">
-                        <input type="checkbox" id="chkPrint_present_register" checked onchange="togglePrintSection('present', 'register', this.checked)"> 🖨️ Print Register
-                    </label>
-                </div>
+                <h3>Attendance Log</h3>
                 <div class="segment-control">
                     <button id="btn-layout-single" class="segment-btn" onclick="setLayoutView('single')">Today Only</button>
                     <button id="btn-layout-full" class="segment-btn active" onclick="setLayoutView('full')">All Cycle</button>
@@ -3149,19 +3363,18 @@ body.print-patra #tab-patra { display: block !important; }
 
         <!-- ================= TAB 2B: STAFF ATTENDANCE & LEAVE REGISTER ================= -->
         <main id="tab-staff" class="tab-content">
-            <!-- Top Controls Header (Both Cycle Modes 21-20 & 1-31 + Jump to Current Cycle + Single-Day Today Toggle) -->
+            <!-- Ultra-Compact Flat Top Controls Bar -->
             <div class="staff-controls-card staff-no-print">
                 <div class="staff-date-nav-group">
                     <div class="staff-date-capsule">
                         <button type="button" class="staff-nav-btn" onclick="changeStaffCycle(-1)" title="Previous Cycle/Month">◀</button>
-                        <div class="staff-cycle-label" onclick="toggleStaffCycleMode()" title="Click to toggle Cycle (21-20) / Month (1-31) mode">
+                        <div class="staff-cycle-label" onclick="toggleStaffCycleMode()" title="Click to switch Cycle (21-20) / Month (1-31)">
                             <span id="staffCycleDisplay">...</span>
                             <span class="staff-mode-tag" id="staffModeBadge">21-20</span>
                         </div>
                         <button type="button" class="staff-nav-btn" onclick="changeStaffCycle(1)" title="Next Cycle/Month">▶</button>
                     </div>
-                    <button type="button" class="quick-chip-btn" onclick="toggleStaffCycleMode()" title="Switch between 21-20 Cycle and 1-31 Month Mode">🔄 Mode</button>
-                    <button type="button" class="quick-chip-btn" onclick="jumpToCurrentStaffCycle()" title="Jump to Current Cycle (वर्तमान साइकिल पर आएं)">🎯 Today Cycle</button>
+                    <button type="button" class="quick-chip-btn" onclick="jumpToCurrentStaffCycle()" title="Jump to Current Cycle (वर्तमान साइकिल पर आएं)">🎯 Now</button>
                 </div>
 
                 <div class="staff-actions-group">
@@ -3171,7 +3384,7 @@ body.print-patra #tab-patra { display: block !important; }
                     <button type="button" class="staff-btn staff-btn-outline" onclick="openStaffGHModal()" title="Set Gazetted Holidays">
                         🎉 +GH
                     </button>
-                    <button type="button" class="staff-btn staff-btn-outline" onclick="openManageStaffModal()" title="Manage, Hide/Show or Reorder Staff">
+                    <button type="button" class="staff-btn staff-btn-outline" onclick="openManageStaffModal()" title="Manage, Reorder or Hide/Show Staff">
                         ⚙️ Staff
                     </button>
                     <button type="button" class="staff-btn staff-btn-outline" style="border-color: var(--primary); color: var(--primary);" onclick="openStaffCreateModal()" title="Bulk Fill or Clear Cycle">
@@ -3183,64 +3396,66 @@ body.print-patra #tab-patra { display: block !important; }
                 </div>
             </div>
 
-            <!-- Print Header Settings Bar (क्रमांक & Date DD.MM.YYYY + Row Hide/Show Controls on Home Page) -->
+            <!-- Ultra-Slim Print Meta & Row Visibility Bar -->
             <div class="print-meta-bar staff-no-print">
                 <div class="print-meta-group">
                     <div class="print-meta-field" title="प्रिंट में टेबल के ऊपर बाईं तरफ दिखने वाला क्रमांक">
-                        <label for="printKramankInput">क्रमांक -</label>
-                        <input type="text" id="printKramankInput" placeholder="जैसे: 2026/105" oninput="savePrintMetaFields()">
+                        <label for="printKramankInput">क्रमांक</label>
+                        <input type="text" id="printKramankInput" placeholder="2026/105" oninput="savePrintMetaFields()">
                     </div>
                     <div class="print-meta-field" title="प्रिंट में टेबल के ऊपर दाईं तरफ दिखने वाली दिनांक (DD.MM.YYYY)">
-                        <label for="printDateInput">Date -</label>
+                        <label for="printDateInput">Date</label>
                         <input type="text" id="printDateInput" placeholder="DD.MM.YYYY" oninput="savePrintMetaFields()">
-                        <button type="button" class="row-mini-btn" onclick="setTodayPrintDate()" title="आज की तारीख (DD.MM.YYYY) भरें" style="width:auto; padding:0 5px; font-weight:700;">आज</button>
+                        <button type="button" class="row-mini-btn" onclick="setTodayPrintDate()" title="आज की तारीख भरें" style="width:auto; height:17px; padding:0 4px; font-weight:700;">आज</button>
                     </div>
                 </div>
                 <div class="print-meta-right">
-                    <label class="print-tick-pill" title="Print में मुख्य Staff Register Table शामिल करें">
-                        <input type="checkbox" id="chkPrint_staff_register" checked onchange="togglePrintSection('staff', 'register', this.checked)"> 🖨️ Register
-                    </label>
-                    <button type="button" id="toggleShowHiddenBtn" class="quick-chip-btn" onclick="toggleShowHiddenOnScreen()" title="छुपाए गए कर्मचारियों को स्क्रीन पर दिखाएं/छुपाएं">
-                        👁️ Hidden: <span id="hiddenStaffCountBadge">0</span>
+                    <button type="button" id="toggleInlineToolsBtn" class="quick-chip-btn" onclick="toggleStaffInlineTools()" title="टेबल में नाम के आगे छोटे ▲/▼/🙈 बटन दिखाएं या छुपाएं">
+                        ↕️ Edit
                     </button>
-                    <button type="button" class="quick-chip-btn" onclick="showAllHiddenStaff()" title="सभी कर्मचारियों को प्रिंट के लिए वापस अन-हाइड करें">
-                        ✅ Show All Rows
+                    <button type="button" id="toggleShowHiddenBtn" class="quick-chip-btn" onclick="toggleShowHiddenOnScreen()" title="छुपाए गए कर्मचारियों को स्क्रीन पर दिखाएं/छुपाएं">
+                        👁️ Hidden:<span id="hiddenStaffCountBadge">0</span>
+                    </button>
+                    <button type="button" class="quick-chip-btn" onclick="showAllHiddenStaff()" title="सभी कर्मचारियों को प्रिंट के लिए अन-हाइड करें">
+                        ✅ All
                     </button>
                 </div>
             </div>
 
-            <!-- Hidden Staff Quick Restore Bar -->
+            <!-- Hidden Staff Quick Restore Bar (Only appears when a row is hidden) -->
             <div id="hiddenRowsAlertBar" class="hidden-rows-alert-bar staff-no-print">
-                <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
-                    <span style="font-size:11px; font-weight:700; color:var(--t-absent);">🙈 Print से छुपाए गए कर्मचारी (Click to Restore):</span>
+                <div style="display:flex; align-items:center; gap:4px; flex-wrap:wrap;">
+                    <span style="font-size:10px; font-weight:700; color:var(--t-absent);">🙈 Hidden (Tap to Show):</span>
                     <div id="hiddenChipList" class="hidden-chip-list"></div>
                 </div>
-                <button type="button" class="quick-chip-btn" onclick="showAllHiddenStaff()">सभी को दिखाएं (Restore All)</button>
+                <button type="button" class="quick-chip-btn" onclick="showAllHiddenStaff()">Restore All</button>
             </div>
 
-            <!-- Collapsible Per-Staff Detailed Summary Bar (with Print Tick-Mark) -->
-            <div class="summary-collapse-btn staff-no-print" onclick="toggleDrawer('staffSummaryDrawer', 'staffSumChevron')">
-                <div class="summary-collapse-left">
-                    <span>📊 <strong>Staff Detailed Summary (प्रत्येक कर्मचारी का विवरण)</strong></span>
-                    <div class="summary-mini-pills">
-                        <span class="mini-tag" style="color:var(--primary);">Print Staff:<span id="mini-staff-total">0</span></span>
-                        <span class="mini-tag" style="color:var(--t-present);">P:<span id="mini-staff-p">0</span></span>
-                        <span class="mini-tag" style="color:var(--t-absent);">CL/ML:<span id="mini-staff-leave">0</span></span>
-                        <span class="mini-tag" style="color:var(--t-holiday);">GH:<span id="mini-staff-gh">0</span></span>
-                    </div>
-                </div>
-                <div class="drawer-right-controls">
-                    <label class="print-tick-pill" onclick="event.stopPropagation();" title="Print में Staff Detailed Summary शामिल करें">
-                        <input type="checkbox" id="chkPrint_staff_summary" onchange="togglePrintSection('staff', 'summary', this.checked)"> 🖨️ Print
-                    </label>
-                    <span class="summary-chevron" id="staffSumChevron">Show ▼</span>
-                </div>
+            <!-- Slim 1-Line Side-by-Side Dropdown Strip (📊 Summary | 📈 Graphics) -->
+            <div class="flat-drawers-strip staff-no-print">
+                <button type="button" class="summary-collapse-btn" onclick="toggleDrawer('staffSummaryDrawer', 'staffSumChevron')">
+                    <span class="summary-collapse-left">
+                        <span>📊 <strong>Summary</strong></span>
+                        <span class="summary-mini-pills">
+                            <span id="mini-staff-total">0</span>
+                            <span id="mini-staff-p">0</span>
+                            <span id="mini-staff-leave">0</span>
+                            <span id="mini-staff-gh">0</span>
+                        </span>
+                    </span>
+                    <span class="summary-chevron" id="staffSumChevron">▾</span>
+                </button>
+                <button type="button" class="summary-collapse-btn graphics-collapse-btn" onclick="toggleDrawer('staffGraphicsDrawer', 'staffGraphChevron')">
+                    <span class="summary-collapse-left">📈 <strong>Graphics</strong></span>
+                    <span class="summary-chevron" id="staffGraphChevron">▾</span>
+                </button>
             </div>
 
+            <!-- Collapsible Summary Drawer (Only visible when opened) -->
             <div id="staffSummaryDrawer" class="collapsible-panel staff-no-print">
                 <div class="staff-kpi-grid">
                     <div class="opd-kpi-card">
-                        <span class="opd-kpi-label">Total / Printable Staff</span>
+                        <span class="opd-kpi-label">Printable / Total Staff</span>
                         <span class="opd-kpi-val" id="staffKpiTotal">0</span>
                         <span class="opd-kpi-sub" id="staffKpiSplit">GH: 0 | D/O: 0</span>
                     </div>
@@ -3250,7 +3465,7 @@ body.print-patra #tab-patra { display: block !important; }
                         <span class="opd-kpi-sub" id="staffKpiTodayP">Today P: 0</span>
                     </div>
                     <div class="opd-kpi-card">
-                        <span class="opd-kpi-label">Leaves (CL / ML / Other)</span>
+                        <span class="opd-kpi-label">Leaves (CL / ML / Oth)</span>
                         <span class="opd-kpi-val" id="staffKpiLeaves" style="color:var(--t-absent);">0</span>
                         <span class="opd-kpi-sub" id="staffKpiLeaveBreak">CL: 0 | ML: 0</span>
                     </div>
@@ -3261,13 +3476,10 @@ body.print-patra #tab-patra { display: block !important; }
                     </div>
                 </div>
 
-                <!-- Detailed Employee-wise Summary Table (16 Columns from index (1).html) -->
                 <div class="detailed-summary-box">
                     <div class="detailed-summary-header">
-                        <div class="detailed-summary-title">
-                            <span>📋 प्रत्येक कर्मचारी की विस्तृत उपस्थिति एवं अवकाश समरी</span>
-                        </div>
-                        <span style="font-size:10px; color:var(--text-muted);">क्रम (▲/▼) एवं Print Show/Hide यहाँ से भी बदल सकते हैं</span>
+                        <div class="detailed-summary-title">📋 प्रत्येक कर्मचारी की विस्तृत उपस्थिति एवं अवकाश समरी</div>
+                        <span style="font-size:9.5px; color:var(--text-muted);">क्रम (▲/▼) एवं Print Show/Hide यहाँ से भी बदल सकते हैं</span>
                     </div>
                     <div class="detailed-summary-scroll">
                         <table class="detailed-summary-table" id="staffDetailedSummaryTable">
@@ -3279,16 +3491,16 @@ body.print-patra #tab-patra { display: block !important; }
                                     <th>पद</th>
                                     <th>स्थान</th>
                                     <th>प्रकार</th>
-                                    <th style="color:var(--t-present);">उपस्थिति (P)</th>
+                                    <th style="color:var(--t-present);">P</th>
                                     <th style="color:#be123c;">GH</th>
                                     <th style="color:var(--t-cl);">D/O</th>
                                     <th style="color:var(--t-absent);">इस माह CL</th>
                                     <th style="color:var(--t-absent);">इस माह ML</th>
-                                    <th style="color:#7c3aed;">PL / CCL</th>
+                                    <th style="color:#7c3aed;">PL/CCL</th>
                                     <th>गत माह CL/ML</th>
                                     <th>कुल CL/ML</th>
                                     <th>भरे दिन</th>
-                                    <th>क्रम (Order)</th>
+                                    <th>क्रम</th>
                                 </tr>
                             </thead>
                             <tbody id="detailedStaffSummaryBody"></tbody>
@@ -3299,34 +3511,19 @@ body.print-patra #tab-patra { display: block !important; }
 
                 <div class="staff-filter-bar">
                     <input type="text" id="staffSearchInput" class="staff-search-input" placeholder="🔍 कर्मचारी खोजें (Name, Post, Place, GH/DO)..." oninput="renderStaffRows()">
-                    <div style="display:flex; align-items:center; gap:5px; flex-wrap:wrap;">
-                        <button type="button" class="quick-chip-btn" onclick="markStaffTodayAllPresent()" title="Mark all staff Present (P) for Today">⚡ Today All P</button>
-                        <button type="button" class="quick-chip-btn" onclick="autoFillStaffTillToday()" title="Fill P up to Today for current cycle">📅 Auto-Fill Till Today</button>
+                    <div style="display:flex; align-items:center; gap:4px; flex-wrap:wrap;">
+                        <button type="button" class="quick-chip-btn" onclick="markStaffTodayAllPresent()">⚡ Today All P</button>
+                        <button type="button" class="quick-chip-btn" onclick="autoFillStaffTillToday()">📅 Auto-Fill Till Today</button>
                     </div>
                 </div>
             </div>
 
-            <!-- Collapsible Staff Detailed Graphics Drawer (Auto-Closed, with Print Tick) -->
-            <div class="summary-collapse-btn graphics-collapse-btn staff-no-print" onclick="toggleDrawer('staffGraphicsDrawer', 'staffGraphChevron')">
-                <div class="summary-collapse-left">
-                    <span>📈 <strong>Staff Detailed Graphics &amp; Visual Analytics</strong></span>
-                    <div class="summary-mini-pills">
-                        <span class="mini-tag" style="color:var(--accent);">Status Donut • Per-Staff Bars • Daily Presence Curve • Leaderboard</span>
-                    </div>
-                </div>
-                <div class="drawer-right-controls">
-                    <label class="print-tick-pill" onclick="event.stopPropagation();" title="Print में Staff Graphics शामिल करें">
-                        <input type="checkbox" id="chkPrint_staff_graphics" onchange="togglePrintSection('staff', 'graphics', this.checked)"> 🖨️ Print
-                    </label>
-                    <span class="summary-chevron" id="staffGraphChevron">Show ▼</span>
-                </div>
-            </div>
-
+            <!-- Collapsible Graphics Drawer (Only visible when opened) -->
             <div id="staffGraphicsDrawer" class="collapsible-panel staff-no-print">
                 <div class="graphics-dashboard-grid" id="staffGraphicsContainer"></div>
             </div>
 
-            <!-- Main Official Register Table Container (Print Layout Matches staff attendence.html 100%) -->
+            <!-- Main Official Register Table Container -->
             <div class="staff-table-container" id="staffTableContainer">
                 <!-- Print-Only Top Row: Left क्रमांक & Right Date - DD.MM.YYYY -->
                 <div class="print-only-kramank-row" id="printTopMetaRow">
@@ -3389,22 +3586,21 @@ body.print-patra #tab-patra { display: block !important; }
                 </div>
             </div>
 
-            <!-- Collapsible OPD Summary Toggle Button (with Print Tick) -->
-            <div class="summary-collapse-btn no-print" onclick="toggleDrawer('opdSummaryDrawer', 'opdSumChevron')">
-                <div class="summary-collapse-left">
-                    <span>📊 <strong>OPD Summary</strong></span>
-                    <div class="summary-mini-pills">
-                        <span class="mini-tag" style="color:var(--primary);">Total:<span id="mini-opd-total">0</span></span>
-                        <span class="mini-tag" style="color:var(--opd-success);">Avg:<span id="mini-opd-avg">0</span></span>
-                        <span class="mini-tag" style="color:var(--opd-warning);">Peak:<span id="mini-opd-peak">0</span></span>
-                    </div>
-                </div>
-                <div class="drawer-right-controls">
-                    <label class="print-tick-pill" onclick="event.stopPropagation();" title="Print में OPD Summary शामिल करें">
-                        <input type="checkbox" id="chkPrint_opd_summary" checked onchange="togglePrintSection('opd', 'summary', this.checked)"> 🖨️ Print
-                    </label>
-                    <span class="summary-chevron" id="opdSumChevron">Show ▼</span>
-                </div>
+            <!-- Slim 1-Line Side-by-Side Dropdown Strip for OPD Mode -->
+            <div class="flat-drawers-strip no-print">
+                <button type="button" class="summary-collapse-btn" onclick="toggleDrawer('opdSummaryDrawer', 'opdSumChevron')">
+                    <span class="summary-collapse-left">
+                        <span>📊 <strong>OPD Summary</strong></span>
+                        <span class="summary-mini-pills">
+                            <span id="mini-opd-total">0</span><span id="mini-opd-avg">0</span><span id="mini-opd-peak">0</span>
+                        </span>
+                    </span>
+                    <span class="summary-chevron" id="opdSumChevron">▾</span>
+                </button>
+                <button type="button" class="summary-collapse-btn graphics-collapse-btn" onclick="toggleDrawer('opdGraphicsDrawer', 'opdGraphChevron')">
+                    <span class="summary-collapse-left">📈 <strong>OPD Graphics</strong></span>
+                    <span class="summary-chevron" id="opdGraphChevron">▾</span>
+                </button>
             </div>
 
             <!-- Collapsible OPD Summary Drawer -->
@@ -3430,22 +3626,6 @@ body.print-patra #tab-patra { display: block !important; }
                         <span class="opd-kpi-val" id="opdKpiRed" style="color:var(--opd-danger);">0</span>
                         <span class="opd-kpi-sub">Sundays &amp; GH</span>
                     </div>
-                </div>
-            </div>
-
-            <!-- Collapsible OPD Detailed Graphics Drawer (Auto-Closed, with Print Tick) -->
-            <div class="summary-collapse-btn graphics-collapse-btn no-print" onclick="toggleDrawer('opdGraphicsDrawer', 'opdGraphChevron')">
-                <div class="summary-collapse-left">
-                    <span>📈 <strong>OPD Detailed Graphics &amp; Patient Analytics</strong></span>
-                    <div class="summary-mini-pills">
-                        <span class="mini-tag" style="color:var(--accent);">Daily Trend Curve • Weekday Avg Bars • Volume Donut • 10-Day Slabs</span>
-                    </div>
-                </div>
-                <div class="drawer-right-controls">
-                    <label class="print-tick-pill" onclick="event.stopPropagation();" title="Print में OPD Graphics शामिल करें">
-                        <input type="checkbox" id="chkPrint_opd_graphics" onchange="togglePrintSection('opd', 'graphics', this.checked)"> 🖨️ Print
-                    </label>
-                    <span class="summary-chevron" id="opdGraphChevron">Show ▼</span>
                 </div>
             </div>
 
@@ -3547,42 +3727,20 @@ body.print-patra #tab-patra { display: block !important; }
                 <div id="patraCategoryTabsBar" class="patra-tabs-bar"></div>
             </div>
 
-            <!-- Collapsible Patra Summary Drawer (Auto-Closed, with Print Tick) -->
-            <div class="summary-collapse-btn patra-no-print" onclick="toggleDrawer('patraSummaryDrawer', 'patraSumChevron')">
-                <div class="summary-collapse-left">
-                    <span>📊 <strong>Patra Dispatch Summary</strong></span>
-                    <div class="summary-mini-pills">
-                        <span class="mini-tag" style="color:var(--primary);">कुल पत्र:<span id="mini-patra-total">0</span></span>
-                        <span class="mini-tag" style="color:var(--opd-success);">कैटेगरी:<span id="mini-patra-cats">0</span></span>
-                        <span class="mini-tag" style="color:var(--opd-warning);">अगला #:<span id="mini-patra-next">1</span></span>
-                    </div>
-                </div>
-                <div class="drawer-right-controls">
-                    <label class="print-tick-pill" onclick="event.stopPropagation();" title="Print में Patra Summary शामिल करें">
-                        <input type="checkbox" id="chkPrint_patra_summary" onchange="togglePrintSection('patra', 'summary', this.checked)"> 🖨️ Print
-                    </label>
-                    <span class="summary-chevron" id="patraSumChevron">Show ▼</span>
-                </div>
+            <!-- Slim 1-Line Side-by-Side Dropdown Strip for Patra Register -->
+            <div class="flat-drawers-strip patra-no-print">
+                <button type="button" class="summary-collapse-btn" onclick="toggleDrawer('patraSummaryDrawer', 'patraSumChevron')">
+                    <span class="summary-collapse-left">📊 <strong>Summary</strong></span>
+                    <span class="summary-chevron" id="patraSumChevron">▾</span>
+                </button>
+                <button type="button" class="summary-collapse-btn graphics-collapse-btn" onclick="toggleDrawer('patraGraphicsDrawer', 'patraGraphChevron')">
+                    <span class="summary-collapse-left">📈 <strong>Graphics</strong></span>
+                    <span class="summary-chevron" id="patraGraphChevron">▾</span>
+                </button>
             </div>
 
             <div id="patraSummaryDrawer" class="collapsible-panel patra-no-print">
                 <div class="opd-kpi-grid" id="patraSummaryKpiGrid"></div>
-            </div>
-
-            <!-- Collapsible Patra Detailed Graphics Drawer (Auto-Closed, with Print Tick) -->
-            <div class="summary-collapse-btn graphics-collapse-btn patra-no-print" onclick="toggleDrawer('patraGraphicsDrawer', 'patraGraphChevron')">
-                <div class="summary-collapse-left">
-                    <span>📈 <strong>Patra Detailed Graphics &amp; Dispatch Analytics</strong></span>
-                    <div class="summary-mini-pills">
-                        <span class="mini-tag" style="color:var(--accent);">Category Donut • Top Offices Bars • Monthly Timeline</span>
-                    </div>
-                </div>
-                <div class="drawer-right-controls">
-                    <label class="print-tick-pill" onclick="event.stopPropagation();" title="Print में Patra Graphics शामिल करें">
-                        <input type="checkbox" id="chkPrint_patra_graphics" onchange="togglePrintSection('patra', 'graphics', this.checked)"> 🖨️ Print
-                    </label>
-                    <span class="summary-chevron" id="patraGraphChevron">Show ▼</span>
-                </div>
             </div>
 
             <div id="patraGraphicsDrawer" class="collapsible-panel patra-no-print">
@@ -3591,13 +3749,10 @@ body.print-patra #tab-patra { display: block !important; }
 
             <!-- Compact Status Strip -->
             <div class="patra-status-strip patra-no-print">
-                <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+                <div>
                     <strong id="patraActiveCategoryTitle" style="color:var(--text-main);">सभी पत्र (All)</strong>
                     <span> • </span>
                     <span id="patraVisibleCountLabel">0 पत्र</span>
-                    <label class="print-tick-pill" title="Print में मुख्य Patra Register Table शामिल करें">
-                        <input type="checkbox" id="chkPrint_patra_register" checked onchange="togglePrintSection('patra', 'register', this.checked)"> 🖨️ Print Register
-                    </label>
                 </div>
                 <span id="patraHeaderStatsText">अगला क्रमांक #1</span>
                 <span id="patraSavedBadge" style="display:none;"></span>
@@ -3666,7 +3821,7 @@ body.print-patra #tab-patra { display: block !important; }
                 <div class="settings-header">
                     <h2>🎉 Manage Holidays (GH) — Synced with Staff Register</h2>
                     <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
-                        <label class="print-tick-pill" title="रविवार (Sunday) को स्वतः राजपत्रित अवकाश (GH) मानें">
+                        <label style="display:inline-flex; align-items:center; gap:4px; font-size:10px; font-weight:700; cursor:pointer;" title="रविवार (Sunday) को स्वतः राजपत्रित अवकाश (GH) मानें">
                             <input type="checkbox" id="chkAutoSundayGH" checked onchange="toggleAutoSundayGH(this.checked)"> ☀️ Auto Sunday GH
                         </label>
                         <button type="button" class="quick-chip-btn" onclick="loadPresetHolidays2026()">✨ + Load 2026 Govt Holidays</button>
@@ -3816,10 +3971,10 @@ body.print-patra #tab-patra { display: block !important; }
     <div class="modal-overlay" id="manageStaffModal">
         <div class="modal-content" style="max-width: 680px; width: 96%;">
             <div class="modal-header">
-                <h2 style="font-size:15px; font-weight:700;">⚙️ कर्मचारी, प्रिंट क्रम (Order) एवं Row Hide/Show प्रबंधित करें</h2>
+                <h2 style="font-size:14px; font-weight:700;">⚙️ कर्मचारी, प्रिंट क्रम (Order) एवं Row Hide/Show प्रबंधित करें</h2>
                 <button type="button" class="close-btn" onclick="closeStaffModals()">&times;</button>
             </div>
-            <p style="font-size:11px; color:var(--text-muted); margin-bottom:8px;">यहाँ से आप जिन कर्मचारियों की उपस्थिति प्रिंट करानी है उन्हें चुनें (👁️ Print / 🙈 Hide) और जिस क्रम में प्रिंट कराना है वह क्रम (▲/▼) सेट करें।</p>
+            <p style="font-size:10.5px; color:var(--text-muted); margin-bottom:6px;">यहाँ से जिन कर्मचारियों की उपस्थिति प्रिंट करानी है उन्हें चुनें (👁️ Print / 🙈 Hide) और क्रम (▲/▼) सेट करें।</p>
             <div style="display:flex; gap:6px; margin-bottom:8px; flex-wrap:wrap;">
                 <button type="button" class="quick-chip-btn" onclick="showAllHiddenStaff(); renderManageStaffList();">✅ सभी को Print में शामिल करें (Show All)</button>
                 <button type="button" class="quick-chip-btn" onclick="hideAllStaffRows(); renderManageStaffList();" style="color:var(--t-absent); border-color:var(--b-absent); background:var(--c-absent);">🙈 सभी को छुपाएं (Hide All)</button>
@@ -4000,6 +4155,64 @@ body.print-patra #tab-patra { display: block !important; }
         </div>
     </div>
 
+    <!-- Print Options Selection Popup Modal (Triggered when clicking 🖨️ Print) -->
+    <div class="modal-overlay" id="print-options-modal">
+        <div class="modal-content" style="max-width: 380px;">
+            <div class="modal-header">
+                <div>
+                    <h2 id="print-opt-modal-title" style="font-size:14px; font-weight:800;">🖨️ प्रिंट विकल्प चुनें (Print Options)</h2>
+                    <p id="print-opt-modal-sub" style="font-size:10px; color:var(--text-muted);">जिन सेक्शन्स को प्रिंट में शामिल करना है उन पर टिक (☑️) करें</p>
+                </div>
+                <button type="button" class="close-btn" onclick="closePrintOptionsModal()">&times;</button>
+            </div>
+
+            <!-- Staff Mode Extra Meta Inputs inside Print Popup -->
+            <div id="print-opt-staff-meta" style="display:none; background:var(--surface-subtle); border:1px solid var(--border-light); border-radius:6px; padding:6px 8px; margin-top:6px; gap:6px; flex-wrap:wrap;">
+                <div style="flex:1; min-width:120px;">
+                    <label style="font-size:9.5px; font-weight:700; color:var(--text-muted); display:block;">क्रमांक (Left Header)</label>
+                    <input type="text" id="popupPrintKramank" placeholder="जैसे: 2026/105" oninput="syncPopupPrintMeta()" style="width:100%; height:26px; border:1px solid var(--border); border-radius:4px; padding:0 6px; font-size:11px; background:var(--surface); color:var(--text-main);">
+                </div>
+                <div style="flex:1; min-width:120px;">
+                    <label style="font-size:9.5px; font-weight:700; color:var(--text-muted); display:block;">Date (Right Header)</label>
+                    <div style="display:flex; gap:3px;">
+                        <input type="text" id="popupPrintDate" placeholder="DD.MM.YYYY" oninput="syncPopupPrintMeta()" style="flex:1; height:26px; border:1px solid var(--border); border-radius:4px; padding:0 6px; font-size:11px; background:var(--surface); color:var(--text-main);">
+                        <button type="button" class="quick-chip-btn" onclick="setTodayPrintDate(); syncPopupPrintMetaFromGlobal();" style="height:26px; padding:0 6px !important;">आज</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dynamic Tick-Mark Checkboxes List -->
+            <div class="print-opt-list" id="print-opt-checklist"></div>
+
+            <div class="action-btn-row" style="margin-top: 10px;">
+                <button type="button" class="btn-primary" style="background:var(--surface-subtle); color:var(--text-main); border:1px solid var(--border); height:32px;" onclick="previewFromPrintOptions()">👁️ Preview</button>
+                <button type="button" class="btn-primary" style="height:32px;" onclick="confirmAndTriggerPrint()">🖨️ Print Now</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Staff Row Quick Action Popup Modal (Opens when tapping a Staff Name in Table) -->
+    <div class="modal-overlay" id="staff-row-action-modal">
+        <div class="modal-content" style="max-width: 330px;">
+            <div class="modal-header">
+                <div>
+                    <h2 id="staff-row-action-title" style="font-size:14px; font-weight:800;">कर्मचारी विकल्प</h2>
+                    <p id="staff-row-action-sub" style="font-size:10px; color:var(--text-muted);">क्रम बदलें या प्रिंट से छुपाएं/दिखाएं</p>
+                </div>
+                <button type="button" class="close-btn" onclick="closeStaffRowActionModal()">&times;</button>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:6px; margin-top:8px;">
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px;">
+                    <button type="button" class="btn-primary" style="background:var(--surface-subtle); color:var(--text-main); border:1px solid var(--border); height:32px; margin:0;" onclick="quickMoveActiveStaff(-1)">▲ क्रम ऊपर (Up)</button>
+                    <button type="button" class="btn-primary" style="background:var(--surface-subtle); color:var(--text-main); border:1px solid var(--border); height:32px; margin:0;" onclick="quickMoveActiveStaff(1)">▼ क्रम नीचे (Down)</button>
+                </div>
+                <button type="button" id="staff-row-hide-toggle-btn" class="btn-primary" style="background:#dc2626; height:32px; margin:0;" onclick="quickToggleHideActiveStaff()">🙈 इस कर्मचारी को Print से छुपाएं</button>
+                <button type="button" class="btn-primary" style="background:#16a34a; height:32px; margin:0;" onclick="quickFillAllPresentActiveStaff()">✅ इस साइकिल में सभी दिन 'P' भरें</button>
+                <button type="button" class="btn-primary" style="background:var(--primary-light); color:var(--primary); border:1px solid rgba(37,99,235,0.3); height:32px; margin:0;" onclick="closeStaffRowActionModal(); openManageStaffModal();">⚙️ सभी स्टाफ प्रबंधित करें (Manage All)</button>
+            </div>
+        </div>
+    </div>
+
     <div class="toast" id="toast"></div>
 
     <script>
@@ -4012,13 +4225,16 @@ body.print-patra #tab-patra { display: block !important; }
             try { localStorage.setItem(key, val); } catch (err) { memoryStore[key] = val; }
         }
 
-        // ================= COLLAPSIBLE SUMMARY DRAWER TOGGLE =================
+        // ================= COLLAPSIBLE SUMMARY & GRAPHICS DRAWER TOGGLE =================
         function toggleDrawer(drawerId, chevronId) {
             const panel = document.getElementById(drawerId);
             const chev = document.getElementById(chevronId);
             if (!panel) return;
             const isOpen = panel.classList.toggle('open');
-            if (chev) chev.textContent = isOpen ? 'Hide ▲' : 'Show ▼';
+            if (chev) {
+                chev.textContent = isOpen ? '▴' : '▾';
+                chev.closest('.summary-collapse-btn')?.classList.toggle('active-drawer', isOpen);
+            }
         }
 
         // ================= CUSTOM DIALOG (REPLACES ALERT/CONFIRM) =================
@@ -4777,7 +4993,6 @@ body.print-patra #tab-patra { display: block !important; }
             generateOpdTable();
             initStaffApp();
             initPatraApp();
-            syncAllPrintSectionCheckboxes();
             updateThemeMenuBadge();
         }
 
@@ -6138,7 +6353,7 @@ body.print-patra #tab-patra { display: block !important; }
                 title.textContent = 'OPD Report — Print Preview';
                 const footer = document.getElementById('opdPrintSummaryFooter');
                 if (footer) footer.style.display = isPrintSectionEnabled('opd', 'summary') ? 'flex' : 'none';
-                box.innerHTML = document.getElementById('opdPrintArea').outerHTML;
+                box.innerHTML = isPrintSectionEnabled('opd', 'register') ? document.getElementById('opdPrintArea').outerHTML : (isPrintSectionEnabled('opd', 'summary') && footer ? footer.outerHTML : '');
                 const origInputs = document.querySelectorAll('#opdPrintArea input');
                 const prevInputs = box.querySelectorAll('input');
                 origInputs.forEach((inp, idx) => {
@@ -6186,7 +6401,7 @@ body.print-patra #tab-patra { display: block !important; }
 
                     const tableClone = document.getElementById('staffAttendanceTable').cloneNode(true);
                     tableClone.querySelectorAll('[contenteditable]').forEach(el => el.removeAttribute('contenteditable'));
-                    tableClone.querySelectorAll('.staff-type-pill, .row-inline-tools, .staff-no-print, tr.staff-row-hidden-print').forEach(el => el.remove());
+                    tableClone.querySelectorAll('.staff-type-pill, .row-inline-tools, .staff-row-trigger-dot, .staff-no-print, tr.staff-row-hidden-print').forEach(el => el.remove());
                     tableClone.style.width = '100%';
                     tableClone.style.borderCollapse = 'collapse';
                     tableClone.style.color = '#000';
@@ -6274,11 +6489,6 @@ body.print-patra #tab-patra { display: block !important; }
             appData.prefs.includeOpdSummary = include;
             if (!appData.prefs.printSections) appData.prefs.printSections = {};
             appData.prefs.printSections.opd_summary = include;
-            const chk = document.getElementById('chkPrint_opd_summary');
-            if (chk) {
-                chk.checked = include;
-                chk.closest('.print-tick-pill')?.classList.toggle('checked', include);
-            }
             saveData();
             const footer = document.getElementById('opdPrintSummaryFooter');
             if (footer) footer.style.display = include ? 'flex' : 'none';
@@ -6761,11 +6971,13 @@ body.print-patra #tab-patra { display: block !important; }
         function printOpdCurrentMonth() {
             setPrintPageStyle('portrait');
             const extraBox = document.getElementById('opd-extra-print-area');
+            const incReg = isPrintSectionEnabled('opd', 'register');
             const incGraph = isPrintSectionEnabled('opd', 'graphics');
             const incSum = isPrintSectionEnabled('opd', 'summary');
             const footer = document.getElementById('opdPrintSummaryFooter');
             if (footer) footer.style.display = incSum ? 'flex' : 'none';
 
+            document.body.classList.toggle('hide-main-register', !incReg);
             if (extraBox) {
                 if (incGraph) {
                     const gCont = document.getElementById('opdGraphicsContainer');
@@ -6783,7 +6995,7 @@ body.print-patra #tab-patra { display: block !important; }
             document.getElementById('printAllContainer').style.display = 'none';
             setTimeout(() => {
                 window.print();
-                document.body.classList.remove('print-opd');
+                document.body.classList.remove('print-opd', 'hide-main-register');
                 if (extraBox) extraBox.classList.remove('active-for-print');
             }, 250);
         }
@@ -6896,7 +7108,7 @@ body.print-patra #tab-patra { display: block !important; }
         }
 
 
-        // ================= APP 4: STAFF ATTENDANCE & LEAVE REGISTER ENGINE (UPGRADED WITH index (1).html + AUTO SUNDAY GH) =================
+        // ================= APP 4: STAFF ATTENDANCE & LEAVE REGISTER ENGINE (FLAT COMPACT + QUICK ROW POPUP) =================
         const DEFAULT_STAFF_TITLE = "कार्यालय चिकित्सा अधिकारी प्रभारी, प्राथमिक स्वास्थ्य केंद्र शेषा, खंड मलारना डूंगर, सवाई माधोपुर";
         let staffGlobalData = {
             staffList: [],
@@ -6922,6 +7134,8 @@ body.print-patra #tab-patra { display: block !important; }
         let staffCurrentSingleViewIndex = -1;
         let activeStaffQuickCell = null;
         let showHiddenStaffOnScreen = false;
+        let staffInlineEditMode = false;
+        let activeActionStaffId = null;
 
         const hindiMonths = ['जनवरी', 'फरवरी', 'मार्च', 'अप्रैल', 'मई', 'जून', 'जुलाई', 'अगस्त', 'सितम्बर', 'अक्टूबर', 'नवम्बर', 'दिसम्बर'];
         const hindiDays = ['रविवार', 'सोमवार', 'मंगलवार', 'बुधवार', 'गुरुवार', 'शुक्रवार', 'शनिवार'];
@@ -6998,6 +7212,80 @@ body.print-patra #tab-patra { display: block !important; }
             if (outD) outD.textContent = staffGlobalData.printDate || '';
         }
 
+        function toggleStaffInlineTools() {
+            staffInlineEditMode = !staffInlineEditMode;
+            document.body.classList.toggle('staff-inline-edit-on', staffInlineEditMode);
+            const btn = document.getElementById('toggleInlineToolsBtn');
+            if (btn) {
+                btn.style.background = staffInlineEditMode ? 'var(--primary)' : 'var(--primary-light)';
+                btn.style.color = staffInlineEditMode ? '#fff' : 'var(--primary)';
+            }
+        }
+
+        function openStaffRowActionModal(staffId, event) {
+            if (event) event.stopPropagation();
+            const stf = staffGlobalData.staffList.find(s => s.id === staffId);
+            if (!stf) return;
+            activeActionStaffId = staffId;
+            const idx = staffGlobalData.staffList.findIndex(s => s.id === staffId);
+            document.getElementById('staff-row-action-title').textContent = `${idx + 1}. ${stf.name} (${stf.type})`;
+            document.getElementById('staff-row-action-sub').textContent = `${stf.post || '-'} • ${stf.place || '-'}`;
+            const hideBtn = document.getElementById('staff-row-hide-toggle-btn');
+            if (hideBtn) {
+                if (stf.hidden) {
+                    hideBtn.textContent = '👁️ वापस Print व टेबल में दिखाएं (Show Row)';
+                    hideBtn.style.background = '#2563eb';
+                } else {
+                    hideBtn.textContent = '🙈 इस कर्मचारी को Print से छुपाएं (Hide Row)';
+                    hideBtn.style.background = '#dc2626';
+                }
+            }
+            document.getElementById('staff-row-action-modal').classList.add('active');
+        }
+
+        function closeStaffRowActionModal() {
+            document.getElementById('staff-row-action-modal')?.classList.remove('active');
+            activeActionStaffId = null;
+        }
+
+        function quickMoveActiveStaff(dir) {
+            if (!activeActionStaffId) return;
+            const idx = staffGlobalData.staffList.findIndex(s => s.id === activeActionStaffId);
+            if (idx === -1) return;
+            moveStaffOrder(idx, dir);
+            const newIdx = staffGlobalData.staffList.findIndex(s => s.id === activeActionStaffId);
+            const stf = staffGlobalData.staffList[newIdx];
+            if (stf) {
+                document.getElementById('staff-row-action-title').textContent = `${newIdx + 1}. ${stf.name} (${stf.type})`;
+            }
+        }
+
+        function quickToggleHideActiveStaff() {
+            if (!activeActionStaffId) return;
+            const id = activeActionStaffId;
+            closeStaffRowActionModal();
+            toggleStaffRowHidden(id);
+        }
+
+        function quickFillAllPresentActiveStaff() {
+            if (!activeActionStaffId) return;
+            const stf = staffGlobalData.staffList.find(s => s.id === activeActionStaffId);
+            if (!stf) return;
+            staffCycleDates.forEach(d => {
+                const dStr = formatStaffDate(d);
+                const isGhDate = isStaffDateGH(d, dStr);
+                if (stf.type === 'GH' && isGhDate) {
+                    staffGlobalData.cellData[`${stf.id}_${dStr}`] = 'GH';
+                } else {
+                    staffGlobalData.cellData[`${stf.id}_${dStr}`] = 'P';
+                }
+            });
+            saveStaffData();
+            renderStaffRows();
+            closeStaffRowActionModal();
+            showToast(`"${stf.name}" की उपस्थिति भर दी गई!`);
+        }
+
         function toggleAutoSundayGH(enabled) {
             if (!appData.prefs) appData.prefs = {};
             appData.prefs.autoSundayGH = !!enabled;
@@ -7008,22 +7296,16 @@ body.print-patra #tab-patra { display: block !important; }
             showToast(enabled ? 'Sunday Auto-GH Enabled!' : 'Sunday Auto-GH Disabled');
         }
 
-        // Two-way synchronization between Settings Holidays (appData.holidays) and Staff GH Dates (staffGlobalData.ghDates) + Sunday Auto-GH
         function syncHolidaysBetweenSettingsAndStaff(persistChanges = false) {
             if (!appData.holidays) appData.holidays = {};
             if (!Array.isArray(staffGlobalData.ghDates)) staffGlobalData.ghDates = [];
             if (!staffGlobalData.holidays) staffGlobalData.holidays = {};
             let changed = false;
 
-            // Sync checkbox in Settings
             const chkSun = document.getElementById('chkAutoSundayGH');
             const autoSun = (!appData.prefs || appData.prefs.autoSundayGH !== false);
-            if (chkSun) {
-                chkSun.checked = autoSun;
-                chkSun.closest('.print-tick-pill')?.classList.toggle('checked', autoSun);
-            }
+            if (chkSun) chkSun.checked = autoSun;
 
-            // 1. Every holiday in Settings (appData.holidays) must be in staffGlobalData.ghDates & staffGlobalData.holidays
             Object.keys(appData.holidays).forEach(dStr => {
                 if (!staffGlobalData.ghDates.includes(dStr)) {
                     staffGlobalData.ghDates.push(dStr);
@@ -7035,7 +7317,6 @@ body.print-patra #tab-patra { display: block !important; }
                 }
             });
 
-            // 2. Every holiday in staffGlobalData.holidays or ghDates must exist in appData.holidays
             Object.keys(staffGlobalData.holidays).forEach(dStr => {
                 if (!appData.holidays[dStr] && staffGlobalData.holidays[dStr] !== 'रविवार (Sunday GH)') {
                     appData.holidays[dStr] = staffGlobalData.holidays[dStr];
@@ -7058,7 +7339,6 @@ body.print-patra #tab-patra { display: block !important; }
                     staffGlobalData.holidays[dStr] = appData.holidays[dStr] || (isSun ? 'रविवार (Sunday GH)' : 'राजपत्रित अवकाश (GH)');
                     changed = true;
                 }
-                // Auto-mark GH for GH-pattern staff if not marked yet
                 staffGlobalData.staffList.forEach(staff => {
                     if (staff.type === 'GH' && !staffGlobalData.cellData[`${staff.id}_${dStr}`]) {
                         staffGlobalData.cellData[`${staff.id}_${dStr}`] = 'GH';
@@ -7067,7 +7347,6 @@ body.print-patra #tab-patra { display: block !important; }
                 });
             });
 
-            // 3. If Auto-Sunday GH is enabled, ensure Sundays in current cycle are auto-marked GH for GH staff if cell is empty
             if (autoSun && Array.isArray(staffCycleDates)) {
                 staffCycleDates.forEach(d => {
                     if (d.getDay() === 0) {
@@ -7118,7 +7397,7 @@ body.print-patra #tab-patra { display: block !important; }
             }
             const modeBadge = document.getElementById('staffModeBadge');
             if (modeBadge) {
-                modeBadge.textContent = staffIsMonthWise ? 'Month 1-31' : 'Cycle 21-20';
+                modeBadge.textContent = staffIsMonthWise ? '1-31' : '21-20';
             }
             syncPrintMetaHeaderDOM();
             generateStaffCycleDates();
@@ -7183,8 +7462,8 @@ body.print-patra #tab-patra { display: block !important; }
             let startD = staffCycleDates[0];
             let endD = staffCycleDates[staffCycleDates.length - 1];
 
-            let startStr = `${startD.getDate()} ${startD.toLocaleDateString('en-GB', { month: 'short', year: 'numeric' })}`;
-            let endStr = `${endD.getDate()} ${endD.toLocaleDateString('en-GB', { month: 'short', year: 'numeric' })}`;
+            let startStr = `${startD.getDate()} ${startD.toLocaleDateString('en-GB', { month: 'short' })}`;
+            let endStr = `${endD.getDate()} ${endD.toLocaleDateString('en-GB', { month: 'short', year: '2-digit' })}`;
             const disp = document.getElementById('staffCycleDisplay');
             if (disp) disp.innerText = `${startStr} - ${endStr}`;
 
@@ -7222,9 +7501,9 @@ body.print-patra #tab-patra { display: block !important; }
                     th.style.minWidth = "86px";
                     th.innerHTML = `
                         <div style="display:flex; justify-content:space-between; align-items:center; width:100%; gap:4px;">
-                            <span onclick="shiftStaffDay(event, -1)" style="cursor:pointer; font-size:13px; color:var(--primary); padding:0 4px;">◀</span>
-                            <span style="font-size:13px; font-weight:700;">${d.getDate()} ${engMonths[d.getMonth()]}</span>
-                            <span onclick="shiftStaffDay(event, 1)" style="cursor:pointer; font-size:13px; color:var(--primary); padding:0 4px;">▶</span>
+                            <span onclick="shiftStaffDay(event, -1)" style="cursor:pointer; font-size:12px; color:var(--primary); padding:0 4px;">◀</span>
+                            <span style="font-size:11.5px; font-weight:700;">${d.getDate()} ${engMonths[d.getMonth()]}</span>
+                            <span onclick="shiftStaffDay(event, 1)" style="cursor:pointer; font-size:12px; color:var(--primary); padding:0 4px;">▶</span>
                         </div>
                     `;
                 } else {
@@ -7241,7 +7520,6 @@ body.print-patra #tab-patra { display: block !important; }
             adjustStaffColspans();
         }
 
-        // Row Hide / Show & Reorder Functions (from index (1).html)
         function toggleStaffRowHidden(staffId, event) {
             if (event) event.stopPropagation();
             const stf = staffGlobalData.staffList.find(s => s.id === staffId);
@@ -7347,19 +7625,21 @@ body.print-patra #tab-patra { display: block !important; }
                 const hideBtnTitle = staff.hidden ? 'प्रिंट में वापस शामिल करें (Show Row)' : 'इस कर्मचारी की पूरी पंक्ति (Row) प्रिंट व टेबल से छुपाएं';
                 const hideBtnIcon = staff.hidden ? '👁️' : '🙈';
 
+                // Clean, compact Staff Name cell: clicking it opens the Quick Row Action Popup!
                 tr.innerHTML = `
-                    <td class="staff-readonly staff-sticky-col">
+                    <td class="staff-readonly staff-sticky-col" onclick="openStaffRowActionModal('${staff.id}', event)" title="नाम पर टैप करें: क्रम बदलें (▲/▼) या Print से छुपाएं (🙈)">
                         <div class="staff-name-cell-wrap">
                             <span class="staff-name-text">${staff.name}<span class="staff-type-pill staff-type-${staff.type}">${staff.type}</span></span>
+                            <span class="staff-row-trigger-dot staff-no-print">⋮</span>
                             <span class="row-inline-tools staff-no-print">
-                                <button type="button" class="row-mini-btn" onclick="moveStaffById('${staff.id}', -1, event)" title="क्रम ऊपर करें (Move Up)" ${staffIdx === 0 ? 'disabled style="opacity:0.35;cursor:default;"' : ''}>▲</button>
-                                <button type="button" class="row-mini-btn" onclick="moveStaffById('${staff.id}', 1, event)" title="क्रम नीचे करें (Move Down)" ${staffIdx === staffGlobalData.staffList.length - 1 ? 'disabled style="opacity:0.35;cursor:default;"' : ''}>▼</button>
+                                <button type="button" class="row-mini-btn" onclick="moveStaffById('${staff.id}', -1, event)" title="Up" ${staffIdx === 0 ? 'disabled style="opacity:0.35;"' : ''}>▲</button>
+                                <button type="button" class="row-mini-btn" onclick="moveStaffById('${staff.id}', 1, event)" title="Down" ${staffIdx === staffGlobalData.staffList.length - 1 ? 'disabled style="opacity:0.35;"' : ''}>▼</button>
                                 <button type="button" class="row-mini-btn hide-btn" onclick="toggleStaffRowHidden('${staff.id}', event)" title="${hideBtnTitle}">${hideBtnIcon}</button>
                             </span>
                         </div>
                     </td>
-                    <td class="staff-readonly staff-col-post">${staff.post || ''}</td>
-                    <td class="staff-readonly staff-col-place">${staff.place || ''}</td>
+                    <td class="staff-readonly staff-col-post" title="${(staff.post || '').replace(/"/g, '&quot;')}">${staff.post || ''}</td>
+                    <td class="staff-readonly staff-col-place" title="${(staff.place || '').replace(/"/g, '&quot;')}">${staff.place || ''}</td>
                 `;
 
                 staffCycleDates.forEach((d, index) => {
@@ -7442,7 +7722,7 @@ body.print-patra #tab-patra { display: block !important; }
                 emptyTr.className = 'staff-empty-row staff-no-print';
                 const totalCols = (staffIsTodayMode ? 1 : 3) + (staffIsTodayMode ? 1 : staffCycleDates.length) + (staffIsTodayMode ? 0 : 6);
                 const hasHidden = staffGlobalData.staffList.some(s => s.hidden);
-                emptyTr.innerHTML = `<td colspan="${totalCols}">${hasHidden ? 'सभी कर्मचारी वर्तमान में Hide हैं। ऊपर <b>✅ Show All Rows</b> पर क्लिक करें या नया कर्मचारी जोड़ें।' : 'कोई कर्मचारी मौजूद नहीं है। नया कर्मचारी जोड़ने के लिए <b>➕ Add</b> बटन पर क्लिक करें।'}</td>`;
+                emptyTr.innerHTML = `<td colspan="${totalCols}">${hasHidden ? 'सभी कर्मचारी वर्तमान में Hide हैं। ऊपर <b>✅ All</b> पर क्लिक करें या नया कर्मचारी जोड़ें।' : 'कोई कर्मचारी मौजूद नहीं है। नया कर्मचारी जोड़ने के लिए <b>➕ Add</b> बटन पर क्लिक करें।'}</td>`;
                 tbody.appendChild(emptyTr);
             }
 
@@ -7474,7 +7754,6 @@ body.print-patra #tab-patra { display: block !important; }
                 cell.classList.add('staff-status-' + safeClass);
                 staffGlobalData.cellData[`${staffId}_${dStr}`] = nextVal;
             } else {
-                // Store empty string so user's explicit clear on a Sunday doesn't get overwritten until reset
                 staffGlobalData.cellData[`${staffId}_${dStr}`] = '';
             }
 
@@ -7596,7 +7875,7 @@ body.print-patra #tab-patra { display: block !important; }
             tbody.innerHTML = '';
 
             if (staffGlobalData.staffList.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="16" style="padding:14px; color:var(--text-muted);">कोई कर्मचारी मौजूद नहीं है।</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="16" style="padding:10px; color:var(--text-muted);">कोई कर्मचारी मौजूद नहीं है।</td></tr>`;
                 return;
             }
 
@@ -7630,8 +7909,8 @@ body.print-patra #tab-patra { display: block !important; }
                 tr.innerHTML = `
                     <td style="font-weight:700;">${idx + 1}</td>
                     <td>
-                        <button type="button" class="row-mini-btn" onclick="toggleStaffRowHidden('${s.id}', event)" title="${s.hidden ? 'Print में शामिल करें' : 'Print से छुपाएं'}" style="width:auto; padding:0 6px; font-weight:700; color:${s.hidden ? '#dc2626' : '#16a34a'};">
-                            ${s.hidden ? '🙈 Hidden' : '🖨️ Print'}
+                        <button type="button" class="row-mini-btn" onclick="toggleStaffRowHidden('${s.id}', event)" title="${s.hidden ? 'Print में शामिल करें' : 'Print से छुपाएं'}" style="width:auto; height:18px; padding:0 5px; font-weight:700; color:${s.hidden ? '#dc2626' : '#16a34a'};">
+                            ${s.hidden ? '🙈 Hide' : '🖨️ Print'}
                         </button>
                     </td>
                     <td style="text-align:left; font-weight:700;">${s.name}</td>
@@ -7648,7 +7927,7 @@ body.print-patra #tab-patra { display: block !important; }
                     <td style="font-weight:700; font-family:'JetBrains Mono',monospace;">CL:${totCL || 0} | ML:${totML || 0}</td>
                     <td style="font-family:'JetBrains Mono',monospace;">${filledDays}/${totalCycleDays}</td>
                     <td>
-                        <div style="display:inline-flex; gap:3px;">
+                        <div style="display:inline-flex; gap:2px;">
                             <button type="button" class="row-mini-btn" onclick="moveStaffOrder(${idx}, -1)" ${idx === 0 ? 'disabled style="opacity:0.35;"' : ''} title="क्रम ऊपर करें">▲</button>
                             <button type="button" class="row-mini-btn" onclick="moveStaffOrder(${idx}, 1)" ${idx === staffGlobalData.staffList.length - 1 ? 'disabled style="opacity:0.35;"' : ''} title="क्रम नीचे करें">▼</button>
                         </div>
@@ -7658,7 +7937,6 @@ body.print-patra #tab-patra { display: block !important; }
             });
         }
 
-        // Today Single-Day Mode in Staff Attendance
         function updateStaffTodayButtonUI() {
             const btn = document.getElementById('staffTodayBtn');
             if (!btn) return;
@@ -7732,7 +8010,6 @@ body.print-patra #tab-patra { display: block !important; }
             if (mainTitleEl) mainTitleEl.colSpan = mainTitleSpan + periodSpan;
         }
 
-        // Staff Modals & CRUD
         function openStaffModal() {
             document.getElementById('staffModal').classList.add('active');
         }
@@ -7799,14 +8076,14 @@ body.print-patra #tab-patra { display: block !important; }
                 const row = document.createElement('div');
                 row.className = 'staff-manage-row' + (s.hidden ? ' is-hidden-staff' : '');
                 row.innerHTML = `
-                    <span style="font-weight:700; width:22px; font-size:11px;">${i + 1}.</span>
-                    <button type="button" class="staff-btn ${s.hidden ? 'staff-btn-danger' : 'staff-btn-success'}" onclick="toggleStaffRowHidden('${s.id}')" title="${s.hidden ? 'Print से छुपा हुआ है (Click to Show)' : 'Print में शामिल है (Click to Hide)'}" style="padding:0 7px; min-width:66px;">
+                    <span style="font-weight:700; width:20px; font-size:11px;">${i + 1}.</span>
+                    <button type="button" class="staff-btn ${s.hidden ? 'staff-btn-danger' : 'staff-btn-success'}" onclick="toggleStaffRowHidden('${s.id}')" title="${s.hidden ? 'Print से छुपा हुआ है (Click to Show)' : 'Print में शामिल है (Click to Hide)'}" style="padding:0 6px; min-width:58px;">
                         ${s.hidden ? '🙈 Hide' : '👁️ Print'}
                     </button>
-                    <input type="text" value="${(s.name || '').replace(/"/g, '&quot;')}" oninput="updateStaffInfo(${i}, 'name', this.value)" onchange="updateStaffInfo(${i}, 'name', this.value)" style="flex:1.5; min-width:110px;" placeholder="नाम">
-                    <input type="text" value="${(s.post || '').replace(/"/g, '&quot;')}" oninput="updateStaffInfo(${i}, 'post', this.value)" onchange="updateStaffInfo(${i}, 'post', this.value)" style="flex:1; min-width:85px;" placeholder="पद">
-                    <input type="text" value="${(s.place || '').replace(/"/g, '&quot;')}" oninput="updateStaffInfo(${i}, 'place', this.value)" onchange="updateStaffInfo(${i}, 'place', this.value)" style="flex:0.8; min-width:65px;" placeholder="स्थान">
-                    <select onchange="updateStaffInfo(${i}, 'type', this.value)" style="width:68px;">
+                    <input type="text" value="${(s.name || '').replace(/"/g, '&quot;')}" oninput="updateStaffInfo(${i}, 'name', this.value)" onchange="updateStaffInfo(${i}, 'name', this.value)" style="flex:1.5; min-width:105px;" placeholder="नाम">
+                    <input type="text" value="${(s.post || '').replace(/"/g, '&quot;')}" oninput="updateStaffInfo(${i}, 'post', this.value)" onchange="updateStaffInfo(${i}, 'post', this.value)" style="flex:1; min-width:80px;" placeholder="पद">
+                    <input type="text" value="${(s.place || '').replace(/"/g, '&quot;')}" oninput="updateStaffInfo(${i}, 'place', this.value)" onchange="updateStaffInfo(${i}, 'place', this.value)" style="flex:0.8; min-width:60px;" placeholder="स्थान">
+                    <select onchange="updateStaffInfo(${i}, 'type', this.value)" style="width:64px;">
                         <option value="GH" ${s.type === 'GH' ? 'selected' : ''}>GH</option>
                         <option value="DO" ${s.type === 'DO' ? 'selected' : ''}>D/O</option>
                     </select>
@@ -7933,7 +8210,6 @@ body.print-patra #tab-patra { display: block !important; }
             showToast('GH Holidays Applied & Synced with Settings!');
         }
 
-        // Bulk Actions in Staff Attendance
         function openStaffCreateModal() {
             document.getElementById('staffCreateModal').classList.add('active');
         }
@@ -8049,7 +8325,6 @@ body.print-patra #tab-patra { display: block !important; }
                 renderStaffRows();
             }
 
-            // Prepare optional ticked Summary & Graphics blocks for Staff Print
             const extraBox = document.getElementById('staff-extra-print-area');
             const incReg = isPrintSectionEnabled('staff', 'register');
             const incSum = isPrintSectionEnabled('staff', 'summary');
@@ -8687,7 +8962,7 @@ body.print-patra #tab-patra { display: block !important; }
             }, 250);
         }
 
-        // ================= PRINT SECTION TICK-MARK & DETAILED GRAPHICS ENGINE =================
+        // ================= PRINT OPTIONS POPUP MODAL & DETAILED GRAPHICS ENGINE =================
         function isPrintSectionEnabled(mode, section) {
             if (!appData.prefs) appData.prefs = {};
             if (!appData.prefs.printSections) appData.prefs.printSections = {};
@@ -8703,11 +8978,6 @@ body.print-patra #tab-patra { display: block !important; }
             if (!appData.prefs.printSections) appData.prefs.printSections = {};
             const key = `${mode}_${section}`;
             appData.prefs.printSections[key] = !!checked;
-            const chk = document.getElementById(`chkPrint_${key}`);
-            if (chk) {
-                chk.checked = !!checked;
-                chk.closest('.print-tick-pill')?.classList.toggle('checked', !!checked);
-            }
             if (mode === 'opd' && section === 'summary') {
                 appData.prefs.includeOpdSummary = !!checked;
                 const topSumChk = document.getElementById('opdPrintSummaryToggle');
@@ -8716,45 +8986,136 @@ body.print-patra #tab-patra { display: block !important; }
                 if (footer) footer.style.display = checked ? 'flex' : 'none';
             }
             saveData();
-            showToast(`${mode.toUpperCase()} ${section.toUpperCase()} Print: ${checked ? 'ON (प्रिंट में आएगा)' : 'OFF'}`);
         }
 
-        function syncAllPrintSectionCheckboxes() {
-            const keys = [
-                ['age', 'summary'], ['age', 'graphics'],
-                ['present', 'register'], ['present', 'summary'], ['present', 'graphics'],
-                ['staff', 'register'], ['staff', 'summary'], ['staff', 'graphics'],
-                ['opd', 'summary'], ['opd', 'graphics'],
-                ['patra', 'register'], ['patra', 'summary'], ['patra', 'graphics']
-            ];
-            keys.forEach(([m, s]) => {
-                const val = isPrintSectionEnabled(m, s);
-                const el = document.getElementById(`chkPrint_${m}_${s}`);
-                if (el) {
-                    el.checked = val;
-                    el.closest('.print-tick-pill')?.classList.toggle('checked', val);
+        function syncPopupPrintMetaFromGlobal() {
+            const pk = document.getElementById('popupPrintKramank');
+            const pd = document.getElementById('popupPrintDate');
+            if (pk) pk.value = staffGlobalData.printKramank || '';
+            if (pd) pd.value = staffGlobalData.printDate || '';
+        }
+
+        function syncPopupPrintMeta() {
+            const pk = document.getElementById('popupPrintKramank');
+            const pd = document.getElementById('popupPrintDate');
+            if (pk) staffGlobalData.printKramank = pk.value;
+            if (pd) staffGlobalData.printDate = pd.value;
+            syncPrintMetaHeaderDOM();
+            saveStaffData();
+        }
+
+        function openPrintOptionsModal() {
+            const mode = (currentActiveTab === 'settings') ? (lastNonSettingsTab || 'present') : currentActiveTab;
+            const modeNames = {
+                age: 'Smart Age Calculator',
+                present: 'Attendance Pro (Self)',
+                staff: 'Staff Attendance Register',
+                opd: 'OPD Monthly Report',
+                patra: 'पत्र प्रेषण रजिस्टर (Patra)'
+            };
+            document.getElementById('print-opt-modal-title').textContent = `🖨️ Print: ${modeNames[mode] || 'Report'}`;
+
+            const staffMetaBox = document.getElementById('print-opt-staff-meta');
+            if (staffMetaBox) {
+                if (mode === 'staff') {
+                    staffMetaBox.style.display = 'flex';
+                    syncPopupPrintMetaFromGlobal();
+                } else {
+                    staffMetaBox.style.display = 'none';
                 }
-            });
+            }
+
+            const optionsByMode = {
+                age: [
+                    { sec: 'summary', title: '📊 Age & Clinical Summary', sub: 'चयनित जन्म वर्ष, आयु वर्ग एवं NCD पात्रता तालिका' },
+                    { sec: 'graphics', title: '📈 Age Detailed Graphics & Charts', sub: 'Cohort Donut, Decade Bars एवं Milestone स्केल' }
+                ],
+                present: [
+                    { sec: 'register', title: '📋 Main Attendance Register Table', sub: 'मुख्य सरकारी उपस्थिति पंजिका (21-20 / 1-31)' },
+                    { sec: 'summary', title: '📊 Summary, Holidays & Remarks Page', sub: 'कुल उपस्थिति, CL कोटा बैलेंस एवं राजपत्रित अवकाश विवरण' },
+                    { sec: 'graphics', title: '📈 Detailed Graphics & Visual Charts', sub: 'Donut चार्ट, Weekday बार्स, Heatmap एवं Quota गेज' }
+                ],
+                staff: [
+                    { sec: 'register', title: '📋 Main Staff Attendance & Leave Register', sub: 'मुख्य स्टाफ उपस्थिति पंजिका (केवल अन-हाइड कर्मचारी)' },
+                    { sec: 'summary', title: '📊 Employee-Wise Detailed Summary Table', sub: 'प्रत्येक कर्मचारी के P, GH, D/O, CL एवं ML का सारांश' },
+                    { sec: 'graphics', title: '📈 Staff Visual Analytics & Charts', sub: 'Status Donut, Employee बार्स, Daily Presence कर्व एवं लीडरबोर्ड' }
+                ],
+                opd: [
+                    { sec: 'register', title: '📋 Monthly OPD Range & Count Table', sub: 'मासिक ओपीडी रेंज एवं रोगी संख्या तालिका' },
+                    { sec: 'summary', title: '📊 OPD Summary & Signature Footer', sub: 'कुल रोगी, दैनिक औसत, पीक ओपीडी एवं हस्ताक्षर ब्लॉक' },
+                    { sec: 'graphics', title: '📈 OPD Detailed Graphics & Trend Charts', sub: 'Daily Footfall कर्व, Weekday औसत बार्स एवं 10-दिवसीय स्लैब' }
+                ],
+                patra: [
+                    { sec: 'register', title: '📋 Main Patra Dispatch Register Table', sub: 'मुख्य पत्र प्रेषण पंजिका (क्रमांक, दिनांक, कार्यालय, स्थान, विषय)' },
+                    { sec: 'summary', title: '📊 Category & Office Dispatch Summary', sub: 'कैटेगरी-वार कुल प्रेषित पत्रों का सारांश' },
+                    { sec: 'graphics', title: '📈 Patra Dispatch Visual Analytics', sub: 'Category Donut, Top Places बार्स एवं Office प्रोग्रेस चार्ट' }
+                ]
+            };
+
+            const listEl = document.getElementById('print-opt-checklist');
+            const items = optionsByMode[mode] || optionsByMode.present;
+            listEl.innerHTML = items.map(it => {
+                const isChk = isPrintSectionEnabled(mode, it.sec);
+                return `
+                    <label class="print-opt-item ${isChk ? 'checked' : ''}" id="lblOpt_${mode}_${it.sec}">
+                        <div class="print-opt-left">
+                            <input type="checkbox" ${isChk ? 'checked' : ''} onchange="onPopupPrintOptionChange('${mode}', '${it.sec}', this.checked)">
+                            <div>
+                                <div class="print-opt-title">${it.title}</div>
+                                <span class="print-opt-sub">${it.sub}</span>
+                            </div>
+                        </div>
+                    </label>
+                `;
+            }).join('');
+
+            document.getElementById('print-options-modal').classList.add('active');
+        }
+
+        function onPopupPrintOptionChange(mode, sec, checked) {
+            togglePrintSection(mode, sec, checked);
+            const lbl = document.getElementById(`lblOpt_${mode}_${sec}`);
+            if (lbl) lbl.classList.toggle('checked', !!checked);
+        }
+
+        function closePrintOptionsModal() {
+            document.getElementById('print-options-modal')?.classList.remove('active');
+        }
+
+        function previewFromPrintOptions() {
+            closePrintOptionsModal();
+            openPrintPreview();
+        }
+
+        function confirmAndTriggerPrint() {
+            const mode = (currentActiveTab === 'settings') ? (lastNonSettingsTab || 'present') : currentActiveTab;
+            const anyChecked = ['register', 'summary', 'graphics'].some(s => isPrintSectionEnabled(mode, s));
+            if (!anyChecked) {
+                showToast('कृपया प्रिंट के लिए कम से कम 1 सेक्शन टिक करें!');
+                return;
+            }
+            closePrintOptionsModal();
+            triggerPrint();
         }
 
         // Reusable SVG Donut Chart Generator
         function createSvgDonutChart(items, centerTitle, centerSub) {
             const total = items.reduce((acc, it) => acc + (Number(it.value) || 0), 0);
-            const r = 46;
-            const cx = 64, cy = 64;
+            const r = 44;
+            const cx = 60, cy = 60;
             const circum = 2 * Math.PI * r;
             let offset = 0;
             let circles = '';
 
             if (total <= 0) {
-                circles = `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#cbd5e1" stroke-width="14"></circle>`;
+                circles = `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#cbd5e1" stroke-width="13"></circle>`;
             } else {
                 items.forEach(it => {
                     const val = Number(it.value) || 0;
                     if (val <= 0) return;
                     const frac = val / total;
                     const dash = frac * circum;
-                    circles += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${it.color}" stroke-width="15" stroke-dasharray="${dash.toFixed(2)} ${(circum - dash).toFixed(2)}" stroke-dashoffset="${(-offset).toFixed(2)}" transform="rotate(-90 ${cx} ${cy})"><title>${it.label}: ${val} (${Math.round(frac * 100)}%)</title></circle>`;
+                    circles += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${it.color}" stroke-width="14" stroke-dasharray="${dash.toFixed(2)} ${(circum - dash).toFixed(2)}" stroke-dashoffset="${(-offset).toFixed(2)}" transform="rotate(-90 ${cx} ${cy})"><title>${it.label}: ${val} (${Math.round(frac * 100)}%)</title></circle>`;
                     offset += dash;
                 });
             }
@@ -8767,10 +9128,10 @@ body.print-patra #tab-patra { display: block !important; }
 
             return `
                 <div class="graphic-svg-wrap">
-                    <svg width="132" height="132" viewBox="0 0 128 128">
+                    <svg width="120" height="120" viewBox="0 0 120 120">
                         ${circles}
-                        <text x="${cx}" y="${cy - 3}" text-anchor="middle" font-size="14" font-weight="800" fill="var(--text-main)" font-family="JetBrains Mono, monospace">${centerTitle}</text>
-                        <text x="${cx}" y="${cy + 12}" text-anchor="middle" font-size="8.5" font-weight="700" fill="var(--text-muted)">${centerSub}</text>
+                        <text x="${cx}" y="${cy - 2}" text-anchor="middle" font-size="13" font-weight="800" fill="var(--text-main)" font-family="JetBrains Mono, monospace">${centerTitle}</text>
+                        <text x="${cx}" y="${cy + 11}" text-anchor="middle" font-size="8" font-weight="700" fill="var(--text-muted)">${centerSub}</text>
                     </svg>
                 </div>
                 <div class="graphic-legend-row">${legendHtml}</div>
@@ -8778,31 +9139,31 @@ body.print-patra #tab-patra { display: block !important; }
         }
 
         // Reusable SVG Vertical Column Bar Chart Generator
-        function createSvgColumnChart(bars, height = 140) {
+        function createSvgColumnChart(bars, height = 130) {
             if (!bars || bars.length === 0) {
-                return `<div style="padding:20px; text-align:center; color:var(--text-muted); font-size:11px;">No data available</div>`;
+                return `<div style="padding:16px; text-align:center; color:var(--text-muted); font-size:10.5px;">No data available</div>`;
             }
             const maxVal = Math.max(1, ...bars.map(b => Number(b.value) || 0));
-            const colW = Math.max(18, Math.min(38, Math.floor(290 / bars.length)));
-            const gap = Math.max(6, Math.min(14, Math.floor(90 / bars.length)));
-            const svgW = Math.max(260, bars.length * (colW + gap) + 28);
-            const chartH = height - 38;
-            const baseY = chartH + 16;
+            const colW = Math.max(16, Math.min(34, Math.floor(280 / bars.length)));
+            const gap = Math.max(5, Math.min(12, Math.floor(80 / bars.length)));
+            const svgW = Math.max(240, bars.length * (colW + gap) + 24);
+            const chartH = height - 34;
+            const baseY = chartH + 14;
 
             let rects = '';
             bars.forEach((b, i) => {
                 const v = Number(b.value) || 0;
-                const bh = Math.max(v > 0 ? 4 : 1, Math.round((v / maxVal) * (chartH - 10)));
-                const x = 16 + i * (colW + gap);
+                const bh = Math.max(v > 0 ? 4 : 1, Math.round((v / maxVal) * (chartH - 8)));
+                const x = 14 + i * (colW + gap);
                 const y = baseY - bh;
                 const color = b.color || '#2563eb';
                 rects += `
                     <g>
-                        <rect x="${x}" y="${y}" width="${colW}" height="${bh}" rx="4" fill="${color}">
+                        <rect x="${x}" y="${y}" width="${colW}" height="${bh}" rx="3" fill="${color}">
                             <title>${b.label}: ${v}</title>
                         </rect>
-                        <text x="${x + colW / 2}" y="${y - 4}" text-anchor="middle" font-size="9" font-weight="700" fill="var(--text-main)" font-family="JetBrains Mono, monospace">${v}</text>
-                        <text x="${x + colW / 2}" y="${baseY + 13}" text-anchor="middle" font-size="8.5" font-weight="600" fill="var(--text-muted)">${String(b.label).slice(0, 7)}</text>
+                        <text x="${x + colW / 2}" y="${y - 3}" text-anchor="middle" font-size="8.5" font-weight="700" fill="var(--text-main)" font-family="JetBrains Mono, monospace">${v}</text>
+                        <text x="${x + colW / 2}" y="${baseY + 12}" text-anchor="middle" font-size="8" font-weight="600" fill="var(--text-muted)">${String(b.label).slice(0, 7)}</text>
                     </g>
                 `;
             });
@@ -8810,7 +9171,7 @@ body.print-patra #tab-patra { display: block !important; }
             return `
                 <div class="graphic-svg-wrap">
                     <svg width="100%" height="${height}" viewBox="0 0 ${svgW} ${height}" preserveAspectRatio="xMidYMid meet">
-                        <line x1="10" y1="${baseY}" x2="${svgW - 10}" y2="${baseY}" stroke="var(--border)" stroke-width="1" />
+                        <line x1="8" y1="${baseY}" x2="${svgW - 8}" y2="${baseY}" stroke="var(--border)" stroke-width="1" />
                         ${rects}
                     </svg>
                 </div>
@@ -8820,11 +9181,11 @@ body.print-patra #tab-patra { display: block !important; }
         // Reusable SVG Area + Line Trend Chart Generator
         function createSvgTrendLineChart(points, lineColor = '#2563eb', fillId = 'trendGrad', avgLineVal = null) {
             if (!points || points.length === 0) {
-                return `<div style="padding:20px; text-align:center; color:var(--text-muted); font-size:11px;">No trend data</div>`;
+                return `<div style="padding:16px; text-align:center; color:var(--text-muted); font-size:10.5px;">No trend data</div>`;
             }
-            const svgW = Math.max(340, points.length * 16 + 36);
-            const svgH = 145;
-            const padL = 26, padR = 14, padT = 18, padB = 24;
+            const svgW = Math.max(320, points.length * 15 + 32);
+            const svgH = 132;
+            const padL = 22, padR = 12, padT = 16, padB = 22;
             const plotW = svgW - padL - padR;
             const plotH = svgH - padT - padB;
             const maxVal = Math.max(1, ...points.map(p => Number(p.value) || 0));
@@ -8842,8 +9203,8 @@ body.print-patra #tab-patra { display: block !important; }
             if (avgLineVal !== null && avgLineVal > 0) {
                 const ay = padT + plotH - (Math.min(avgLineVal, maxVal) / maxVal) * plotH;
                 avgLineHtml = `
-                    <line x1="${padL}" y1="${ay.toFixed(1)}" x2="${svgW - padR}" y2="${ay.toFixed(1)}" stroke="#f59e0b" stroke-width="1.2" stroke-dasharray="4 3" />
-                    <text x="${svgW - padR - 2}" y="${Math.max(11, ay - 3).toFixed(1)}" text-anchor="end" font-size="8.5" font-weight="700" fill="#d97706">Avg: ${avgLineVal}</text>
+                    <line x1="${padL}" y1="${ay.toFixed(1)}" x2="${svgW - padR}" y2="${ay.toFixed(1)}" stroke="#f59e0b" stroke-width="1.1" stroke-dasharray="4 3" />
+                    <text x="${svgW - padR - 2}" y="${Math.max(10, ay - 3).toFixed(1)}" text-anchor="end" font-size="8" font-weight="700" fill="#d97706">Avg: ${avgLineVal}</text>
                 `;
             }
 
@@ -8851,12 +9212,12 @@ body.print-patra #tab-patra { display: block !important; }
             const step = points.length > 18 ? 2 : 1;
             coords.forEach((c, idx) => {
                 const dotColor = c.isSpecial ? '#dc2626' : lineColor;
-                dotsHtml += `<circle cx="${c.x.toFixed(1)}" cy="${c.y.toFixed(1)}" r="${c.isSpecial ? 3.5 : 2.6}" fill="${dotColor}"><title>${c.label}: ${c.value}</title></circle>`;
+                dotsHtml += `<circle cx="${c.x.toFixed(1)}" cy="${c.y.toFixed(1)}" r="${c.isSpecial ? 3.2 : 2.4}" fill="${dotColor}"><title>${c.label}: ${c.value}</title></circle>`;
                 if (c.value > 0 && (idx % step === 0 || c.value === maxVal)) {
-                    dotsHtml += `<text x="${c.x.toFixed(1)}" y="${(c.y - 5).toFixed(1)}" text-anchor="middle" font-size="8" font-weight="700" fill="var(--text-main)" font-family="JetBrains Mono, monospace">${c.value}</text>`;
+                    dotsHtml += `<text x="${c.x.toFixed(1)}" y="${(c.y - 4).toFixed(1)}" text-anchor="middle" font-size="7.5" font-weight="700" fill="var(--text-main)" font-family="JetBrains Mono, monospace">${c.value}</text>`;
                 }
                 if (idx % step === 0 || idx === coords.length - 1) {
-                    dotsHtml += `<text x="${c.x.toFixed(1)}" y="${padT + plotH + 14}" text-anchor="middle" font-size="8" font-weight="600" fill="var(--text-muted)">${c.label}</text>`;
+                    dotsHtml += `<text x="${c.x.toFixed(1)}" y="${padT + plotH + 13}" text-anchor="middle" font-size="7.5" font-weight="600" fill="var(--text-muted)">${c.label}</text>`;
                 }
             });
 
@@ -8865,14 +9226,14 @@ body.print-patra #tab-patra { display: block !important; }
                     <svg width="100%" height="${svgH}" viewBox="0 0 ${svgW} ${svgH}" preserveAspectRatio="xMidYMid meet">
                         <defs>
                             <linearGradient id="${fillId}" x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="0%" stop-color="${lineColor}" stop-opacity="0.32"/>
+                                <stop offset="0%" stop-color="${lineColor}" stop-opacity="0.28"/>
                                 <stop offset="100%" stop-color="${lineColor}" stop-opacity="0.02"/>
                             </linearGradient>
                         </defs>
                         <line x1="${padL}" y1="${padT + plotH}" x2="${svgW - padR}" y2="${padT + plotH}" stroke="var(--border)" stroke-width="1" />
                         <polygon points="${areaPoints}" fill="url(#${fillId})" />
                         ${avgLineHtml}
-                        <polyline fill="none" stroke="${lineColor}" stroke-width="2.2" points="${polyPoints}" />
+                        <polyline fill="none" stroke="${lineColor}" stroke-width="2" points="${polyPoints}" />
                         ${dotsHtml}
                     </svg>
                 </div>
@@ -8886,13 +9247,6 @@ body.print-patra #tab-patra { display: block !important; }
             const cat = !hasValidAge ? '-' : (ageVal <= 5 ? 'Toddler (0-5y)' : ageVal <= 15 ? 'Child (6-15y)' : ageVal <= 30 ? 'Youth (16-30y)' : ageVal <= 59 ? 'Adult (31-59y)' : 'Senior (60+y)');
             const ncdEligible = hasValidAge && ageVal >= 30 ? 'Yes (NPCDCS)' : (hasValidAge ? 'No (<30y)' : '-');
             const seniorStatus = hasValidAge && ageVal >= 60 ? 'Yes (Geriatric)' : (hasValidAge ? 'No' : '-');
-
-            const mVal = document.getElementById('mini-age-val');
-            const mCat = document.getElementById('mini-age-cat');
-            const mNcd = document.getElementById('mini-age-ncd');
-            if (mVal) mVal.textContent = hasValidAge ? `${ageVal}y` : '--';
-            if (mCat) mCat.textContent = hasValidAge ? cat.split(' ')[0] : '-';
-            if (mNcd) mNcd.textContent = hasValidAge ? (ageVal >= 30 ? 'Yes' : 'No') : '-';
 
             const sYrs = document.getElementById('ageSumYears');
             const sByr = document.getElementById('ageSumBirthYr');
@@ -8921,7 +9275,6 @@ body.print-patra #tab-patra { display: block !important; }
                 return { label: String(yr), value: a, color: c };
             });
 
-            // Cohort counts among recent lookups
             let cPed = 0, cYouth = 0, cAdult = 0, cSen = 0;
             (recentAgeYears || []).forEach(yr => {
                 const a = targetYear - yr;
@@ -8985,7 +9338,6 @@ body.print-patra #tab-patra { display: block !important; }
             const { startDate, endDate } = getCycleDates(currentCycleDate);
             let counts = { P: 0, Pstar: 0, A: 0, CL: 0, ML: 0, GH: 0, S: 0, Unmarked: 0 };
             const weekdayP = [0, 0, 0, 0, 0, 0, 0];
-            const weekdayOff = [0, 0, 0, 0, 0, 0, 0];
             const dayBoxes = [];
 
             let it = new Date(startDate);
@@ -9000,11 +9352,11 @@ body.print-patra #tab-patra { display: block !important; }
                 }
                 if (st === 'P') { counts.P++; weekdayP[dNum]++; }
                 else if (st === 'P*') { counts.Pstar++; weekdayP[dNum]++; }
-                else if (st === 'A') { counts.A++; weekdayOff[dNum]++; }
-                else if (st === 'CL') { counts.CL++; weekdayOff[dNum]++; }
-                else if (st === 'ML') { counts.ML++; weekdayOff[dNum]++; }
-                else if (st === 'GH') { counts.GH++; weekdayOff[dNum]++; }
-                else if (st === 'S') { counts.S++; weekdayOff[dNum]++; }
+                else if (st === 'A') { counts.A++; }
+                else if (st === 'CL') { counts.CL++; }
+                else if (st === 'ML') { counts.ML++; }
+                else if (st === 'GH') { counts.GH++; }
+                else if (st === 'S') { counts.S++; }
                 else { counts.Unmarked++; }
 
                 dayBoxes.push({ date: it.getDate(), month: engMonths[it.getMonth()], st: st || '-' });
@@ -9036,7 +9388,7 @@ body.print-patra #tab-patra { display: block !important; }
                 else if (b.st === 'A') { bg = 'var(--c-absent)'; fg = 'var(--t-absent)'; }
                 else if (b.st === 'GH') { bg = 'var(--c-holiday)'; fg = 'var(--t-holiday)'; }
                 else if (b.st === 'S') { bg = 'var(--c-sunday)'; fg = 'var(--t-sunday)'; }
-                return `<div style="display:flex; flex-direction:column; align-items:center; justify-content:center; padding:3px 2px; border-radius:5px; background:${bg}; color:${fg}; border:1px solid var(--border-light); font-size:9px; font-weight:700; min-width:30px;"><span>${b.date}</span><span style="font-size:10px; font-family:'JetBrains Mono',monospace;">${b.st}</span></div>`;
+                return `<div style="display:flex; flex-direction:column; align-items:center; justify-content:center; padding:2px; border-radius:4px; background:${bg}; color:${fg}; border:1px solid var(--border-light); font-size:8.5px; font-weight:700; min-width:26px;"><span>${b.date}</span><span style="font-size:9px; font-family:'JetBrains Mono',monospace;">${b.st}</span></div>`;
             }).join('');
 
             gCont.innerHTML = `
@@ -9063,10 +9415,10 @@ body.print-patra #tab-patra { display: block !important; }
                 </div>
                 <div class="graphic-card">
                     <div class="graphic-card-header">
-                        <span class="graphic-card-title">🗓️ Cycle Daily Visual Heatmap Matrix</span>
+                        <span class="graphic-card-title">🗓️ Cycle Daily Heatmap Matrix</span>
                         <span class="graphic-card-badge">${pPct}% Present</span>
                     </div>
-                    <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(32px, 1fr)); gap:4px; padding:4px 0;">
+                    <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(28px, 1fr)); gap:3px; padding:3px 0;">
                         ${heatmapCells}
                     </div>
                 </div>
@@ -9100,7 +9452,7 @@ body.print-patra #tab-patra { display: block !important; }
 
             const visibleStaff = staffGlobalData.staffList.filter(s => !s.hidden);
             if (visibleStaff.length === 0) {
-                gCont.innerHTML = `<div class="graphic-card full-span" style="text-align:center; padding:18px; color:var(--text-muted);">ग्राफ़िक्स देखने के लिए कम से कम 1 कर्मचारी जोड़ें या अन-हाइड करें।</div>`;
+                gCont.innerHTML = `<div class="graphic-card full-span" style="text-align:center; padding:14px; color:var(--text-muted);">ग्राफ़िक्स देखने के लिए कम से कम 1 कर्मचारी जोड़ें या अन-हाइड करें।</div>`;
                 return;
             }
 
@@ -9126,7 +9478,6 @@ body.print-patra #tab-patra { display: block !important; }
                 staffBars.push({ label: shortName, value: p, color: '#16a34a' });
 
                 const upCL = parseFloat(staffGlobalData.cellData[`${s.id}_${cycleKey}_uptocl`]) || 0;
-                const upML = parseFloat(staffGlobalData.cellData[`${s.id}_${cycleKey}_uptoml`]) || 0;
                 const pPct = Math.round((p / totalCycleDays) * 100);
                 const offPct = Math.round(((gh + doCnt) / totalCycleDays) * 100);
                 const lvPct = Math.round(((cl + ml + oth) / totalCycleDays) * 100);
@@ -9146,7 +9497,6 @@ body.print-patra #tab-patra { display: block !important; }
                 `);
             });
 
-            // Daily presence trend across cycle dates
             const dailyTrendPoints = staffCycleDates.map(d => {
                 const dStr = formatStaffDate(d);
                 let dayP = 0;
@@ -9198,7 +9548,6 @@ body.print-patra #tab-patra { display: block !important; }
         function buildStaffPrintableSummaryHTML() {
             const visibleStaff = staffGlobalData.staffList.filter(s => !s.hidden);
             const cycleKey = getStaffCycleKey();
-            const totalCycleDays = staffCycleDates.length || 1;
             let rows = '';
             visibleStaff.forEach((s, idx) => {
                 let countP = 0, countGH = 0, countDO = 0, countCL = 0, countML = 0, countOth = 0;
@@ -9375,23 +9724,13 @@ body.print-patra #tab-patra { display: block !important; }
             const cats = patraData.categories || [];
             const nextKramank = getNextPatraKramankNumber();
 
-            const mTot = document.getElementById('mini-patra-total');
-            const mCat = document.getElementById('mini-patra-cats');
-            const mNxt = document.getElementById('mini-patra-next');
-            if (mTot) mTot.textContent = allLetters.length;
-            if (mCat) mCat.textContent = cats.length;
-            if (mNxt) mNxt.textContent = nextKramank;
-
             const placeCounts = {};
             const officeCounts = {};
-            const monthCounts = {};
             allLetters.forEach(l => {
                 const pl = (l.place || 'अन्य').trim() || 'अन्य';
                 const of = (l.office || 'अन्य').trim() || 'अन्य';
                 placeCounts[pl] = (placeCounts[pl] || 0) + 1;
                 officeCounts[of] = (officeCounts[of] || 0) + 1;
-                const ym = (l.date || '').slice(0, 7) || 'Unknown';
-                monthCounts[ym] = (monthCounts[ym] || 0) + 1;
             });
 
             const topPlace = Object.entries(placeCounts).sort((a, b) => b[1] - a[1])[0];
@@ -9412,12 +9751,12 @@ body.print-patra #tab-patra { display: block !important; }
                     </div>
                     <div class="opd-kpi-card">
                         <span class="opd-kpi-label">Top Destination Place</span>
-                        <span class="opd-kpi-val" style="color:var(--opd-success); font-size:13px;">${topPlace ? escapePatraHtml(topPlace[0]) : '-'}</span>
+                        <span class="opd-kpi-val" style="color:var(--opd-success); font-size:12px;">${topPlace ? escapePatraHtml(topPlace[0]) : '-'}</span>
                         <span class="opd-kpi-sub">${topPlace ? `${topPlace[1]} Letters Sent` : '0 Letters'}</span>
                     </div>
                     <div class="opd-kpi-card">
                         <span class="opd-kpi-label">Latest Dispatch Date</span>
-                        <span class="opd-kpi-val" style="color:var(--opd-warning); font-size:13px;">${latestLetter ? formatPatraReadableDate(latestLetter.date) : '-'}</span>
+                        <span class="opd-kpi-val" style="color:var(--opd-warning); font-size:12px;">${latestLetter ? formatPatraReadableDate(latestLetter.date) : '-'}</span>
                         <span class="opd-kpi-sub">${latestLetter ? `Kramank #${escapePatraHtml(latestLetter.kramank)}` : '-'}</span>
                     </div>
                 `;
@@ -9475,12 +9814,11 @@ body.print-patra #tab-patra { display: block !important; }
                         <span class="graphic-card-title">🏛️ Top Receiving Offices Breakdown</span>
                         <span class="graphic-card-badge">${Object.keys(officeCounts).length} Offices</span>
                     </div>
-                    <div class="hbar-list">${officeHbars || '<div style="color:var(--text-muted); font-size:11px;">कोई पत्र दर्ज नहीं है</div>'}</div>
+                    <div class="hbar-list">${officeHbars || '<div style="color:var(--text-muted); font-size:10.5px;">कोई पत्र दर्ज नहीं है</div>'}</div>
                 </div>
             `;
         }
 
-        // ================= UNIFIED PRINT & PREVIEW FOR ALL 5 MODES WITH TICKED SECTIONS =================
         function buildAgePrintHTML() {
             const incSum = isPrintSectionEnabled('age', 'summary');
             const incGraph = isPrintSectionEnabled('age', 'graphics');
@@ -9698,7 +10036,6 @@ body.print-patra #tab-patra { display: block !important; }
                 initAttendance();
                 initStaffApp();
                 initPatraApp();
-                syncAllPrintSectionCheckboxes();
                 updateThemeMenuBadge();
 
                 const now = new Date();
