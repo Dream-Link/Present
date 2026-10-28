@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>My PHC</title>
+    <title>Smart PHC</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -604,6 +604,468 @@
 body.print-staff #tab-staff { display: block !important; }
 body.print-opd #tab-opd { display: block !important; }
 body.print-patra #tab-patra { display: block !important; }
+
+        
+        /* ==========================================
+           UPGRADED STAFF REGISTER & PRINT META BAR STYLES (FROM index (1).html)
+           ========================================== */
+        .print-meta-bar {
+            background: var(--surface);
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            padding: 5px 8px;
+            margin-bottom: 6px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            flex-shrink: 0;
+            box-shadow: var(--shadow-xs);
+        }
+        .print-meta-group {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+            flex: 1;
+            min-width: 240px;
+        }
+        .print-meta-field {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: var(--surface-subtle);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 2px 7px;
+            height: 28px;
+        }
+        .print-meta-field label {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-secondary);
+            white-space: nowrap;
+            font-family: 'Inter', 'Noto Sans Devanagari', sans-serif;
+        }
+        .print-meta-field input {
+            border: none;
+            background: transparent;
+            color: var(--text-main);
+            font-size: 11px;
+            font-weight: 600;
+            outline: none;
+            width: 120px;
+            font-family: 'Inter', 'Noto Sans Devanagari', sans-serif;
+        }
+        .print-meta-right {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+
+        .detailed-summary-box {
+            background: var(--surface);
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            padding: 6px 8px;
+            overflow: hidden;
+        }
+        .detailed-summary-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 6px;
+            margin-bottom: 6px;
+            flex-wrap: wrap;
+        }
+        .detailed-summary-title {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .detailed-summary-scroll {
+            overflow-x: auto;
+            max-height: 260px;
+            overflow-y: auto;
+            border: 1px solid var(--border-light);
+            border-radius: 6px;
+        }
+        .detailed-summary-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 11px;
+            white-space: nowrap;
+        }
+        .detailed-summary-table th,
+        .detailed-summary-table td {
+            border: 1px solid var(--border-light);
+            padding: 4px 6px;
+            text-align: center;
+        }
+        .detailed-summary-table th {
+            background: var(--surface-subtle);
+            color: var(--text-secondary);
+            font-weight: 700;
+            position: sticky;
+            top: 0;
+            z-index: 2;
+        }
+        .detailed-summary-table tr.is-row-hidden {
+            opacity: 0.52;
+            background: var(--surface-subtle);
+        }
+
+        /* Quick Print Row Order & Hide/Show Chips Bar */
+        .hidden-rows-alert-bar {
+            background: var(--surface);
+            border: 1px dashed var(--primary);
+            border-radius: 8px;
+            padding: 5px 8px;
+            margin-bottom: 6px;
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            gap: 6px;
+            flex-wrap: wrap;
+            flex-shrink: 0;
+        }
+        .hidden-rows-alert-bar.visible {
+            display: flex;
+        }
+        .hidden-chip-list {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            flex-wrap: wrap;
+        }
+        .hidden-staff-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: var(--c-absent);
+            color: var(--t-absent);
+            border: 1px solid var(--b-absent);
+            font-size: 10px;
+            font-weight: 700;
+            padding: 2px 7px;
+            border-radius: 999px;
+            cursor: pointer;
+        }
+        .hidden-staff-chip:hover {
+            opacity: 0.85;
+        }
+
+        /* Inline Row Controls inside Name Cell (Screen Only, Hidden in Print) */
+        .staff-name-cell-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 4px;
+            width: 100%;
+        }
+        .staff-name-text {
+            text-align: left;
+            font-weight: 600;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .row-inline-tools {
+            display: inline-flex;
+            align-items: center;
+            gap: 2px;
+            flex-shrink: 0;
+            margin-left: 3px;
+        }
+        .row-mini-btn {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            border-radius: 4px;
+            width: 19px;
+            height: 19px;
+            font-size: 9px;
+            line-height: 1;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            padding: 0;
+            transition: all 0.12s;
+        }
+        .row-mini-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: var(--primary-light);
+        }
+        .row-mini-btn.hide-btn:hover {
+            border-color: #dc2626;
+            color: #dc2626;
+            background: var(--c-absent);
+        }
+        tr.staff-row-hidden-screen {
+            opacity: 0.45;
+            background: rgba(239, 68, 68, 0.05);
+        }
+        tr.staff-row-hidden-screen td.staff-sticky-col .staff-name-text {
+            text-decoration: line-through;
+        }
+        .staff-manage-row.is-hidden-staff {
+            opacity: 0.6;
+            border-style: dashed;
+        }
+
+        /* Print Top Header Row (क्रमांक Left & Date Right above Table) */
+        .print-only-kramank-row {
+            display: none;
+            width: 100%;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+            font-family: Arial, 'Noto Sans Devanagari', sans-serif;
+            font-size: 11pt;
+            font-weight: 700;
+            color: #000000;
+            padding: 0 2px;
+        }
+
+        /* ==========================================
+           SECTION PRINT TICK-MARK CHECKBOX & COLLAPSIBLE GRAPHICS STYLES
+           ========================================== */
+        .drawer-right-controls {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+        .print-tick-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 2px 7px;
+            border-radius: 6px;
+            font-size: 10px;
+            font-weight: 700;
+            background: var(--surface-subtle);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.15s ease;
+        }
+        .print-tick-pill:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: var(--primary-light);
+        }
+        .print-tick-pill input[type="checkbox"] {
+            width: 13px;
+            height: 13px;
+            accent-color: var(--primary);
+            cursor: pointer;
+            margin: 0;
+        }
+        .print-tick-pill.checked {
+            background: var(--primary-light);
+            border-color: rgba(37, 99, 235, 0.45);
+            color: var(--primary);
+        }
+
+        .graphics-collapse-btn {
+            border-left: 3px solid var(--accent) !important;
+        }
+        .summary-collapse-btn:not(.graphics-collapse-btn) {
+            border-left: 3px solid var(--primary);
+        }
+
+        .graphics-dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            width: 100%;
+        }
+        @media (max-width: 768px) {
+            .graphics-dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            .print-meta-bar { flex-direction: column; align-items: stretch; gap: 6px; }
+            .print-meta-group { width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
+            .print-meta-field { width: 100%; }
+            .print-meta-field input { width: 100%; min-width: 0; }
+            .print-meta-right { width: 100%; justify-content: space-between; }
+        }
+        .graphic-card {
+            background: var(--surface);
+            border: 1px solid var(--border-light);
+            border-radius: 9px;
+            padding: 8px 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            box-shadow: var(--shadow-xs);
+            overflow: hidden;
+        }
+        .graphic-card.full-span {
+            grid-column: 1 / -1;
+        }
+        .graphic-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 6px;
+            border-bottom: 1px solid var(--border-light);
+            padding-bottom: 4px;
+        }
+        .graphic-card-title {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .graphic-card-badge {
+            font-size: 9px;
+            font-weight: 700;
+            padding: 1px 6px;
+            border-radius: 999px;
+            background: var(--surface-subtle);
+            color: var(--text-muted);
+            border: 1px solid var(--border-light);
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .graphic-svg-wrap {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 135px;
+            overflow-x: auto;
+        }
+        .graphic-legend-row {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            padding-top: 2px;
+        }
+        .graphic-legend-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .graphic-legend-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 2px;
+            display: inline-block;
+        }
+        .hbar-list {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            width: 100%;
+            max-height: 190px;
+            overflow-y: auto;
+            padding-right: 2px;
+        }
+        .hbar-row {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            font-size: 10px;
+        }
+        .hbar-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+        .hbar-track {
+            width: 100%;
+            height: 8px;
+            background: var(--surface-subtle);
+            border-radius: 999px;
+            overflow: hidden;
+            display: flex;
+            border: 1px solid var(--border-light);
+        }
+        .hbar-fill {
+            height: 100%;
+            transition: width 0.25s ease;
+        }
+
+        /* Extra Print Containers for Ticked Summary & Graphics */
+        .extra-print-block {
+            display: none;
+        }
+        @media print {
+            body.print-age #tab-age { display: block !important; }
+            body.print-age .age-display-wrapper,
+            body.print-age .age-tools-bar,
+            body.print-age .recent-ages-row,
+            body.print-age .selection-panel { display: none !important; }
+            body.print-age #age-print-view { display: block !important; width: 100% !important; }
+
+            body.print-staff .print-meta-bar,
+            body.print-staff .hidden-rows-alert-bar,
+            body.print-staff #staffGraphicsDrawer,
+            body.print-staff .row-inline-tools,
+            body.print-staff tr.staff-row-hidden-print {
+                display: none !important;
+            }
+            body.print-staff .print-only-kramank-row {
+                display: flex !important;
+                justify-content: space-between !important;
+                align-items: center !important;
+                width: 100% !important;
+                margin-bottom: 5px !important;
+                font-size: 10.5pt !important;
+                font-weight: 700 !important;
+                color: #000 !important;
+            }
+            body.print-staff .staff-name-cell-wrap {
+                display: block !important;
+                text-align: center !important;
+            }
+            body.print-staff .staff-name-text {
+                text-align: center !important;
+                text-decoration: none !important;
+            }
+            body.print-staff.hide-main-register #staffTableContainer {
+                display: none !important;
+            }
+            body.print-opd.hide-main-register #opdActiveView {
+                display: none !important;
+            }
+            .extra-print-block.active-for-print {
+                display: block !important;
+                width: 100% !important;
+                margin-top: 12px !important;
+                page-break-inside: avoid;
+                color: #000 !important;
+                background: #fff !important;
+            }
+            .extra-print-block.active-for-print .graphic-card {
+                border: 1px solid #000 !important;
+                background: #fff !important;
+                color: #000 !important;
+                box-shadow: none !important;
+                break-inside: avoid;
+            }
+            .extra-print-block.active-for-print svg text {
+                fill: #000 !important;
+            }
+        }
 
         /* Top-Right Triple Dot Menu */
         .top-menu-wrap {
@@ -2435,7 +2897,7 @@ body.print-patra #tab-patra { display: block !important; }
             </div>
         </div>
         <div class="header-actions">
-            <button class="icon-btn" id="btn-preview-print" onclick="openPrintPreview()" style="display:none !important;" aria-hidden="true">👁️</button>
+            <button class="icon-btn" id="btn-preview-print" onclick="openPrintPreview()" title="Print Preview (प्रिंट प्रीव्यू)">👁️</button>
             <button class="icon-btn" id="btn-print" onclick="triggerPrint()" title="Print Report">🖨️</button>
             <div class="top-menu-wrap" id="top-menu-wrap">
                 <button type="button" class="icon-btn top-dot-btn" id="btn-top-menu" onclick="toggleTopDotMenu(event)" title="Settings &amp; Options">⋮</button>
@@ -2496,10 +2958,75 @@ body.print-patra #tab-patra { display: block !important; }
 
             <div class="recent-ages-row" id="recentAgesRow"></div>
 
+            <!-- Age Collapsible Summary Drawer with Print Tick -->
+            <div class="summary-collapse-btn no-print" onclick="toggleDrawer('ageSummaryDrawer', 'ageSumChevron')">
+                <div class="summary-collapse-left">
+                    <span>📊 <strong>Age &amp; Clinical Summary</strong></span>
+                    <div class="summary-mini-pills">
+                        <span class="mini-tag" style="color:var(--age-primary);">Age:<span id="mini-age-val">--</span></span>
+                        <span class="mini-tag" style="color:var(--age-secondary);">Group:<span id="mini-age-cat">-</span></span>
+                        <span class="mini-tag" style="color:var(--opd-success);">NCD 30+:<span id="mini-age-ncd">-</span></span>
+                    </div>
+                </div>
+                <div class="drawer-right-controls">
+                    <label class="print-tick-pill" onclick="event.stopPropagation();" title="Print में Age Summary शामिल करें">
+                        <input type="checkbox" id="chkPrint_age_summary" onchange="togglePrintSection('age', 'summary', this.checked)"> 🖨️ Print
+                    </label>
+                    <span class="summary-chevron" id="ageSumChevron">Show ▼</span>
+                </div>
+            </div>
+
+            <div id="ageSummaryDrawer" class="collapsible-panel no-print">
+                <div class="opd-kpi-grid" id="ageSummaryKpiGrid">
+                    <div class="opd-kpi-card">
+                        <span class="opd-kpi-label">Calculated Age</span>
+                        <span class="opd-kpi-val" id="ageSumYears">--</span>
+                        <span class="opd-kpi-sub" id="ageSumBirthYr">Birth Year: -</span>
+                    </div>
+                    <div class="opd-kpi-card">
+                        <span class="opd-kpi-label">Clinical Category</span>
+                        <span class="opd-kpi-val" id="ageSumGroup" style="color:var(--age-primary);">-</span>
+                        <span class="opd-kpi-sub" id="ageSumProg">Program: -</span>
+                    </div>
+                    <div class="opd-kpi-card">
+                        <span class="opd-kpi-label">Approx. Months / Days</span>
+                        <span class="opd-kpi-val" id="ageSumMonths" style="color:var(--opd-info);">-</span>
+                        <span class="opd-kpi-sub" id="ageSumDays">Days: -</span>
+                    </div>
+                    <div class="opd-kpi-card">
+                        <span class="opd-kpi-label">Screening Eligibility</span>
+                        <span class="opd-kpi-val" id="ageSumEligibility" style="color:var(--opd-success);">-</span>
+                        <span class="opd-kpi-sub" id="ageSumSenior">Senior Citizen: -</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Age Collapsible Detailed Graphics Drawer with Print Tick -->
+            <div class="summary-collapse-btn graphics-collapse-btn no-print" onclick="toggleDrawer('ageGraphicsDrawer', 'ageGraphChevron')">
+                <div class="summary-collapse-left">
+                    <span>📈 <strong>Age Detailed Graphics &amp; Cohort Visuals</strong></span>
+                    <div class="summary-mini-pills">
+                        <span class="mini-tag" style="color:var(--accent);">Gauge • Cohort Donut • Decade Bars</span>
+                    </div>
+                </div>
+                <div class="drawer-right-controls">
+                    <label class="print-tick-pill" onclick="event.stopPropagation();" title="Print में Age Graphics शामिल करें">
+                        <input type="checkbox" id="chkPrint_age_graphics" onchange="togglePrintSection('age', 'graphics', this.checked)"> 🖨️ Print
+                    </label>
+                    <span class="summary-chevron" id="ageGraphChevron">Show ▼</span>
+                </div>
+            </div>
+
+            <div id="ageGraphicsDrawer" class="collapsible-panel no-print">
+                <div class="graphics-dashboard-grid" id="ageGraphicsContainer"></div>
+            </div>
+
             <div class="selection-panel">
                 <div class="panel-title">Select Birth Year</div>
                 <div class="year-grid" id="yearGrid"></div>
             </div>
+
+            <div id="age-print-view" style="display:none;"></div>
         </main>
 
         <!-- ================= TAB 2: ATTENDANCE PRO ================= -->
@@ -2516,7 +3043,7 @@ body.print-patra #tab-patra { display: block !important; }
             </div>
 
             <!-- Collapsible Summary & Profile Toggle Button (Click to Show/Hide) -->
-            <button type="button" class="summary-collapse-btn" onclick="toggleDrawer('attSummaryDrawer', 'attSumChevron')">
+            <div class="summary-collapse-btn" onclick="toggleDrawer('attSummaryDrawer', 'attSumChevron')">
                 <div class="summary-collapse-left">
                     <span>📊 <strong>Summary &amp; Profile</strong></span>
                     <div class="summary-mini-pills">
@@ -2526,8 +3053,13 @@ body.print-patra #tab-patra { display: block !important; }
                         <span class="mini-tag" style="color:var(--t-holiday);">GH:<span id="mini-att-gh">0</span></span>
                     </div>
                 </div>
-                <span class="summary-chevron" id="attSumChevron">Show ▼</span>
-            </button>
+                <div class="drawer-right-controls">
+                    <label class="print-tick-pill" onclick="event.stopPropagation();" title="Print में Summary &amp; Holiday Details शामिल करें">
+                        <input type="checkbox" id="chkPrint_present_summary" checked onchange="togglePrintSection('present', 'summary', this.checked)"> 🖨️ Print
+                    </label>
+                    <span class="summary-chevron" id="attSumChevron">Show ▼</span>
+                </div>
+            </div>
 
             <!-- Collapsible Drawer Content (Hidden by default to save space; Profile Card remains visible in Print) -->
             <div id="attSummaryDrawer" class="collapsible-panel">
@@ -2564,8 +3096,33 @@ body.print-patra #tab-patra { display: block !important; }
                 </div>
             </div>
 
+            <!-- Collapsible Detailed Graphics Drawer for Attendance Pro (Auto-Closed) -->
+            <div class="summary-collapse-btn graphics-collapse-btn no-print" onclick="toggleDrawer('attGraphicsDrawer', 'attGraphChevron')">
+                <div class="summary-collapse-left">
+                    <span>📈 <strong>Detailed Graphics &amp; Attendance Analytics</strong></span>
+                    <div class="summary-mini-pills">
+                        <span class="mini-tag" style="color:var(--accent);">Donut • Weekday Bars • Trend Curve • Quota Gauge</span>
+                    </div>
+                </div>
+                <div class="drawer-right-controls">
+                    <label class="print-tick-pill" onclick="event.stopPropagation();" title="Print में Detailed Graphics शामिल करें">
+                        <input type="checkbox" id="chkPrint_present_graphics" onchange="togglePrintSection('present', 'graphics', this.checked)"> 🖨️ Print
+                    </label>
+                    <span class="summary-chevron" id="attGraphChevron">Show ▼</span>
+                </div>
+            </div>
+
+            <div id="attGraphicsDrawer" class="collapsible-panel no-print">
+                <div class="graphics-dashboard-grid" id="attGraphicsContainer"></div>
+            </div>
+
             <div class="stats-header">
-                <h3>Attendance Log</h3>
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <h3>Attendance Log</h3>
+                    <label class="print-tick-pill no-print" title="Print में मुख्य Attendance Register Table शामिल करें">
+                        <input type="checkbox" id="chkPrint_present_register" checked onchange="togglePrintSection('present', 'register', this.checked)"> 🖨️ Print Register
+                    </label>
+                </div>
                 <div class="segment-control">
                     <button id="btn-layout-single" class="segment-btn" onclick="setLayoutView('single')">Today Only</button>
                     <button id="btn-layout-full" class="segment-btn active" onclick="setLayoutView('full')">All Cycle</button>
@@ -2592,7 +3149,7 @@ body.print-patra #tab-patra { display: block !important; }
 
         <!-- ================= TAB 2B: STAFF ATTENDANCE & LEAVE REGISTER ================= -->
         <main id="tab-staff" class="tab-content">
-            <!-- Top Controls Header (Single-Row Android Adapted, No Duplicate Print) -->
+            <!-- Top Controls Header (Both Cycle Modes 21-20 & 1-31 + Jump to Current Cycle + Single-Day Today Toggle) -->
             <div class="staff-controls-card staff-no-print">
                 <div class="staff-date-nav-group">
                     <div class="staff-date-capsule">
@@ -2603,6 +3160,8 @@ body.print-patra #tab-patra { display: block !important; }
                         </div>
                         <button type="button" class="staff-nav-btn" onclick="changeStaffCycle(1)" title="Next Cycle/Month">▶</button>
                     </div>
+                    <button type="button" class="quick-chip-btn" onclick="toggleStaffCycleMode()" title="Switch between 21-20 Cycle and 1-31 Month Mode">🔄 Mode</button>
+                    <button type="button" class="quick-chip-btn" onclick="jumpToCurrentStaffCycle()" title="Jump to Current Cycle (वर्तमान साइकिल पर आएं)">🎯 Today Cycle</button>
                 </div>
 
                 <div class="staff-actions-group">
@@ -2612,7 +3171,7 @@ body.print-patra #tab-patra { display: block !important; }
                     <button type="button" class="staff-btn staff-btn-outline" onclick="openStaffGHModal()" title="Set Gazetted Holidays">
                         🎉 +GH
                     </button>
-                    <button type="button" class="staff-btn staff-btn-outline" onclick="openManageStaffModal()" title="Manage Staff">
+                    <button type="button" class="staff-btn staff-btn-outline" onclick="openManageStaffModal()" title="Manage, Hide/Show or Reorder Staff">
                         ⚙️ Staff
                     </button>
                     <button type="button" class="staff-btn staff-btn-outline" style="border-color: var(--primary); color: var(--primary);" onclick="openStaffCreateModal()" title="Bulk Fill or Clear Cycle">
@@ -2624,55 +3183,157 @@ body.print-patra #tab-patra { display: block !important; }
                 </div>
             </div>
 
-            <!-- Collapsible Per-Staff Detailed Summary Bar -->
-            <button type="button" class="summary-collapse-btn staff-no-print" onclick="toggleDrawer('staffSummaryDrawer', 'staffSumChevron')">
-                <div class="summary-collapse-left">
-                    <span>👥 <strong>Staff Detailed Summary (प्रत्येक कर्मचारी का विवरण)</strong></span>
-                    <div class="summary-mini-pills">
-                        <span class="mini-tag" style="color:var(--primary);">कुल स्टाफ: <span id="mini-staff-total">0</span></span>
-                        <span id="mini-staff-p" style="display:none;">0</span>
-                        <span id="mini-staff-leave" style="display:none;">0</span>
-                        <span id="mini-staff-gh" style="display:none;">0</span>
+            <!-- Print Header Settings Bar (क्रमांक & Date DD.MM.YYYY + Row Hide/Show Controls on Home Page) -->
+            <div class="print-meta-bar staff-no-print">
+                <div class="print-meta-group">
+                    <div class="print-meta-field" title="प्रिंट में टेबल के ऊपर बाईं तरफ दिखने वाला क्रमांक">
+                        <label for="printKramankInput">क्रमांक -</label>
+                        <input type="text" id="printKramankInput" placeholder="जैसे: 2026/105" oninput="savePrintMetaFields()">
+                    </div>
+                    <div class="print-meta-field" title="प्रिंट में टेबल के ऊपर दाईं तरफ दिखने वाली दिनांक (DD.MM.YYYY)">
+                        <label for="printDateInput">Date -</label>
+                        <input type="text" id="printDateInput" placeholder="DD.MM.YYYY" oninput="savePrintMetaFields()">
+                        <button type="button" class="row-mini-btn" onclick="setTodayPrintDate()" title="आज की तारीख (DD.MM.YYYY) भरें" style="width:auto; padding:0 5px; font-weight:700;">आज</button>
                     </div>
                 </div>
-                <span class="summary-chevron" id="staffSumChevron">Show ▼</span>
-            </button>
+                <div class="print-meta-right">
+                    <label class="print-tick-pill" title="Print में मुख्य Staff Register Table शामिल करें">
+                        <input type="checkbox" id="chkPrint_staff_register" checked onchange="togglePrintSection('staff', 'register', this.checked)"> 🖨️ Register
+                    </label>
+                    <button type="button" id="toggleShowHiddenBtn" class="quick-chip-btn" onclick="toggleShowHiddenOnScreen()" title="छुपाए गए कर्मचारियों को स्क्रीन पर दिखाएं/छुपाएं">
+                        👁️ Hidden: <span id="hiddenStaffCountBadge">0</span>
+                    </button>
+                    <button type="button" class="quick-chip-btn" onclick="showAllHiddenStaff()" title="सभी कर्मचारियों को प्रिंट के लिए वापस अन-हाइड करें">
+                        ✅ Show All Rows
+                    </button>
+                </div>
+            </div>
+
+            <!-- Hidden Staff Quick Restore Bar -->
+            <div id="hiddenRowsAlertBar" class="hidden-rows-alert-bar staff-no-print">
+                <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+                    <span style="font-size:11px; font-weight:700; color:var(--t-absent);">🙈 Print से छुपाए गए कर्मचारी (Click to Restore):</span>
+                    <div id="hiddenChipList" class="hidden-chip-list"></div>
+                </div>
+                <button type="button" class="quick-chip-btn" onclick="showAllHiddenStaff()">सभी को दिखाएं (Restore All)</button>
+            </div>
+
+            <!-- Collapsible Per-Staff Detailed Summary Bar (with Print Tick-Mark) -->
+            <div class="summary-collapse-btn staff-no-print" onclick="toggleDrawer('staffSummaryDrawer', 'staffSumChevron')">
+                <div class="summary-collapse-left">
+                    <span>📊 <strong>Staff Detailed Summary (प्रत्येक कर्मचारी का विवरण)</strong></span>
+                    <div class="summary-mini-pills">
+                        <span class="mini-tag" style="color:var(--primary);">Print Staff:<span id="mini-staff-total">0</span></span>
+                        <span class="mini-tag" style="color:var(--t-present);">P:<span id="mini-staff-p">0</span></span>
+                        <span class="mini-tag" style="color:var(--t-absent);">CL/ML:<span id="mini-staff-leave">0</span></span>
+                        <span class="mini-tag" style="color:var(--t-holiday);">GH:<span id="mini-staff-gh">0</span></span>
+                    </div>
+                </div>
+                <div class="drawer-right-controls">
+                    <label class="print-tick-pill" onclick="event.stopPropagation();" title="Print में Staff Detailed Summary शामिल करें">
+                        <input type="checkbox" id="chkPrint_staff_summary" onchange="togglePrintSection('staff', 'summary', this.checked)"> 🖨️ Print
+                    </label>
+                    <span class="summary-chevron" id="staffSumChevron">Show ▼</span>
+                </div>
+            </div>
 
             <div id="staffSummaryDrawer" class="collapsible-panel staff-no-print">
-                <!-- Hidden legacy KPI spans so IDs remain intact -->
-                <div style="display:none;">
-                    <span id="staffKpiTotal">0</span><span id="staffKpiSplit"></span>
-                    <span id="staffKpiPresent">0</span><span id="staffKpiTodayP"></span>
-                    <span id="staffKpiLeaves">0</span><span id="staffKpiLeaveBreak"></span>
-                    <span id="staffKpiGH">0</span><span id="staffKpiGHSub"></span>
+                <div class="staff-kpi-grid">
+                    <div class="opd-kpi-card">
+                        <span class="opd-kpi-label">Total / Printable Staff</span>
+                        <span class="opd-kpi-val" id="staffKpiTotal">0</span>
+                        <span class="opd-kpi-sub" id="staffKpiSplit">GH: 0 | D/O: 0</span>
+                    </div>
+                    <div class="opd-kpi-card">
+                        <span class="opd-kpi-label">Cycle Present (P)</span>
+                        <span class="opd-kpi-val" id="staffKpiPresent" style="color:var(--t-present);">0</span>
+                        <span class="opd-kpi-sub" id="staffKpiTodayP">Today P: 0</span>
+                    </div>
+                    <div class="opd-kpi-card">
+                        <span class="opd-kpi-label">Leaves (CL / ML / Other)</span>
+                        <span class="opd-kpi-val" id="staffKpiLeaves" style="color:var(--t-absent);">0</span>
+                        <span class="opd-kpi-sub" id="staffKpiLeaveBreak">CL: 0 | ML: 0</span>
+                    </div>
+                    <div class="opd-kpi-card">
+                        <span class="opd-kpi-label">Cycle GH &amp; Sundays</span>
+                        <span class="opd-kpi-val" id="staffKpiGH" style="color:var(--t-holiday);">0</span>
+                        <span class="opd-kpi-sub" id="staffKpiGHSub">Synced with Settings</span>
+                    </div>
+                </div>
+
+                <!-- Detailed Employee-wise Summary Table (16 Columns from index (1).html) -->
+                <div class="detailed-summary-box">
+                    <div class="detailed-summary-header">
+                        <div class="detailed-summary-title">
+                            <span>📋 प्रत्येक कर्मचारी की विस्तृत उपस्थिति एवं अवकाश समरी</span>
+                        </div>
+                        <span style="font-size:10px; color:var(--text-muted);">क्रम (▲/▼) एवं Print Show/Hide यहाँ से भी बदल सकते हैं</span>
+                    </div>
+                    <div class="detailed-summary-scroll">
+                        <table class="detailed-summary-table" id="staffDetailedSummaryTable">
+                            <thead>
+                                <tr>
+                                    <th>क्र.</th>
+                                    <th>Print</th>
+                                    <th style="text-align:left;">कर्मचारी का नाम</th>
+                                    <th>पद</th>
+                                    <th>स्थान</th>
+                                    <th>प्रकार</th>
+                                    <th style="color:var(--t-present);">उपस्थिति (P)</th>
+                                    <th style="color:#be123c;">GH</th>
+                                    <th style="color:var(--t-cl);">D/O</th>
+                                    <th style="color:var(--t-absent);">इस माह CL</th>
+                                    <th style="color:var(--t-absent);">इस माह ML</th>
+                                    <th style="color:#7c3aed;">PL / CCL</th>
+                                    <th>गत माह CL/ML</th>
+                                    <th>कुल CL/ML</th>
+                                    <th>भरे दिन</th>
+                                    <th>क्रम (Order)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="detailedStaffSummaryBody"></tbody>
+                            <tbody id="staffDetailedSummaryBody" style="display:none;"></tbody>
+                        </table>
+                    </div>
                 </div>
 
                 <div class="staff-filter-bar">
                     <input type="text" id="staffSearchInput" class="staff-search-input" placeholder="🔍 कर्मचारी खोजें (Name, Post, Place, GH/DO)..." oninput="renderStaffRows()">
+                    <div style="display:flex; align-items:center; gap:5px; flex-wrap:wrap;">
+                        <button type="button" class="quick-chip-btn" onclick="markStaffTodayAllPresent()" title="Mark all staff Present (P) for Today">⚡ Today All P</button>
+                        <button type="button" class="quick-chip-btn" onclick="autoFillStaffTillToday()" title="Fill P up to Today for current cycle">📅 Auto-Fill Till Today</button>
+                    </div>
                 </div>
+            </div>
 
-                <div style="background:var(--surface); border:1px solid var(--border-light); border-radius:8px; overflow-x:auto;">
-                    <table class="staff-detail-summary-table">
-                        <thead>
-                            <tr>
-                                <th>कर्मचारी का नाम व पद</th>
-                                <th style="color:var(--t-present);">Present (P)</th>
-                                <th style="color:var(--t-holiday);">GH / D/O</th>
-                                <th>गत माह (CL/ML)</th>
-                                <th style="color:var(--t-absent);">इस माह (CL/ML)</th>
-                                <th>अन्य (PL/CCL)</th>
-                                <th style="color:var(--primary);">कुल योग (CL/ML)</th>
-                            </tr>
-                        </thead>
-                        <tbody id="staffDetailedSummaryBody">
-                            <!-- Per-staff detailed rows populated via JS -->
-                        </tbody>
-                    </table>
+            <!-- Collapsible Staff Detailed Graphics Drawer (Auto-Closed, with Print Tick) -->
+            <div class="summary-collapse-btn graphics-collapse-btn staff-no-print" onclick="toggleDrawer('staffGraphicsDrawer', 'staffGraphChevron')">
+                <div class="summary-collapse-left">
+                    <span>📈 <strong>Staff Detailed Graphics &amp; Visual Analytics</strong></span>
+                    <div class="summary-mini-pills">
+                        <span class="mini-tag" style="color:var(--accent);">Status Donut • Per-Staff Bars • Daily Presence Curve • Leaderboard</span>
+                    </div>
                 </div>
+                <div class="drawer-right-controls">
+                    <label class="print-tick-pill" onclick="event.stopPropagation();" title="Print में Staff Graphics शामिल करें">
+                        <input type="checkbox" id="chkPrint_staff_graphics" onchange="togglePrintSection('staff', 'graphics', this.checked)"> 🖨️ Print
+                    </label>
+                    <span class="summary-chevron" id="staffGraphChevron">Show ▼</span>
+                </div>
+            </div>
+
+            <div id="staffGraphicsDrawer" class="collapsible-panel staff-no-print">
+                <div class="graphics-dashboard-grid" id="staffGraphicsContainer"></div>
             </div>
 
             <!-- Main Official Register Table Container (Print Layout Matches staff attendence.html 100%) -->
             <div class="staff-table-container" id="staffTableContainer">
+                <!-- Print-Only Top Row: Left क्रमांक & Right Date - DD.MM.YYYY -->
+                <div class="print-only-kramank-row" id="printTopMetaRow">
+                    <div>क्रमांक - <span id="printOutKramank"></span></div>
+                    <div>Date - <span id="printOutDate"></span></div>
+                </div>
+
                 <table id="staffAttendanceTable">
                     <thead>
                         <!-- Row 1 -->
@@ -2706,6 +3367,7 @@ body.print-patra #tab-patra { display: block !important; }
                     </tbody>
                 </table>
             </div>
+            <div id="staff-extra-print-area" class="extra-print-block"></div>
         </main>
 
         <!-- ================= TAB 3: OPD REPORT ================= -->
@@ -2727,8 +3389,8 @@ body.print-patra #tab-patra { display: block !important; }
                 </div>
             </div>
 
-            <!-- Collapsible OPD Summary Toggle Button -->
-            <button type="button" class="summary-collapse-btn no-print" onclick="toggleDrawer('opdSummaryDrawer', 'opdSumChevron')">
+            <!-- Collapsible OPD Summary Toggle Button (with Print Tick) -->
+            <div class="summary-collapse-btn no-print" onclick="toggleDrawer('opdSummaryDrawer', 'opdSumChevron')">
                 <div class="summary-collapse-left">
                     <span>📊 <strong>OPD Summary</strong></span>
                     <div class="summary-mini-pills">
@@ -2737,8 +3399,13 @@ body.print-patra #tab-patra { display: block !important; }
                         <span class="mini-tag" style="color:var(--opd-warning);">Peak:<span id="mini-opd-peak">0</span></span>
                     </div>
                 </div>
-                <span class="summary-chevron" id="opdSumChevron">Show ▼</span>
-            </button>
+                <div class="drawer-right-controls">
+                    <label class="print-tick-pill" onclick="event.stopPropagation();" title="Print में OPD Summary शामिल करें">
+                        <input type="checkbox" id="chkPrint_opd_summary" checked onchange="togglePrintSection('opd', 'summary', this.checked)"> 🖨️ Print
+                    </label>
+                    <span class="summary-chevron" id="opdSumChevron">Show ▼</span>
+                </div>
+            </div>
 
             <!-- Collapsible OPD Summary Drawer -->
             <div id="opdSummaryDrawer" class="collapsible-panel no-print">
@@ -2764,6 +3431,26 @@ body.print-patra #tab-patra { display: block !important; }
                         <span class="opd-kpi-sub">Sundays &amp; GH</span>
                     </div>
                 </div>
+            </div>
+
+            <!-- Collapsible OPD Detailed Graphics Drawer (Auto-Closed, with Print Tick) -->
+            <div class="summary-collapse-btn graphics-collapse-btn no-print" onclick="toggleDrawer('opdGraphicsDrawer', 'opdGraphChevron')">
+                <div class="summary-collapse-left">
+                    <span>📈 <strong>OPD Detailed Graphics &amp; Patient Analytics</strong></span>
+                    <div class="summary-mini-pills">
+                        <span class="mini-tag" style="color:var(--accent);">Daily Trend Curve • Weekday Avg Bars • Volume Donut • 10-Day Slabs</span>
+                    </div>
+                </div>
+                <div class="drawer-right-controls">
+                    <label class="print-tick-pill" onclick="event.stopPropagation();" title="Print में OPD Graphics शामिल करें">
+                        <input type="checkbox" id="chkPrint_opd_graphics" onchange="togglePrintSection('opd', 'graphics', this.checked)"> 🖨️ Print
+                    </label>
+                    <span class="summary-chevron" id="opdGraphChevron">Show ▼</span>
+                </div>
+            </div>
+
+            <div id="opdGraphicsDrawer" class="collapsible-panel no-print">
+                <div class="graphics-dashboard-grid" id="opdGraphicsContainer"></div>
             </div>
 
             <div id="opdActiveView" style="display: flex; flex-direction: column; flex: 1;">
@@ -2806,6 +3493,7 @@ body.print-patra #tab-patra { display: block !important; }
                             <strong>Signature / In-Charge</strong>
                         </div>
                     </div>
+                    <div id="opd-extra-print-area" class="extra-print-block"></div>
                 </div>
             </div>
 
@@ -2859,12 +3547,57 @@ body.print-patra #tab-patra { display: block !important; }
                 <div id="patraCategoryTabsBar" class="patra-tabs-bar"></div>
             </div>
 
+            <!-- Collapsible Patra Summary Drawer (Auto-Closed, with Print Tick) -->
+            <div class="summary-collapse-btn patra-no-print" onclick="toggleDrawer('patraSummaryDrawer', 'patraSumChevron')">
+                <div class="summary-collapse-left">
+                    <span>📊 <strong>Patra Dispatch Summary</strong></span>
+                    <div class="summary-mini-pills">
+                        <span class="mini-tag" style="color:var(--primary);">कुल पत्र:<span id="mini-patra-total">0</span></span>
+                        <span class="mini-tag" style="color:var(--opd-success);">कैटेगरी:<span id="mini-patra-cats">0</span></span>
+                        <span class="mini-tag" style="color:var(--opd-warning);">अगला #:<span id="mini-patra-next">1</span></span>
+                    </div>
+                </div>
+                <div class="drawer-right-controls">
+                    <label class="print-tick-pill" onclick="event.stopPropagation();" title="Print में Patra Summary शामिल करें">
+                        <input type="checkbox" id="chkPrint_patra_summary" onchange="togglePrintSection('patra', 'summary', this.checked)"> 🖨️ Print
+                    </label>
+                    <span class="summary-chevron" id="patraSumChevron">Show ▼</span>
+                </div>
+            </div>
+
+            <div id="patraSummaryDrawer" class="collapsible-panel patra-no-print">
+                <div class="opd-kpi-grid" id="patraSummaryKpiGrid"></div>
+            </div>
+
+            <!-- Collapsible Patra Detailed Graphics Drawer (Auto-Closed, with Print Tick) -->
+            <div class="summary-collapse-btn graphics-collapse-btn patra-no-print" onclick="toggleDrawer('patraGraphicsDrawer', 'patraGraphChevron')">
+                <div class="summary-collapse-left">
+                    <span>📈 <strong>Patra Detailed Graphics &amp; Dispatch Analytics</strong></span>
+                    <div class="summary-mini-pills">
+                        <span class="mini-tag" style="color:var(--accent);">Category Donut • Top Offices Bars • Monthly Timeline</span>
+                    </div>
+                </div>
+                <div class="drawer-right-controls">
+                    <label class="print-tick-pill" onclick="event.stopPropagation();" title="Print में Patra Graphics शामिल करें">
+                        <input type="checkbox" id="chkPrint_patra_graphics" onchange="togglePrintSection('patra', 'graphics', this.checked)"> 🖨️ Print
+                    </label>
+                    <span class="summary-chevron" id="patraGraphChevron">Show ▼</span>
+                </div>
+            </div>
+
+            <div id="patraGraphicsDrawer" class="collapsible-panel patra-no-print">
+                <div class="graphics-dashboard-grid" id="patraGraphicsContainer"></div>
+            </div>
+
             <!-- Compact Status Strip -->
             <div class="patra-status-strip patra-no-print">
-                <div>
+                <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
                     <strong id="patraActiveCategoryTitle" style="color:var(--text-main);">सभी पत्र (All)</strong>
                     <span> • </span>
                     <span id="patraVisibleCountLabel">0 पत्र</span>
+                    <label class="print-tick-pill" title="Print में मुख्य Patra Register Table शामिल करें">
+                        <input type="checkbox" id="chkPrint_patra_register" checked onchange="togglePrintSection('patra', 'register', this.checked)"> 🖨️ Print Register
+                    </label>
                 </div>
                 <span id="patraHeaderStatsText">अगला क्रमांक #1</span>
                 <span id="patraSavedBadge" style="display:none;"></span>
@@ -2931,7 +3664,13 @@ body.print-patra #tab-patra { display: block !important; }
 
             <div class="settings-card">
                 <div class="settings-header">
-                    <h2>🎉 Manage Holidays (GH)</h2>
+                    <h2>🎉 Manage Holidays (GH) — Synced with Staff Register</h2>
+                    <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+                        <label class="print-tick-pill" title="रविवार (Sunday) को स्वतः राजपत्रित अवकाश (GH) मानें">
+                            <input type="checkbox" id="chkAutoSundayGH" checked onchange="toggleAutoSundayGH(this.checked)"> ☀️ Auto Sunday GH
+                        </label>
+                        <button type="button" class="quick-chip-btn" onclick="loadPresetHolidays2026()">✨ + Load 2026 Govt Holidays</button>
+                    </div>
                 </div>
                 <div style="display:flex; flex-wrap: wrap; gap:6px; margin-bottom:10px;">
                     <input type="date" id="hol-date" style="flex:1 1 45%; height:34px; border-radius:7px; border:1px solid var(--border); padding:0 8px; font-size:12px; background:var(--surface-subtle); color:var(--text-main);">
@@ -3075,13 +3814,17 @@ body.print-patra #tab-patra { display: block !important; }
 
     <!-- Manage Staff Modal -->
     <div class="modal-overlay" id="manageStaffModal">
-        <div class="modal-content" style="max-width: 620px; width: 96%;">
+        <div class="modal-content" style="max-width: 680px; width: 96%;">
             <div class="modal-header">
-                <h2 style="font-size:15px; font-weight:700;">⚙️ कर्मचारी प्रबंधित करें (Manage Staff)</h2>
+                <h2 style="font-size:15px; font-weight:700;">⚙️ कर्मचारी, प्रिंट क्रम (Order) एवं Row Hide/Show प्रबंधित करें</h2>
                 <button type="button" class="close-btn" onclick="closeStaffModals()">&times;</button>
             </div>
-            <p style="font-size:11px; color:var(--text-muted); margin-bottom:8px;">यहाँ से आप कर्मचारियों के नाम, पद, स्थान, प्रकार (GH/DO) बदल सकते हैं या उनका क्रम (▲/▼) सेट कर सकते हैं।</p>
-            <div id="manageStaffList" style="display:flex; flex-direction:column; max-height: 55vh; overflow-y:auto; padding-right:2px;">
+            <p style="font-size:11px; color:var(--text-muted); margin-bottom:8px;">यहाँ से आप जिन कर्मचारियों की उपस्थिति प्रिंट करानी है उन्हें चुनें (👁️ Print / 🙈 Hide) और जिस क्रम में प्रिंट कराना है वह क्रम (▲/▼) सेट करें।</p>
+            <div style="display:flex; gap:6px; margin-bottom:8px; flex-wrap:wrap;">
+                <button type="button" class="quick-chip-btn" onclick="showAllHiddenStaff(); renderManageStaffList();">✅ सभी को Print में शामिल करें (Show All)</button>
+                <button type="button" class="quick-chip-btn" onclick="hideAllStaffRows(); renderManageStaffList();" style="color:var(--t-absent); border-color:var(--b-absent); background:var(--c-absent);">🙈 सभी को छुपाएं (Hide All)</button>
+            </div>
+            <div id="manageStaffList" style="display:flex; flex-direction:column; max-height: 52vh; overflow-y:auto; padding-right:2px;">
                 <!-- Populated by JS -->
             </div>
             <div class="action-btn-row" style="margin-top: 12px;">
@@ -3123,8 +3866,9 @@ body.print-patra #tab-patra { display: block !important; }
                 </div>
                 <button type="button" class="close-btn" onclick="closeStaffModals()">&times;</button>
             </div>
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; gap:6px;">
-                <span style="font-size:10px; color:var(--text-muted); font-weight:600;" id="staffGhCycleHint">Cycle Dates (Tick to set GH)</span>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; gap:6px; flex-wrap:wrap;">
+                <button type="button" class="quick-chip-btn" onclick="loadPresetHolidays2026(); openStaffGHModal();">✨ + Load 2026 Govt Holidays</button>
+                <span style="font-size:10px; color:var(--text-muted); font-weight:600;" id="staffGhCycleHint">Cycle Dates (Tick to set GH • Sunday Auto-GH)</span>
             </div>
             <div class="staff-gh-list-container" id="staffGhListContainer">
                 <!-- Checkboxes populated by JS -->
@@ -3397,7 +4141,29 @@ body.print-patra #tab-patra { display: block !important; }
                 attendance: {},
                 holidays: {},
                 notes: {},
-                prefs: { statsMode: 'cycle', layoutMode: 'full', periodMode: 'cycle', includeOpdSummary: true },
+                prefs: {
+                    statsMode: 'cycle',
+                    layoutMode: 'full',
+                    periodMode: 'cycle',
+                    includeOpdSummary: true,
+                    autoSundayGH: true,
+                    printSections: {
+                        age_summary: true,
+                        age_graphics: true,
+                        present_register: true,
+                        present_summary: true,
+                        present_graphics: false,
+                        staff_register: true,
+                        staff_summary: false,
+                        staff_graphics: false,
+                        opd_register: true,
+                        opd_summary: true,
+                        opd_graphics: false,
+                        patra_register: true,
+                        patra_summary: false,
+                        patra_graphics: false
+                    }
+                },
                 theme: 'light'
             };
         }
@@ -3428,7 +4194,12 @@ body.print-patra #tab-patra { display: block !important; }
                     ...def.prefs,
                     ...(raw.prefs && typeof raw.prefs === 'object' ? raw.prefs : {}),
                     periodMode: (raw.prefs && raw.prefs.periodMode) ? raw.prefs.periodMode : 'cycle',
-                    includeOpdSummary: (raw.prefs && typeof raw.prefs.includeOpdSummary !== 'undefined') ? raw.prefs.includeOpdSummary : true
+                    includeOpdSummary: (raw.prefs && typeof raw.prefs.includeOpdSummary !== 'undefined') ? raw.prefs.includeOpdSummary : true,
+                    autoSundayGH: (raw.prefs && typeof raw.prefs.autoSundayGH !== 'undefined') ? !!raw.prefs.autoSundayGH : true,
+                    printSections: {
+                        ...def.prefs.printSections,
+                        ...((raw.prefs && raw.prefs.printSections && typeof raw.prefs.printSections === 'object') ? raw.prefs.printSections : {})
+                    }
                 },
                 theme: raw.theme === 'dark' ? 'dark' : 'light'
             };
@@ -3477,29 +4248,61 @@ body.print-patra #tab-patra { display: block !important; }
             return cleaned;
         }
 
+        function getTodayDDMMYYYY() {
+            const now = new Date();
+            const dd = String(now.getDate()).padStart(2, '0');
+            const mm = String(now.getMonth() + 1).padStart(2, '0');
+            const yyyy = now.getFullYear();
+            return `${dd}.${mm}.${yyyy}`;
+        }
+
         function normalizeStaffDataObj(rawStaff) {
             const defTitle = typeof DEFAULT_STAFF_TITLE !== 'undefined'
                 ? DEFAULT_STAFF_TITLE
                 : "कार्यालय चिकित्सा अधिकारी प्रभारी, प्राथमिक स्वास्थ्य केंद्र शेषा, खंड मलारना डूंगर, सवाई माधोपुर";
             if (!rawStaff || typeof rawStaff !== 'object') {
-                return { staffList: [], ghDates: [], cellData: {}, mainTitle: defTitle, isMonthWise: false };
+                return {
+                    staffList: [],
+                    ghDates: [],
+                    holidays: {},
+                    cellData: {},
+                    mainTitle: defTitle,
+                    isMonthWise: false,
+                    printKramank: '',
+                    printDate: getTodayDDMMYYYY()
+                };
             }
             const list = Array.isArray(rawStaff.staffList)
                 ? rawStaff.staffList.filter(item => item && typeof item === 'object' && item.id)
                 : (rawStaff.staffList && typeof rawStaff.staffList === 'object'
                     ? Object.values(rawStaff.staffList).filter(item => item && typeof item === 'object' && item.id)
                     : []);
+            list.forEach(item => {
+                item.hidden = !!item.hidden;
+            });
             const gh = Array.isArray(rawStaff.ghDates)
                 ? rawStaff.ghDates.filter(Boolean)
                 : (rawStaff.ghDates && typeof rawStaff.ghDates === 'object'
                     ? Object.values(rawStaff.ghDates).filter(Boolean)
                     : []);
+            const hols = (rawStaff.holidays && typeof rawStaff.holidays === 'object' && !Array.isArray(rawStaff.holidays))
+                ? { ...rawStaff.holidays }
+                : {};
+            gh.forEach(dStr => {
+                if (!hols[dStr]) hols[dStr] = 'राजपत्रित अवकाश (GH)';
+            });
+            Object.keys(hols).forEach(dStr => {
+                if (!gh.includes(dStr)) gh.push(dStr);
+            });
             return {
                 staffList: list,
                 ghDates: Array.from(new Set(gh)).sort(),
+                holidays: hols,
                 cellData: (rawStaff.cellData && typeof rawStaff.cellData === 'object' && !Array.isArray(rawStaff.cellData)) ? { ...rawStaff.cellData } : {},
                 mainTitle: rawStaff.mainTitle || defTitle,
-                isMonthWise: !!rawStaff.isMonthWise
+                isMonthWise: !!rawStaff.isMonthWise,
+                printKramank: typeof rawStaff.printKramank === 'string' ? rawStaff.printKramank : '',
+                printDate: typeof rawStaff.printDate === 'string' && rawStaff.printDate.trim() !== '' ? rawStaff.printDate : getTodayDDMMYYYY()
             };
         }
 
@@ -3823,9 +4626,12 @@ body.print-patra #tab-patra { display: block !important; }
             const mergedStaffData = normalizeStaffDataObj({
                 staffList: orderedStaff,
                 ghDates: Array.from(new Set([...(secondary.staffData.ghDates || []), ...(primary.staffData.ghDates || []), ...Object.keys(mergedAppData.holidays || {})])).sort(),
+                holidays: { ...(secondary.staffData.holidays || {}), ...(primary.staffData.holidays || {}), ...(mergedAppData.holidays || {}) },
                 cellData: { ...secondary.staffData.cellData, ...primary.staffData.cellData },
                 mainTitle: mergedMainTitle,
-                isMonthWise: primary.staffData.isMonthWise ?? secondary.staffData.isMonthWise ?? false
+                isMonthWise: primary.staffData.isMonthWise ?? secondary.staffData.isMonthWise ?? false,
+                printKramank: primary.staffData.printKramank || secondary.staffData.printKramank || '',
+                printDate: primary.staffData.printDate || secondary.staffData.printDate || getTodayDDMMYYYY()
             });
 
             // 4. Merge Age Calculator Data
@@ -3971,6 +4777,7 @@ body.print-patra #tab-patra { display: block !important; }
             generateOpdTable();
             initStaffApp();
             initPatraApp();
+            syncAllPrintSectionCheckboxes();
             updateThemeMenuBadge();
         }
 
@@ -4230,9 +5037,9 @@ body.print-patra #tab-patra { display: block !important; }
             }
 
             document.getElementById('header-title').textContent = title;
-            const canPrint = (tabId === 'present' || tabId === 'staff' || tabId === 'opd' || tabId === 'patra');
+            const canPrint = (tabId === 'age' || tabId === 'present' || tabId === 'staff' || tabId === 'opd' || tabId === 'patra');
             document.getElementById('btn-print').style.display = (showPrint || canPrint) ? 'flex' : 'none';
-            document.getElementById('btn-preview-print').style.display = 'none';
+            document.getElementById('btn-preview-print').style.display = (showPrint || canPrint) ? 'flex' : 'none';
 
             if (tabId === 'age') {
                 setTimeout(() => {
@@ -4342,6 +5149,7 @@ body.print-patra #tab-patra { display: block !important; }
                 ageScrollListenerBound = true;
                 grid.addEventListener('scroll', () => safeSetItem('savedScrollPosition', grid.scrollTop));
             }
+            if (typeof renderAgeSummaryAndGraphics === 'function') renderAgeSummaryAndGraphics();
         }
 
         function changeRefYear(delta) {
@@ -4465,6 +5273,7 @@ body.print-patra #tab-patra { display: block !important; }
             document.getElementById('ageCategory').innerText = cat;
             document.getElementById('ageClinicalTag').textContent = clinical;
             document.getElementById('reverseAgeInput').value = age >= 0 ? age : '';
+            if (typeof renderAgeSummaryAndGraphics === 'function') renderAgeSummaryAndGraphics();
         }
 
         // ================= APP 2: ATTENDANCE & SETTINGS =================
@@ -5019,6 +5828,7 @@ body.print-patra #tab-patra { display: block !important; }
             if (ratePill) ratePill.textContent = `📊 Att: ${attRate}%`;
             if (clPill) clPill.textContent = `🏖️ CL Left: ${clLeft}/${clQuota}`;
             if (sunPill) sunPill.textContent = `☀️ Sun: ${s.S} (${totalDaysInCycle}d)`;
+            if (typeof renderAttendanceGraphics === 'function') renderAttendanceGraphics();
         }
 
         // Builds the Attendance Register HTML (Page 1 Sarkari Register untouched + Enhanced Page 2 Summary)
@@ -5196,11 +6006,15 @@ body.print-patra #tab-patra { display: block !important; }
             });
             h += `</table>`;
 
-            // ================== NEXT PAGE (ENHANCED SUMMARY) ==================
+            if (!isPrintSectionEnabled('present', 'register')) {
+                h = '';
+            }
+            // ================== NEXT PAGE (ENHANCED SUMMARY & GRAPHICS) ==================
             const clQuota = parseInt(appData.employee.clQuota, 10) || 15;
             const clRemaining = Math.max(0, clQuota - oAll.CL);
 
-            h += `<div style="page-break-before: always; padding-top: 15px;">`;
+            if (isPrintSectionEnabled('present', 'summary')) {
+            h += `<div style="${isPrintSectionEnabled('present', 'register') ? 'page-break-before: always;' : ''} padding-top: 15px;">`;
             h += `<div class="print-header" style="margin-bottom: 16px;">ATTENDANCE SUMMARY &amp; HOLIDAY DETAILS</div>`;
 
             h += `<table class="summary-table" style="margin-bottom: 22px; width: 100%; max-width: 820px;">
@@ -5265,10 +6079,21 @@ body.print-patra #tab-patra { display: block !important; }
                   </div>`;
 
             h += `</div>`;
+            }
+            if (isPrintSectionEnabled('present', 'graphics')) {
+                const gCont = document.getElementById('attGraphicsContainer');
+                if (gCont) {
+                    h += `<div class="extra-print-block active-for-print" style="margin-top:16px;"><div class="print-header" style="font-size:15px; margin-bottom:10px;">ATTENDANCE VISUAL ANALYTICS &amp; GRAPHICS</div><div class="graphics-dashboard-grid">${gCont.innerHTML}</div></div>`;
+                }
+            }
             return h;
         }
 
        function triggerPrint() {
+    if (currentActiveTab === 'age') {
+        triggerAgePrint();
+        return;
+    }
     if (currentActiveTab === 'staff') {
         triggerStaffPrint();
         return;
@@ -5282,11 +6107,9 @@ body.print-patra #tab-patra { display: block !important; }
         return;
     }
     setPrintPageStyle('landscape');
-    
-    // पुरानी क्लास हटाएं और सिर्फ नई लगाएं
-    document.body.classList.remove('print-opd', 'print-staff', 'print-patra');
+    document.body.classList.remove('print-opd', 'print-staff', 'print-patra', 'print-age');
     document.body.classList.add('print-att');
-    
+
     const pv = document.getElementById('print-view');
     pv.innerHTML = buildAttendancePrintHTML();
     setTimeout(() => {
@@ -5295,10 +6118,16 @@ body.print-patra #tab-patra { display: block !important; }
     }, 300);
 }
 
-        // ================= PRINT PREVIEW MODAL =================
+        // ================= PRINT PREVIEW MODAL (SUPPORTS ALL 5 MODES & TICKED SECTIONS) =================
         function openPrintPreview() {
             const box = document.getElementById('preview-scroll-box');
             const title = document.getElementById('preview-modal-title');
+            if (currentActiveTab === 'age') {
+                title.textContent = 'Smart Age & Clinical Screening — Print Preview';
+                box.innerHTML = buildAgePrintHTML();
+                document.getElementById('print-preview-modal').classList.add('active');
+                return;
+            }
             if (currentActiveTab === 'patra') {
                 title.textContent = 'पत्र रजिस्टर (Dispatch Register) — Print Preview';
                 box.innerHTML = buildPatraPrintHTML();
@@ -5307,6 +6136,8 @@ body.print-patra #tab-patra { display: block !important; }
             }
             if (currentActiveTab === 'opd') {
                 title.textContent = 'OPD Report — Print Preview';
+                const footer = document.getElementById('opdPrintSummaryFooter');
+                if (footer) footer.style.display = isPrintSectionEnabled('opd', 'summary') ? 'flex' : 'none';
                 box.innerHTML = document.getElementById('opdPrintArea').outerHTML;
                 const origInputs = document.querySelectorAll('#opdPrintArea input');
                 const prevInputs = box.querySelectorAll('input');
@@ -5316,37 +6147,75 @@ body.print-patra #tab-patra { display: block !important; }
                         prevInputs[idx].setAttribute('readonly', 'readonly');
                     }
                 });
+                if (isPrintSectionEnabled('opd', 'graphics')) {
+                    const gCont = document.getElementById('opdGraphicsContainer');
+                    if (gCont) {
+                        box.insertAdjacentHTML('beforeend', `<div style="margin-top:14px;"><h3 style="font-size:13px; font-weight:bold; text-align:center; margin-bottom:6px;">OPD Visual Analytics &amp; Graphics</h3><div class="graphics-dashboard-grid">${gCont.innerHTML}</div></div>`);
+                    }
+                }
             } else if (currentActiveTab === 'staff') {
+                syncPrintMetaHeaderDOM();
                 title.textContent = 'Staff Attendance & Leave Register — Print Preview';
-                // Temporarily ensure full cycle table is rendered for accurate preview
                 const prevToday = staffIsTodayMode;
                 const prevSearch = document.getElementById('staffSearchInput')?.value || '';
-                if (prevToday || prevSearch) {
+                const prevShowHidden = showHiddenStaffOnScreen;
+                if (prevToday || prevSearch || prevShowHidden) {
                     staffIsTodayMode = false;
+                    showHiddenStaffOnScreen = false;
                     if (document.getElementById('staffSearchInput')) document.getElementById('staffSearchInput').value = '';
                     renderStaffHeaders();
                     renderStaffRows();
                 }
-                const tableClone = document.getElementById('staffAttendanceTable').cloneNode(true);
-                tableClone.querySelectorAll('[contenteditable]').forEach(el => el.removeAttribute('contenteditable'));
-                tableClone.querySelectorAll('.staff-type-pill').forEach(el => el.remove());
-                tableClone.style.width = '100%';
-                tableClone.style.borderCollapse = 'collapse';
-                tableClone.style.color = '#000';
-                tableClone.style.background = '#fff';
-                tableClone.querySelectorAll('th, td').forEach(cell => {
-                    cell.style.border = '1px solid #000';
-                    cell.style.padding = '4px';
-                    cell.style.fontSize = '9pt';
-                    cell.style.background = 'transparent';
-                    cell.style.color = '#000';
-                    cell.style.textAlign = 'center';
-                    cell.style.whiteSpace = 'nowrap';
-                });
+
                 box.innerHTML = '';
-                box.appendChild(tableClone);
-                if (prevToday || prevSearch) {
+                if (isPrintSectionEnabled('staff', 'register')) {
+                    const topMetaClone = document.createElement('div');
+                    topMetaClone.style.display = 'flex';
+                    topMetaClone.style.justifyContent = 'space-between';
+                    topMetaClone.style.alignItems = 'center';
+                    topMetaClone.style.width = '100%';
+                    topMetaClone.style.marginBottom = '6px';
+                    topMetaClone.style.fontFamily = "Arial, 'Noto Sans Devanagari', sans-serif";
+                    topMetaClone.style.fontSize = '10.5pt';
+                    topMetaClone.style.fontWeight = '700';
+                    topMetaClone.style.color = '#000';
+                    topMetaClone.innerHTML = `
+                        <div>क्रमांक - ${staffGlobalData.printKramank || ''}</div>
+                        <div>Date - ${staffGlobalData.printDate || ''}</div>
+                    `;
+
+                    const tableClone = document.getElementById('staffAttendanceTable').cloneNode(true);
+                    tableClone.querySelectorAll('[contenteditable]').forEach(el => el.removeAttribute('contenteditable'));
+                    tableClone.querySelectorAll('.staff-type-pill, .row-inline-tools, .staff-no-print, tr.staff-row-hidden-print').forEach(el => el.remove());
+                    tableClone.style.width = '100%';
+                    tableClone.style.borderCollapse = 'collapse';
+                    tableClone.style.color = '#000';
+                    tableClone.style.background = '#fff';
+                    tableClone.querySelectorAll('th, td').forEach(cell => {
+                        cell.style.border = '1px solid #000';
+                        cell.style.padding = '4px';
+                        cell.style.fontSize = '9pt';
+                        cell.style.background = 'transparent';
+                        cell.style.color = '#000';
+                        cell.style.textAlign = 'center';
+                        cell.style.whiteSpace = 'nowrap';
+                    });
+                    box.appendChild(topMetaClone);
+                    box.appendChild(tableClone);
+                }
+                if (isPrintSectionEnabled('staff', 'summary')) {
+                    box.insertAdjacentHTML('beforeend', buildStaffPrintableSummaryHTML());
+                }
+                if (isPrintSectionEnabled('staff', 'graphics')) {
+                    const gCont = document.getElementById('staffGraphicsContainer');
+                    if (gCont) {
+                        box.insertAdjacentHTML('beforeend', `<div style="margin-top:14px;"><h3 style="font-size:13px; font-weight:bold; text-align:center; margin-bottom:6px;">Staff Visual Analytics &amp; Graphics</h3><div class="graphics-dashboard-grid">${gCont.innerHTML}</div></div>`);
+                    }
+                }
+
+                if (prevToday || prevSearch || prevShowHidden) {
                     staffIsTodayMode = prevToday;
+                    showHiddenStaffOnScreen = prevShowHidden;
                     if (document.getElementById('staffSearchInput')) document.getElementById('staffSearchInput').value = prevSearch;
                     renderStaffHeaders();
                     renderStaffRows();
@@ -5365,7 +6234,8 @@ body.print-patra #tab-patra { display: block !important; }
 
         function executePrintFromPreview() {
             closePrintPreview();
-            if (currentActiveTab === 'opd') printOpdCurrentMonth();
+            if (currentActiveTab === 'age') triggerAgePrint();
+            else if (currentActiveTab === 'opd') printOpdCurrentMonth();
             else if (currentActiveTab === 'staff') triggerStaffPrint();
             else if (currentActiveTab === 'patra') triggerPatraPrint();
             else triggerPrint();
@@ -5402,6 +6272,13 @@ body.print-patra #tab-patra { display: block !important; }
 
         function toggleOpdSummaryInPrint(include) {
             appData.prefs.includeOpdSummary = include;
+            if (!appData.prefs.printSections) appData.prefs.printSections = {};
+            appData.prefs.printSections.opd_summary = include;
+            const chk = document.getElementById('chkPrint_opd_summary');
+            if (chk) {
+                chk.checked = include;
+                chk.closest('.print-tick-pill')?.classList.toggle('checked', include);
+            }
             saveData();
             const footer = document.getElementById('opdPrintSummaryFooter');
             if (footer) footer.style.display = include ? 'flex' : 'none';
@@ -5668,6 +6545,7 @@ body.print-patra #tab-patra { display: block !important; }
             const runningStart = getRunningStartForDay(nextUnfilledDay);
             document.getElementById('opdNextDateBadge').textContent = `Day ${String(nextUnfilledDay).padStart(2, '0')}`;
             document.getElementById('opdNextStartLabel').textContent = `Start: ${runningStart}`;
+            if (typeof renderOpdGraphics === 'function') renderOpdGraphics();
         }
 
         function applyQuickOpdEntry() {
@@ -5882,12 +6760,31 @@ body.print-patra #tab-patra { display: block !important; }
 
         function printOpdCurrentMonth() {
             setPrintPageStyle('portrait');
+            const extraBox = document.getElementById('opd-extra-print-area');
+            const incGraph = isPrintSectionEnabled('opd', 'graphics');
+            const incSum = isPrintSectionEnabled('opd', 'summary');
+            const footer = document.getElementById('opdPrintSummaryFooter');
+            if (footer) footer.style.display = incSum ? 'flex' : 'none';
+
+            if (extraBox) {
+                if (incGraph) {
+                    const gCont = document.getElementById('opdGraphicsContainer');
+                    extraBox.innerHTML = gCont ? `<div style="margin-top:12px;"><h3 style="font-size:13px; font-weight:bold; text-align:center; margin-bottom:6px; text-transform:uppercase;">OPD Visual Analytics &amp; Graphics</h3><div class="graphics-dashboard-grid">${gCont.innerHTML}</div></div>` : '';
+                    extraBox.classList.add('active-for-print');
+                } else {
+                    extraBox.innerHTML = '';
+                    extraBox.classList.remove('active-for-print');
+                }
+            }
+
+            document.body.classList.remove('print-att', 'print-staff', 'print-patra', 'print-age');
             document.body.classList.add('print-opd');
             document.getElementById('opdActiveView').style.display = 'block';
             document.getElementById('printAllContainer').style.display = 'none';
             setTimeout(() => {
                 window.print();
                 document.body.classList.remove('print-opd');
+                if (extraBox) extraBox.classList.remove('active-for-print');
             }, 250);
         }
 
@@ -5999,14 +6896,17 @@ body.print-patra #tab-patra { display: block !important; }
         }
 
 
-        // ================= APP 4: STAFF ATTENDANCE & LEAVE REGISTER ENGINE =================
+        // ================= APP 4: STAFF ATTENDANCE & LEAVE REGISTER ENGINE (UPGRADED WITH index (1).html + AUTO SUNDAY GH) =================
         const DEFAULT_STAFF_TITLE = "कार्यालय चिकित्सा अधिकारी प्रभारी, प्राथमिक स्वास्थ्य केंद्र शेषा, खंड मलारना डूंगर, सवाई माधोपुर";
         let staffGlobalData = {
             staffList: [],
             ghDates: [],
+            holidays: {},
             cellData: {},
             mainTitle: DEFAULT_STAFF_TITLE,
-            isMonthWise: false
+            isMonthWise: false,
+            printKramank: '',
+            printDate: getTodayDDMMYYYY()
         };
 
         let staffCurrentViewMonth = new Date();
@@ -6020,13 +6920,20 @@ body.print-patra #tab-patra { display: block !important; }
         let staffCycleDates = [];
         let staffIsTodayMode = false;
         let staffCurrentSingleViewIndex = -1;
-        let activeStaffQuickCell = null; // { staffId, dStr, staffName }
+        let activeStaffQuickCell = null;
+        let showHiddenStaffOnScreen = false;
 
         const hindiMonths = ['जनवरी', 'फरवरी', 'मार्च', 'अप्रैल', 'मई', 'जून', 'जुलाई', 'अगस्त', 'सितम्बर', 'अक्टूबर', 'नवम्बर', 'दिसम्बर'];
         const hindiDays = ['रविवार', 'सोमवार', 'मंगलवार', 'बुधवार', 'गुरुवार', 'शुक्रवार', 'शनिवार'];
 
         function formatStaffDate(d) {
             return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+        }
+
+        function isStaffDateGH(dObj, dStr) {
+            const autoSun = (!appData.prefs || appData.prefs.autoSundayGH !== false);
+            if (autoSun && dObj && dObj.getDay() === 0) return true;
+            return staffGlobalData.ghDates.includes(dStr) || !!appData.holidays[dStr] || !!(staffGlobalData.holidays && staffGlobalData.holidays[dStr]);
         }
 
         function getStaffCycleKey() {
@@ -6057,24 +6964,98 @@ body.print-patra #tab-patra { display: block !important; }
             syncToFirebase(false);
         }
 
-        // Two-way synchronization between Settings Holidays (appData.holidays) and Staff GH Dates (staffGlobalData.ghDates)
+        function savePrintMetaFields() {
+            const kInp = document.getElementById('printKramankInput');
+            const dInp = document.getElementById('printDateInput');
+            if (kInp) staffGlobalData.printKramank = kInp.value;
+            if (dInp) staffGlobalData.printDate = dInp.value;
+            syncPrintMetaHeaderDOM();
+            saveStaffData();
+        }
+
+        function setTodayPrintDate() {
+            const todayFormatted = getTodayDDMMYYYY();
+            staffGlobalData.printDate = todayFormatted;
+            const dInp = document.getElementById('printDateInput');
+            if (dInp) dInp.value = todayFormatted;
+            syncPrintMetaHeaderDOM();
+            saveStaffData();
+            showToast(`Print Date set to ${todayFormatted}`);
+        }
+
+        function syncPrintMetaHeaderDOM() {
+            const kInp = document.getElementById('printKramankInput');
+            const dInp = document.getElementById('printDateInput');
+            if (kInp && document.activeElement !== kInp) {
+                kInp.value = staffGlobalData.printKramank || '';
+            }
+            if (dInp && document.activeElement !== dInp) {
+                dInp.value = staffGlobalData.printDate || '';
+            }
+            const outK = document.getElementById('printOutKramank');
+            const outD = document.getElementById('printOutDate');
+            if (outK) outK.textContent = staffGlobalData.printKramank || '';
+            if (outD) outD.textContent = staffGlobalData.printDate || '';
+        }
+
+        function toggleAutoSundayGH(enabled) {
+            if (!appData.prefs) appData.prefs = {};
+            appData.prefs.autoSundayGH = !!enabled;
+            saveData();
+            syncHolidaysBetweenSettingsAndStaff(true);
+            renderStaffHeaders();
+            renderStaffRows();
+            showToast(enabled ? 'Sunday Auto-GH Enabled!' : 'Sunday Auto-GH Disabled');
+        }
+
+        // Two-way synchronization between Settings Holidays (appData.holidays) and Staff GH Dates (staffGlobalData.ghDates) + Sunday Auto-GH
         function syncHolidaysBetweenSettingsAndStaff(persistChanges = false) {
             if (!appData.holidays) appData.holidays = {};
             if (!Array.isArray(staffGlobalData.ghDates)) staffGlobalData.ghDates = [];
+            if (!staffGlobalData.holidays) staffGlobalData.holidays = {};
             let changed = false;
 
-            // 1. Every holiday in Settings (appData.holidays) must be in staffGlobalData.ghDates
+            // Sync checkbox in Settings
+            const chkSun = document.getElementById('chkAutoSundayGH');
+            const autoSun = (!appData.prefs || appData.prefs.autoSundayGH !== false);
+            if (chkSun) {
+                chkSun.checked = autoSun;
+                chkSun.closest('.print-tick-pill')?.classList.toggle('checked', autoSun);
+            }
+
+            // 1. Every holiday in Settings (appData.holidays) must be in staffGlobalData.ghDates & staffGlobalData.holidays
             Object.keys(appData.holidays).forEach(dStr => {
+                if (!staffGlobalData.ghDates.includes(dStr)) {
+                    staffGlobalData.ghDates.push(dStr);
+                    changed = true;
+                }
+                if (staffGlobalData.holidays[dStr] !== appData.holidays[dStr]) {
+                    staffGlobalData.holidays[dStr] = appData.holidays[dStr];
+                    changed = true;
+                }
+            });
+
+            // 2. Every holiday in staffGlobalData.holidays or ghDates must exist in appData.holidays
+            Object.keys(staffGlobalData.holidays).forEach(dStr => {
+                if (!appData.holidays[dStr] && staffGlobalData.holidays[dStr] !== 'रविवार (Sunday GH)') {
+                    appData.holidays[dStr] = staffGlobalData.holidays[dStr];
+                    changed = true;
+                }
                 if (!staffGlobalData.ghDates.includes(dStr)) {
                     staffGlobalData.ghDates.push(dStr);
                     changed = true;
                 }
             });
 
-            // 2. Every date in staffGlobalData.ghDates must exist in appData.holidays
             staffGlobalData.ghDates.forEach(dStr => {
-                if (!appData.holidays[dStr]) {
-                    appData.holidays[dStr] = 'राजपत्रित अवकाश (GH)';
+                const dObj = new Date(dStr + 'T00:00:00');
+                const isSun = !isNaN(dObj.getTime()) && dObj.getDay() === 0;
+                if (!appData.holidays[dStr] && !isSun) {
+                    appData.holidays[dStr] = staffGlobalData.holidays[dStr] || 'राजपत्रित अवकाश (GH)';
+                    changed = true;
+                }
+                if (!staffGlobalData.holidays[dStr]) {
+                    staffGlobalData.holidays[dStr] = appData.holidays[dStr] || (isSun ? 'रविवार (Sunday GH)' : 'राजपत्रित अवकाश (GH)');
                     changed = true;
                 }
                 // Auto-mark GH for GH-pattern staff if not marked yet
@@ -6086,10 +7067,25 @@ body.print-patra #tab-patra { display: block !important; }
                 });
             });
 
-            staffGlobalData.ghDates.sort();
+            // 3. If Auto-Sunday GH is enabled, ensure Sundays in current cycle are auto-marked GH for GH staff if cell is empty
+            if (autoSun && Array.isArray(staffCycleDates)) {
+                staffCycleDates.forEach(d => {
+                    if (d.getDay() === 0) {
+                        const dStr = formatStaffDate(d);
+                        staffGlobalData.staffList.forEach(staff => {
+                            if (staff.type === 'GH' && staffGlobalData.cellData[`${staff.id}_${dStr}`] === undefined) {
+                                staffGlobalData.cellData[`${staff.id}_${dStr}`] = 'GH';
+                                changed = true;
+                            }
+                        });
+                    }
+                });
+            }
+
+            staffGlobalData.ghDates = Array.from(new Set(staffGlobalData.ghDates)).sort();
 
             if (changed || persistChanges) {
-                safeSetItem('sarkari_dashboard_data', JSON.stringify(appData));
+                safeSetItem(DASHBOARD_STORAGE_KEY, JSON.stringify(appData));
                 safeSetItem(STAFF_STORAGE_KEY, JSON.stringify(staffGlobalData));
                 if (persistChanges) syncToFirebase(false);
             }
@@ -6124,7 +7120,9 @@ body.print-patra #tab-patra { display: block !important; }
             if (modeBadge) {
                 modeBadge.textContent = staffIsMonthWise ? 'Month 1-31' : 'Cycle 21-20';
             }
+            syncPrintMetaHeaderDOM();
             generateStaffCycleDates();
+            syncHolidaysBetweenSettingsAndStaff(false);
             updateStaffCycleLabel();
             renderStaffHeaders();
             renderStaffRows();
@@ -6156,7 +7154,7 @@ body.print-patra #tab-patra { display: block !important; }
             staffIsTodayMode = false;
             updateStaffTodayButtonUI();
             initStaffApp();
-            showToast('Jumped to Current Cycle');
+            showToast(staffIsMonthWise ? 'Jumped to Current Month (1-31)' : 'Jumped to Current Cycle (21-20)');
         }
 
         function generateStaffCycleDates() {
@@ -6192,7 +7190,7 @@ body.print-patra #tab-patra { display: block !important; }
 
             let cycleStrHindi = "";
             if (staffIsMonthWise) {
-                cycleStrHindi = `${hindiMonths[startD.getMonth()]} ${startD.getFullYear()}`;
+                cycleStrHindi = `1 ${hindiMonths[startD.getMonth()]} ${startD.getFullYear()} से ${endD.getDate()} ${hindiMonths[endD.getMonth()]} ${endD.getFullYear()}`;
             } else {
                 let startMonthStr = hindiMonths[startD.getMonth()];
                 let endMonthStr = hindiMonths[endD.getMonth()];
@@ -6212,11 +7210,12 @@ body.print-patra #tab-patra { display: block !important; }
                 th.className = `staff-date-col staff-date-idx-${index}`;
 
                 let dStr = formatStaffDate(d);
-                const isGh = staffGlobalData.ghDates.includes(dStr) || !!appData.holidays[dStr];
+                const isGh = isStaffDateGH(d, dStr);
                 if (d.getDay() === 0) th.classList.add('staff-is-sunday');
                 if (isGh) {
                     th.classList.add('staff-is-gh-date');
-                    th.title = appData.holidays[dStr] ? `GH: ${appData.holidays[dStr]}` : 'Gazetted Holiday (GH)';
+                    const hName = appData.holidays[dStr] || (staffGlobalData.holidays && staffGlobalData.holidays[dStr]) || (d.getDay() === 0 ? 'रविवार (Sunday GH)' : 'Gazetted Holiday (GH)');
+                    th.title = `GH: ${hName}`;
                 }
 
                 if (staffIsTodayMode && index === staffCurrentSingleViewIndex) {
@@ -6242,6 +7241,85 @@ body.print-patra #tab-patra { display: block !important; }
             adjustStaffColspans();
         }
 
+        // Row Hide / Show & Reorder Functions (from index (1).html)
+        function toggleStaffRowHidden(staffId, event) {
+            if (event) event.stopPropagation();
+            const stf = staffGlobalData.staffList.find(s => s.id === staffId);
+            if (!stf) return;
+            stf.hidden = !stf.hidden;
+            saveStaffData();
+            renderStaffRows();
+            if (document.getElementById('manageStaffModal')?.classList.contains('active')) {
+                renderManageStaffList();
+            }
+            showToast(stf.hidden ? `"${stf.name}" को Print से छुपाया गया` : `"${stf.name}" को Print में शामिल किया गया`);
+        }
+
+        function moveStaffById(staffId, direction, event) {
+            if (event) event.stopPropagation();
+            const idx = staffGlobalData.staffList.findIndex(s => s.id === staffId);
+            if (idx === -1) return;
+            moveStaffOrder(idx, direction);
+        }
+
+        function toggleShowHiddenOnScreen() {
+            showHiddenStaffOnScreen = !showHiddenStaffOnScreen;
+            renderStaffRows();
+            showToast(showHiddenStaffOnScreen ? 'छुपाए गए कर्मचारी स्क्रीन पर दिख रहे हैं' : 'छुपाए गए कर्मचारी टेबल से छुप गए हैं');
+        }
+
+        function showAllHiddenStaff() {
+            let changed = 0;
+            staffGlobalData.staffList.forEach(s => {
+                if (s.hidden) {
+                    s.hidden = false;
+                    changed++;
+                }
+            });
+            saveStaffData();
+            renderStaffRows();
+            if (changed > 0) showToast(`सभी ${changed} छुपे हुए कर्मचारी वापस दिखा दिए गए!`);
+            else showToast('सभी कर्मचारी पहले से ही दिख रहे हैं');
+        }
+
+        function hideAllStaffRows() {
+            staffGlobalData.staffList.forEach(s => { s.hidden = true; });
+            saveStaffData();
+            renderStaffRows();
+            showToast('सभी कर्मचारियों को छुपाया गया');
+        }
+
+        function renderHiddenStaffBar() {
+            const hiddenList = staffGlobalData.staffList.filter(s => s.hidden);
+            const badge = document.getElementById('hiddenStaffCountBadge');
+            const toggleBtn = document.getElementById('toggleShowHiddenBtn');
+            const bar = document.getElementById('hiddenRowsAlertBar');
+            const chipCont = document.getElementById('hiddenChipList');
+
+            if (badge) badge.textContent = hiddenList.length;
+            if (toggleBtn) {
+                toggleBtn.style.background = showHiddenStaffOnScreen ? 'var(--primary)' : 'var(--primary-light)';
+                toggleBtn.style.color = showHiddenStaffOnScreen ? '#fff' : 'var(--primary)';
+            }
+
+            if (!bar || !chipCont) return;
+            if (hiddenList.length === 0) {
+                bar.classList.remove('visible');
+                chipCont.innerHTML = '';
+                return;
+            }
+            bar.classList.add('visible');
+            chipCont.innerHTML = '';
+            hiddenList.forEach(stf => {
+                const chip = document.createElement('span');
+                chip.className = 'hidden-staff-chip';
+                chip.title = 'वापस टेबल और प्रिंट में दिखाने के लिए क्लिक करें';
+                chip.innerHTML = `👁️ ${stf.name} ✕`;
+                chip.onclick = () => toggleStaffRowHidden(stf.id);
+                chipCont.appendChild(chip);
+            });
+        }
+
         function renderStaffRows() {
             let tbody = document.getElementById('staffBody');
             if (!tbody) return;
@@ -6250,7 +7328,10 @@ body.print-patra #tab-patra { display: block !important; }
             const searchQ = (document.getElementById('staffSearchInput')?.value || '').trim().toLowerCase();
 
             let visibleCount = 0;
-            staffGlobalData.staffList.forEach((staff) => {
+            staffGlobalData.staffList.forEach((staff, staffIdx) => {
+                if (staff.hidden && !showHiddenStaffOnScreen) {
+                    return;
+                }
                 if (searchQ) {
                     const hay = `${staff.name || ''} ${staff.post || ''} ${staff.place || ''} ${staff.type || ''}`.toLowerCase();
                     if (!hay.includes(searchQ)) return;
@@ -6259,9 +7340,24 @@ body.print-patra #tab-patra { display: block !important; }
                 let tr = document.createElement('tr');
                 tr.dataset.type = staff.type;
                 tr.dataset.staffId = staff.id;
+                if (staff.hidden) {
+                    tr.classList.add('staff-row-hidden-print', 'staff-row-hidden-screen');
+                }
+
+                const hideBtnTitle = staff.hidden ? 'प्रिंट में वापस शामिल करें (Show Row)' : 'इस कर्मचारी की पूरी पंक्ति (Row) प्रिंट व टेबल से छुपाएं';
+                const hideBtnIcon = staff.hidden ? '👁️' : '🙈';
 
                 tr.innerHTML = `
-                    <td class="staff-readonly staff-sticky-col">${staff.name}<span class="staff-type-pill staff-type-${staff.type}">${staff.type}</span></td>
+                    <td class="staff-readonly staff-sticky-col">
+                        <div class="staff-name-cell-wrap">
+                            <span class="staff-name-text">${staff.name}<span class="staff-type-pill staff-type-${staff.type}">${staff.type}</span></span>
+                            <span class="row-inline-tools staff-no-print">
+                                <button type="button" class="row-mini-btn" onclick="moveStaffById('${staff.id}', -1, event)" title="क्रम ऊपर करें (Move Up)" ${staffIdx === 0 ? 'disabled style="opacity:0.35;cursor:default;"' : ''}>▲</button>
+                                <button type="button" class="row-mini-btn" onclick="moveStaffById('${staff.id}', 1, event)" title="क्रम नीचे करें (Move Down)" ${staffIdx === staffGlobalData.staffList.length - 1 ? 'disabled style="opacity:0.35;cursor:default;"' : ''}>▼</button>
+                                <button type="button" class="row-mini-btn hide-btn" onclick="toggleStaffRowHidden('${staff.id}', event)" title="${hideBtnTitle}">${hideBtnIcon}</button>
+                            </span>
+                        </div>
+                    </td>
                     <td class="staff-readonly staff-col-post">${staff.post || ''}</td>
                     <td class="staff-readonly staff-col-place">${staff.place || ''}</td>
                 `;
@@ -6269,7 +7365,7 @@ body.print-patra #tab-patra { display: block !important; }
                 staffCycleDates.forEach((d, index) => {
                     let dStr = formatStaffDate(d);
                     let cellVal = staffGlobalData.cellData[`${staff.id}_${dStr}`] || '';
-                    const isGh = staffGlobalData.ghDates.includes(dStr) || !!appData.holidays[dStr];
+                    const isGh = isStaffDateGH(d, dStr);
 
                     let td = document.createElement('td');
                     td.className = `staff-att-cell staff-date-col staff-date-idx-${index}`;
@@ -6278,8 +7374,9 @@ body.print-patra #tab-patra { display: block !important; }
                     if (isGh && staff.type === 'GH') {
                         td.classList.add('staff-is-gh-date');
                     }
-                    if (isGh && appData.holidays[dStr]) {
-                        td.title = `${dStr}: ${appData.holidays[dStr]}`;
+                    const holTitle = appData.holidays[dStr] || (staffGlobalData.holidays && staffGlobalData.holidays[dStr]) || (d.getDay() === 0 ? 'रविवार (Sunday GH)' : '');
+                    if (isGh && holTitle) {
+                        td.title = `${dStr}: ${holTitle}`;
                     }
 
                     td.dataset.date = dStr;
@@ -6292,7 +7389,6 @@ body.print-patra #tab-patra { display: block !important; }
                         td.classList.add('staff-status-' + safeClass);
                     }
 
-                    // Single click cycles status; long-press or right-click opens direct status picker
                     let pressTimer = null;
                     let isLongPress = false;
                     const startPress = () => {
@@ -6345,11 +7441,13 @@ body.print-patra #tab-patra { display: block !important; }
                 const emptyTr = document.createElement('tr');
                 emptyTr.className = 'staff-empty-row staff-no-print';
                 const totalCols = (staffIsTodayMode ? 1 : 3) + (staffIsTodayMode ? 1 : staffCycleDates.length) + (staffIsTodayMode ? 0 : 6);
-                emptyTr.innerHTML = `<td colspan="${totalCols}">कोई कर्मचारी मौजूद नहीं है। नया कर्मचारी जोड़ने के लिए <b>➕ Add</b> बटन पर क्लिक करें।</td>`;
+                const hasHidden = staffGlobalData.staffList.some(s => s.hidden);
+                emptyTr.innerHTML = `<td colspan="${totalCols}">${hasHidden ? 'सभी कर्मचारी वर्तमान में Hide हैं। ऊपर <b>✅ Show All Rows</b> पर क्लिक करें या नया कर्मचारी जोड़ें।' : 'कोई कर्मचारी मौजूद नहीं है। नया कर्मचारी जोड़ने के लिए <b>➕ Add</b> बटन पर क्लिक करें।'}</td>`;
                 tbody.appendChild(emptyTr);
             }
 
             if (staffIsTodayMode) applyStaffTodayModeUI();
+            renderHiddenStaffBar();
             updateStaffSummaryKPIs();
         }
 
@@ -6376,7 +7474,8 @@ body.print-patra #tab-patra { display: block !important; }
                 cell.classList.add('staff-status-' + safeClass);
                 staffGlobalData.cellData[`${staffId}_${dStr}`] = nextVal;
             } else {
-                delete staffGlobalData.cellData[`${staffId}_${dStr}`];
+                // Store empty string so user's explicit clear on a Sunday doesn't get overwritten until reset
+                staffGlobalData.cellData[`${staffId}_${dStr}`] = '';
             }
 
             saveStaffData();
@@ -6387,7 +7486,8 @@ body.print-patra #tab-patra { display: block !important; }
         function openStaffCellPicker(staff, dStr, cell, row) {
             activeStaffQuickCell = { staffId: staff.id, dStr, cell, row };
             document.getElementById('staff-cell-picker-title').textContent = `${staff.name} (${staff.type})`;
-            document.getElementById('staff-cell-picker-sub').textContent = `Date: ${dStr}${appData.holidays[dStr] ? ' • GH: ' + appData.holidays[dStr] : ''}`;
+            const holLabel = appData.holidays[dStr] || (staffGlobalData.holidays && staffGlobalData.holidays[dStr]);
+            document.getElementById('staff-cell-picker-sub').textContent = `Date: ${dStr}${holLabel ? ' • GH: ' + holLabel : ''}`;
             document.getElementById('staff-cell-picker-modal').classList.add('active');
         }
 
@@ -6438,52 +7538,124 @@ body.print-patra #tab-patra { display: block !important; }
 
         function updateStaffSummaryKPIs() {
             const totalStaff = staffGlobalData.staffList.length;
-            const cycleKey = getStaffCycleKey();
-            const miniTotal = document.getElementById('mini-staff-total');
-            if (miniTotal) miniTotal.textContent = totalStaff;
+            const printableStaff = staffGlobalData.staffList.filter(s => !s.hidden).length;
+            let ghStaffCount = 0, doStaffCount = 0;
+            staffGlobalData.staffList.forEach(s => {
+                if (s.type === 'GH') ghStaffCount++;
+                else doStaffCount++;
+            });
 
-            const detailTbody = document.getElementById('staffDetailedSummaryBody');
-            if (!detailTbody) return;
+            let cycleP = 0, cycleCL = 0, cycleML = 0, cycleOtherLeave = 0, todayP = 0;
+            const todayStr = formatStaffDate(new Date());
+            let cycleGhDatesCount = 0;
 
-            if (totalStaff === 0) {
-                detailTbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding:12px; color:var(--text-muted);">कोई कर्मचारी दर्ज नहीं है।</td></tr>`;
+            staffCycleDates.forEach(d => {
+                const dStr = formatStaffDate(d);
+                if (isStaffDateGH(d, dStr)) {
+                    cycleGhDatesCount++;
+                }
+                staffGlobalData.staffList.forEach(s => {
+                    if (s.hidden) return;
+                    const v = staffGlobalData.cellData[`${s.id}_${dStr}`] || '';
+                    if (v === 'P') {
+                        cycleP++;
+                        if (dStr === todayStr) todayP++;
+                    } else if (v === 'CL') cycleCL++;
+                    else if (v === 'ML') cycleML++;
+                    else if (v === 'PL' || v === 'CCL') cycleOtherLeave++;
+                });
+            });
+
+            const totalLeaves = cycleCL + cycleML + cycleOtherLeave;
+
+            const elMiniTot = document.getElementById('mini-staff-total');
+            const elMiniP = document.getElementById('mini-staff-p');
+            const elMiniL = document.getElementById('mini-staff-leave');
+            const elMiniGh = document.getElementById('mini-staff-gh');
+            if (elMiniTot) elMiniTot.textContent = `${printableStaff}/${totalStaff}`;
+            if (elMiniP) elMiniP.textContent = cycleP;
+            if (elMiniL) elMiniL.textContent = totalLeaves;
+            if (elMiniGh) elMiniGh.textContent = cycleGhDatesCount;
+
+            document.getElementById('staffKpiTotal').textContent = `${printableStaff} / ${totalStaff}`;
+            document.getElementById('staffKpiSplit').textContent = `GH: ${ghStaffCount} | D/O: ${doStaffCount} (Hidden: ${totalStaff - printableStaff})`;
+            document.getElementById('staffKpiPresent').textContent = cycleP;
+            document.getElementById('staffKpiTodayP').textContent = `Today P: ${todayP}/${printableStaff}`;
+            document.getElementById('staffKpiLeaves').textContent = totalLeaves;
+            document.getElementById('staffKpiLeaveBreak').textContent = `CL: ${cycleCL} | ML: ${cycleML}`;
+            document.getElementById('staffKpiGH').textContent = cycleGhDatesCount;
+            document.getElementById('staffKpiGHSub').textContent = `${Object.keys(appData.holidays || {}).length} Saved GH + Sundays`;
+
+            renderDetailedEmployeeSummary();
+            if (typeof renderStaffGraphics === 'function') renderStaffGraphics();
+        }
+
+        function renderDetailedEmployeeSummary() {
+            const tbody = document.getElementById('detailedStaffSummaryBody');
+            if (!tbody) return;
+            tbody.innerHTML = '';
+
+            if (staffGlobalData.staffList.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="16" style="padding:14px; color:var(--text-muted);">कोई कर्मचारी मौजूद नहीं है।</td></tr>`;
                 return;
             }
 
-            let rowsHtml = '';
-            staffGlobalData.staffList.forEach(s => {
-                let pCount = 0, ghDoCount = 0, cCL = 0, cML = 0, otherL = 0;
+            const cycleKey = getStaffCycleKey();
+            const totalCycleDays = staffCycleDates.length;
+
+            staffGlobalData.staffList.forEach((s, idx) => {
+                let countP = 0, countGH = 0, countDO = 0, countCL = 0, countML = 0, countPL = 0, countCCL = 0, filledDays = 0;
+
                 staffCycleDates.forEach(d => {
                     const dStr = formatStaffDate(d);
-                    const v = staffGlobalData.cellData[`${s.id}_${dStr}`] || '';
-                    if (v === 'P') pCount++;
-                    else if (v === 'GH' || v === 'D/O') ghDoCount++;
-                    else if (v === 'CL') cCL++;
-                    else if (v === 'ML') cML++;
-                    else if (v === 'PL' || v === 'CCL') otherL++;
+                    const val = staffGlobalData.cellData[`${s.id}_${dStr}`] || '';
+                    if (val !== '') filledDays++;
+                    if (val === 'P') countP++;
+                    else if (val === 'GH') countGH++;
+                    else if (val === 'D/O') countDO++;
+                    else if (val === 'CL') countCL++;
+                    else if (val === 'ML') countML++;
+                    else if (val === 'PL') countPL++;
+                    else if (val === 'CCL') countCCL++;
                 });
 
                 const upCL = parseFloat(staffGlobalData.cellData[`${s.id}_${cycleKey}_uptocl`]) || 0;
                 const upML = parseFloat(staffGlobalData.cellData[`${s.id}_${cycleKey}_uptoml`]) || 0;
-                const totCL = upCL + cCL;
-                const totML = upML + cML;
+                const totCL = upCL + countCL;
+                const totML = upML + countML;
 
-                rowsHtml += `
-                    <tr>
-                        <td>
-                            <div style="font-weight:700; color:var(--text-main);">${s.name || '-'} <span class="staff-type-pill staff-type-${s.type}">${s.type}</span></div>
-                            <div style="font-size:10px; color:var(--text-muted);">${s.post || '-'} (${s.place || '-'})</div>
-                        </td>
-                        <td style="font-weight:800; color:var(--t-present); font-family:'JetBrains Mono',monospace;">${pCount}</td>
-                        <td style="font-weight:700; color:var(--t-holiday); font-family:'JetBrains Mono',monospace;">${ghDoCount}</td>
-                        <td style="font-family:'JetBrains Mono',monospace;">CL:${upCL} | ML:${upML}</td>
-                        <td style="font-weight:700; color:var(--t-absent); font-family:'JetBrains Mono',monospace;">CL:${cCL} | ML:${cML}</td>
-                        <td style="font-family:'JetBrains Mono',monospace;">${otherL || '-'}</td>
-                        <td style="font-weight:800; color:var(--primary); font-family:'JetBrains Mono',monospace;">CL:${totCL} | ML:${totML}</td>
-                    </tr>
+                const tr = document.createElement('tr');
+                if (s.hidden) tr.classList.add('is-row-hidden');
+
+                tr.innerHTML = `
+                    <td style="font-weight:700;">${idx + 1}</td>
+                    <td>
+                        <button type="button" class="row-mini-btn" onclick="toggleStaffRowHidden('${s.id}', event)" title="${s.hidden ? 'Print में शामिल करें' : 'Print से छुपाएं'}" style="width:auto; padding:0 6px; font-weight:700; color:${s.hidden ? '#dc2626' : '#16a34a'};">
+                            ${s.hidden ? '🙈 Hidden' : '🖨️ Print'}
+                        </button>
+                    </td>
+                    <td style="text-align:left; font-weight:700;">${s.name}</td>
+                    <td>${s.post || '-'}</td>
+                    <td>${s.place || '-'}</td>
+                    <td><span class="staff-type-pill staff-type-${s.type}" style="margin:0;">${s.type}</span></td>
+                    <td style="font-weight:700; color:var(--t-present);">${countP}</td>
+                    <td style="font-weight:700; color:#be123c;">${countGH}</td>
+                    <td style="font-weight:700; color:var(--t-cl);">${countDO}</td>
+                    <td style="font-weight:700; color:var(--t-absent);">${countCL || '-'}</td>
+                    <td style="font-weight:700; color:var(--t-absent);">${countML || '-'}</td>
+                    <td style="font-weight:700; color:#7c3aed;">${(countPL + countCCL) ? `PL:${countPL} CCL:${countCCL}` : '-'}</td>
+                    <td style="font-family:'JetBrains Mono',monospace;">CL:${upCL || 0} | ML:${upML || 0}</td>
+                    <td style="font-weight:700; font-family:'JetBrains Mono',monospace;">CL:${totCL || 0} | ML:${totML || 0}</td>
+                    <td style="font-family:'JetBrains Mono',monospace;">${filledDays}/${totalCycleDays}</td>
+                    <td>
+                        <div style="display:inline-flex; gap:3px;">
+                            <button type="button" class="row-mini-btn" onclick="moveStaffOrder(${idx}, -1)" ${idx === 0 ? 'disabled style="opacity:0.35;"' : ''} title="क्रम ऊपर करें">▲</button>
+                            <button type="button" class="row-mini-btn" onclick="moveStaffOrder(${idx}, 1)" ${idx === staffGlobalData.staffList.length - 1 ? 'disabled style="opacity:0.35;"' : ''} title="क्रम नीचे करें">▼</button>
+                        </div>
+                    </td>
                 `;
+                tbody.appendChild(tr);
             });
-            detailTbody.innerHTML = rowsHtml;
         }
 
         // Today Single-Day Mode in Staff Attendance
@@ -6587,11 +7759,16 @@ body.print-patra #tab-patra { display: block !important; }
                 return;
             }
 
-            let newStaff = { id: 'stf_' + Date.now(), name: n, post: p, place: pl, type: t };
-            // If GH staff, auto-apply GH on existing GH dates
+            let newStaff = { id: 'stf_' + Date.now(), name: n, post: p, place: pl, type: t, hidden: false };
             if (t === 'GH') {
                 staffGlobalData.ghDates.forEach(dStr => {
                     staffGlobalData.cellData[`${newStaff.id}_${dStr}`] = 'GH';
+                });
+                staffCycleDates.forEach(d => {
+                    const dStr = formatStaffDate(d);
+                    if (isStaffDateGH(d, dStr)) {
+                        staffGlobalData.cellData[`${newStaff.id}_${dStr}`] = 'GH';
+                    }
                 });
             }
             staffGlobalData.staffList.push(newStaff);
@@ -6620,18 +7797,21 @@ body.print-patra #tab-patra { display: block !important; }
 
             staffGlobalData.staffList.forEach((s, i) => {
                 const row = document.createElement('div');
-                row.className = 'staff-manage-row';
+                row.className = 'staff-manage-row' + (s.hidden ? ' is-hidden-staff' : '');
                 row.innerHTML = `
                     <span style="font-weight:700; width:22px; font-size:11px;">${i + 1}.</span>
+                    <button type="button" class="staff-btn ${s.hidden ? 'staff-btn-danger' : 'staff-btn-success'}" onclick="toggleStaffRowHidden('${s.id}')" title="${s.hidden ? 'Print से छुपा हुआ है (Click to Show)' : 'Print में शामिल है (Click to Hide)'}" style="padding:0 7px; min-width:66px;">
+                        ${s.hidden ? '🙈 Hide' : '👁️ Print'}
+                    </button>
                     <input type="text" value="${(s.name || '').replace(/"/g, '&quot;')}" oninput="updateStaffInfo(${i}, 'name', this.value)" onchange="updateStaffInfo(${i}, 'name', this.value)" style="flex:1.5; min-width:110px;" placeholder="नाम">
                     <input type="text" value="${(s.post || '').replace(/"/g, '&quot;')}" oninput="updateStaffInfo(${i}, 'post', this.value)" onchange="updateStaffInfo(${i}, 'post', this.value)" style="flex:1; min-width:85px;" placeholder="पद">
-                    <input type="text" value="${(s.place || '').replace(/"/g, '&quot;')}" oninput="updateStaffInfo(${i}, 'place', this.value)" onchange="updateStaffInfo(${i}, 'place', this.value)" style="flex:0.8; min-width:70px;" placeholder="स्थान">
-                    <select onchange="updateStaffInfo(${i}, 'type', this.value)" style="width:70px;">
+                    <input type="text" value="${(s.place || '').replace(/"/g, '&quot;')}" oninput="updateStaffInfo(${i}, 'place', this.value)" onchange="updateStaffInfo(${i}, 'place', this.value)" style="flex:0.8; min-width:65px;" placeholder="स्थान">
+                    <select onchange="updateStaffInfo(${i}, 'type', this.value)" style="width:68px;">
                         <option value="GH" ${s.type === 'GH' ? 'selected' : ''}>GH</option>
                         <option value="DO" ${s.type === 'DO' ? 'selected' : ''}>D/O</option>
                     </select>
-                    <button type="button" class="staff-btn staff-btn-outline" onclick="moveStaffOrder(${i}, -1)" title="Move Up">▲</button>
-                    <button type="button" class="staff-btn staff-btn-outline" onclick="moveStaffOrder(${i}, 1)" title="Move Down">▼</button>
+                    <button type="button" class="staff-btn staff-btn-outline" onclick="moveStaffOrder(${i}, -1)" title="Move Up (क्रम ऊपर)">▲</button>
+                    <button type="button" class="staff-btn staff-btn-outline" onclick="moveStaffOrder(${i}, 1)" title="Move Down (क्रम नीचे)">▼</button>
                     <button type="button" class="staff-btn staff-btn-danger" onclick="deleteStaffMember(${i})" title="Delete">✕</button>
                 `;
                 cont.appendChild(row);
@@ -6643,8 +7823,9 @@ body.print-patra #tab-patra { display: block !important; }
             staffGlobalData.staffList[index][field] = val;
             if (field === 'type' && val === 'GH') {
                 const stf = staffGlobalData.staffList[index];
-                staffGlobalData.ghDates.forEach(dStr => {
-                    if (!staffGlobalData.cellData[`${stf.id}_${dStr}`]) {
+                staffCycleDates.forEach(d => {
+                    const dStr = formatStaffDate(d);
+                    if (isStaffDateGH(d, dStr) && !staffGlobalData.cellData[`${stf.id}_${dStr}`]) {
                         staffGlobalData.cellData[`${stf.id}_${dStr}`] = 'GH';
                     }
                 });
@@ -6679,7 +7860,7 @@ body.print-patra #tab-patra { display: block !important; }
             );
         }
 
-       function openStaffGHModal() {
+        function openStaffGHModal() {
             let cont = document.getElementById('staffGhListContainer');
             if (!cont) return;
             cont.innerHTML = '';
@@ -6687,9 +7868,8 @@ body.print-patra #tab-patra { display: block !important; }
             staffCycleDates.forEach(d => {
                 let dStr = formatStaffDate(d);
                 let isSun = d.getDay() === 0;
-                // Sunday ko hamesha auto-tick rakhein taaki sabhi Sunday GH maane jaayein
-                let checked = (isSun || staffGlobalData.ghDates.includes(dStr) || !!appData.holidays[dStr]) ? 'checked' : '';
-                let holName = appData.holidays[dStr] || (isSun ? 'रविवार (Sunday GH)' : '');
+                let checked = isStaffDateGH(d, dStr) ? 'checked' : '';
+                let holName = appData.holidays[dStr] || (staffGlobalData.holidays && staffGlobalData.holidays[dStr]) || (isSun ? 'रविवार (Sunday GH)' : '');
 
                 const item = document.createElement('div');
                 item.className = 'staff-gh-item';
@@ -6707,40 +7887,43 @@ body.print-patra #tab-patra { display: block !important; }
 
         function saveStaffGHDates() {
             const checkboxes = document.querySelectorAll('#staffGhListContainer .staff-gh-chk');
-            const cycleDateStrings = staffCycleDates.map(d => formatStaffDate(d));
-            const selectedInCycle = new Set();
+            if (!staffGlobalData.holidays) staffGlobalData.holidays = {};
 
             checkboxes.forEach(chk => {
                 const dStr = chk.value;
+                const dObj = new Date(dStr + 'T00:00:00');
+                const isSun = !isNaN(dObj.getTime()) && dObj.getDay() === 0;
                 const nameInp = document.querySelector(`#staffGhListContainer .staff-gh-name-input[data-date="${dStr}"]`);
                 const customName = (nameInp?.value || '').trim();
 
                 if (chk.checked) {
-                    selectedInCycle.add(dStr);
                     if (!staffGlobalData.ghDates.includes(dStr)) {
                         staffGlobalData.ghDates.push(dStr);
                     }
-                    appData.holidays[dStr] = customName || appData.holidays[dStr] || 'राजपत्रित अवकाश (GH)';
-                    // Auto-apply GH to GH Staff
+                    const labelToSave = customName || appData.holidays[dStr] || staffGlobalData.holidays[dStr] || (isSun ? 'रविवार (Sunday GH)' : 'राजपत्रित अवकाश (GH)');
+                    staffGlobalData.holidays[dStr] = labelToSave;
+                    if (!isSun || (customName && customName !== 'रविवार (Sunday GH)')) {
+                        appData.holidays[dStr] = labelToSave;
+                    }
                     staffGlobalData.staffList.forEach(staff => {
                         if (staff.type === 'GH') {
                             staffGlobalData.cellData[`${staff.id}_${dStr}`] = 'GH';
                         }
                     });
                 } else {
-                    // Unchecked in this cycle -> remove from both Staff ghDates & Settings holidays
                     staffGlobalData.ghDates = staffGlobalData.ghDates.filter(x => x !== dStr);
                     delete appData.holidays[dStr];
+                    delete staffGlobalData.holidays[dStr];
                     staffGlobalData.staffList.forEach(staff => {
                         if (staff.type === 'GH' && staffGlobalData.cellData[`${staff.id}_${dStr}`] === 'GH') {
-                            delete staffGlobalData.cellData[`${staff.id}_${dStr}`];
+                            staffGlobalData.cellData[`${staff.id}_${dStr}`] = '';
                         }
                     });
                 }
             });
 
             staffGlobalData.ghDates.sort();
-            safeSetItem('sarkari_dashboard_data', JSON.stringify(appData));
+            safeSetItem(DASHBOARD_STORAGE_KEY, JSON.stringify(appData));
             saveStaffData();
             closeStaffModals();
             renderHolidayList();
@@ -6759,11 +7942,11 @@ body.print-patra #tab-patra { display: block !important; }
             closeStaffModals();
             showAppConfirm(
                 'Mark All Present (Full Cycle)',
-                'क्या आप सुनिश्चित हैं कि इस पूरे साइकिल के लिए सभी स्टाफ को Present (P) करना है? (GH स्टाफ को राजपत्रित अवकाश वाले दिन स्वतः GH लगेगा)',
+                'क्या आप सुनिश्चित हैं कि इस पूरे साइकिल के लिए सभी स्टाफ को Present (P) करना है? (GH स्टाफ को रविवार एवं राजपत्रित अवकाश वाले दिन स्वतः GH लगेगा)',
                 () => {
                     staffCycleDates.forEach(d => {
                         let dStr = formatStaffDate(d);
-                        let isGhDate = staffGlobalData.ghDates.includes(dStr) || !!appData.holidays[dStr];
+                        let isGhDate = isStaffDateGH(d, dStr);
                         staffGlobalData.staffList.forEach(staff => {
                             if (staff.type === 'GH' && isGhDate) {
                                 staffGlobalData.cellData[`${staff.id}_${dStr}`] = 'GH';
@@ -6787,7 +7970,7 @@ body.print-patra #tab-patra { display: block !important; }
             staffCycleDates.forEach(d => {
                 if (d <= today) {
                     let dStr = formatStaffDate(d);
-                    let isGhDate = staffGlobalData.ghDates.includes(dStr) || !!appData.holidays[dStr];
+                    let isGhDate = isStaffDateGH(d, dStr);
                     staffGlobalData.staffList.forEach(staff => {
                         const existing = staffGlobalData.cellData[`${staff.id}_${dStr}`];
                         if (!existing) {
@@ -6807,8 +7990,9 @@ body.print-patra #tab-patra { display: block !important; }
         }
 
         function markStaffTodayAllPresent() {
-            const todayStr = formatStaffDate(new Date());
-            const isGhDate = staffGlobalData.ghDates.includes(todayStr) || !!appData.holidays[todayStr];
+            const now = new Date();
+            const todayStr = formatStaffDate(now);
+            const isGhDate = isStaffDateGH(now, todayStr);
             if (staffGlobalData.staffList.length === 0) {
                 showToast('Add staff members first');
                 return;
@@ -6834,7 +8018,7 @@ body.print-patra #tab-patra { display: block !important; }
                     staffCycleDates.forEach(d => {
                         let dStr = formatStaffDate(d);
                         staffGlobalData.staffList.forEach(staff => {
-                            delete staffGlobalData.cellData[`${staff.id}_${dStr}`];
+                            staffGlobalData.cellData[`${staff.id}_${dStr}`] = '';
                         });
                     });
                     saveStaffData();
@@ -6845,7 +8029,7 @@ body.print-patra #tab-patra { display: block !important; }
         }
 
         function triggerStaffPrint() {
-            // Set exact @page margin from staff attendence.html: A4 landscape; margin: 15mm 5mm 5mm 5mm;
+            syncPrintMetaHeaderDOM();
             let style = document.getElementById('dynamic-print-style');
             if (!style) {
                 style = document.createElement('style');
@@ -6856,19 +8040,46 @@ body.print-patra #tab-patra { display: block !important; }
 
             const wasTodayMode = staffIsTodayMode;
             const prevSearch = document.getElementById('staffSearchInput')?.value || '';
-            if (wasTodayMode || prevSearch) {
+            const prevShowHidden = showHiddenStaffOnScreen;
+            if (wasTodayMode || prevSearch || prevShowHidden) {
                 staffIsTodayMode = false;
+                showHiddenStaffOnScreen = false;
                 if (document.getElementById('staffSearchInput')) document.getElementById('staffSearchInput').value = '';
                 renderStaffHeaders();
                 renderStaffRows();
             }
 
+            // Prepare optional ticked Summary & Graphics blocks for Staff Print
+            const extraBox = document.getElementById('staff-extra-print-area');
+            const incReg = isPrintSectionEnabled('staff', 'register');
+            const incSum = isPrintSectionEnabled('staff', 'summary');
+            const incGraph = isPrintSectionEnabled('staff', 'graphics');
+
+            document.body.classList.toggle('hide-main-register', !incReg);
+            if (extraBox) {
+                let extraHtml = '';
+                if (incSum) {
+                    extraHtml += buildStaffPrintableSummaryHTML();
+                }
+                if (incGraph) {
+                    const gCont = document.getElementById('staffGraphicsContainer');
+                    if (gCont) {
+                        extraHtml += `<div style="margin-top:14px; page-break-inside:avoid;"><h3 style="font-size:13px; font-weight:bold; margin-bottom:6px; text-align:center; text-transform:uppercase;">Staff Attendance Visual Analytics &amp; Graphics</h3><div class="graphics-dashboard-grid">${gCont.innerHTML}</div></div>`;
+                    }
+                }
+                extraBox.innerHTML = extraHtml;
+                extraBox.classList.toggle('active-for-print', !!(incSum || incGraph));
+            }
+
+            document.body.classList.remove('print-att', 'print-opd', 'print-patra', 'print-age');
             document.body.classList.add('print-staff');
             setTimeout(() => {
                 window.print();
-                document.body.classList.remove('print-staff');
-                if (wasTodayMode || prevSearch) {
+                document.body.classList.remove('print-staff', 'hide-main-register');
+                if (extraBox) extraBox.classList.remove('active-for-print');
+                if (wasTodayMode || prevSearch || prevShowHidden) {
                     staffIsTodayMode = wasTodayMode;
+                    showHiddenStaffOnScreen = prevShowHidden;
                     if (document.getElementById('staffSearchInput')) document.getElementById('staffSearchInput').value = prevSearch;
                     updateStaffTodayButtonUI();
                     renderStaffHeaders();
@@ -6971,6 +8182,7 @@ body.print-patra #tab-patra { display: block !important; }
         function initPatraApp() {
             renderPatraTabs();
             renderPatraLetters();
+            if (typeof renderPatraSummaryAndGraphics === 'function') renderPatraSummaryAndGraphics();
             const summary = document.getElementById('patraBackupSummaryText');
             if (summary) {
                 summary.textContent = `कुल ${(patraData.letters || []).length} पत्र और ${(patraData.categories || []).length} कैटेगरी लोकल व सर्वर पर सुरक्षित हैं।`;
@@ -7092,9 +8304,11 @@ body.print-patra #tab-patra { display: block !important; }
             if (list.length === 0) {
                 container.innerHTML = '';
                 if (emptyState) emptyState.style.display = 'block';
+                if (typeof renderPatraSummaryAndGraphics === 'function') renderPatraSummaryAndGraphics();
                 return;
             }
             if (emptyState) emptyState.style.display = 'none';
+            if (typeof renderPatraSummaryAndGraphics === 'function') renderPatraSummaryAndGraphics();
 
             container.innerHTML = list.map(item => {
                 const cat = getPatraCategoryById(item.categoryId);
@@ -7435,6 +8649,29 @@ body.print-patra #tab-patra { display: block !important; }
                 });
             }
             h += `</tbody></table>`;
+            if (!isPrintSectionEnabled('patra', 'register')) {
+                h = `<div style="text-align:center; margin-bottom:12px; color:#000;">
+                    <div style="font-size:15px; font-weight:bold;">${escapePatraHtml(officeHeading)}</div>
+                    <div style="font-size:13px; font-weight:bold; margin-top:4px; text-decoration:underline;">पत्र प्रेषण रजिस्टर (PATRA DISPATCH REGISTER)</div>
+                </div>`;
+            }
+            if (isPrintSectionEnabled('patra', 'summary')) {
+                const cats = patraData.categories || [];
+                const catSummaryCells = cats.map(c => {
+                    const cnt = list.filter(l => l.categoryId === c.id).length;
+                    return `<td style="border:1px solid #000; padding:5px 8px; text-align:center;"><b>${escapePatraHtml(c.name)}:</b> ${cnt}</td>`;
+                }).join('');
+                h += `<div style="margin-top:12px; page-break-inside:avoid;">
+                    <div style="font-size:12px; font-weight:bold; margin-bottom:4px;">पत्र प्रेषण सारांश (Dispatch Summary — कुल ${list.length} पत्र):</div>
+                    <table style="width:100%; border-collapse:collapse; font-size:10.5px; color:#000;"><tr>${catSummaryCells}</tr></table>
+                </div>`;
+            }
+            if (isPrintSectionEnabled('patra', 'graphics')) {
+                const gCont = document.getElementById('patraGraphicsContainer');
+                if (gCont) {
+                    h += `<div class="extra-print-block active-for-print" style="margin-top:14px;"><div style="font-size:12px; font-weight:bold; text-align:center; margin-bottom:6px; text-transform:uppercase;">Patra Dispatch Visual Analytics</div><div class="graphics-dashboard-grid">${gCont.innerHTML}</div></div>`;
+                }
+            }
             return h;
         }
 
@@ -7449,6 +8686,849 @@ body.print-patra #tab-patra { display: block !important; }
                 document.body.classList.remove('print-patra');
             }, 250);
         }
+
+        // ================= PRINT SECTION TICK-MARK & DETAILED GRAPHICS ENGINE =================
+        function isPrintSectionEnabled(mode, section) {
+            if (!appData.prefs) appData.prefs = {};
+            if (!appData.prefs.printSections) appData.prefs.printSections = {};
+            const key = `${mode}_${section}`;
+            if (typeof appData.prefs.printSections[key] === 'boolean') {
+                return appData.prefs.printSections[key];
+            }
+            return section === 'register' || (mode === 'present' && section === 'summary') || (mode === 'opd' && section === 'summary');
+        }
+
+        function togglePrintSection(mode, section, checked) {
+            if (!appData.prefs) appData.prefs = {};
+            if (!appData.prefs.printSections) appData.prefs.printSections = {};
+            const key = `${mode}_${section}`;
+            appData.prefs.printSections[key] = !!checked;
+            const chk = document.getElementById(`chkPrint_${key}`);
+            if (chk) {
+                chk.checked = !!checked;
+                chk.closest('.print-tick-pill')?.classList.toggle('checked', !!checked);
+            }
+            if (mode === 'opd' && section === 'summary') {
+                appData.prefs.includeOpdSummary = !!checked;
+                const topSumChk = document.getElementById('opdPrintSummaryToggle');
+                if (topSumChk) topSumChk.checked = !!checked;
+                const footer = document.getElementById('opdPrintSummaryFooter');
+                if (footer) footer.style.display = checked ? 'flex' : 'none';
+            }
+            saveData();
+            showToast(`${mode.toUpperCase()} ${section.toUpperCase()} Print: ${checked ? 'ON (प्रिंट में आएगा)' : 'OFF'}`);
+        }
+
+        function syncAllPrintSectionCheckboxes() {
+            const keys = [
+                ['age', 'summary'], ['age', 'graphics'],
+                ['present', 'register'], ['present', 'summary'], ['present', 'graphics'],
+                ['staff', 'register'], ['staff', 'summary'], ['staff', 'graphics'],
+                ['opd', 'summary'], ['opd', 'graphics'],
+                ['patra', 'register'], ['patra', 'summary'], ['patra', 'graphics']
+            ];
+            keys.forEach(([m, s]) => {
+                const val = isPrintSectionEnabled(m, s);
+                const el = document.getElementById(`chkPrint_${m}_${s}`);
+                if (el) {
+                    el.checked = val;
+                    el.closest('.print-tick-pill')?.classList.toggle('checked', val);
+                }
+            });
+        }
+
+        // Reusable SVG Donut Chart Generator
+        function createSvgDonutChart(items, centerTitle, centerSub) {
+            const total = items.reduce((acc, it) => acc + (Number(it.value) || 0), 0);
+            const r = 46;
+            const cx = 64, cy = 64;
+            const circum = 2 * Math.PI * r;
+            let offset = 0;
+            let circles = '';
+
+            if (total <= 0) {
+                circles = `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#cbd5e1" stroke-width="14"></circle>`;
+            } else {
+                items.forEach(it => {
+                    const val = Number(it.value) || 0;
+                    if (val <= 0) return;
+                    const frac = val / total;
+                    const dash = frac * circum;
+                    circles += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${it.color}" stroke-width="15" stroke-dasharray="${dash.toFixed(2)} ${(circum - dash).toFixed(2)}" stroke-dashoffset="${(-offset).toFixed(2)}" transform="rotate(-90 ${cx} ${cy})"><title>${it.label}: ${val} (${Math.round(frac * 100)}%)</title></circle>`;
+                    offset += dash;
+                });
+            }
+
+            const legendHtml = items.map(it => {
+                const val = Number(it.value) || 0;
+                const pct = total > 0 ? Math.round((val / total) * 100) : 0;
+                return `<span class="graphic-legend-item"><span class="graphic-legend-dot" style="background:${it.color};"></span>${it.label}: <b>${val}</b> (${pct}%)</span>`;
+            }).join('');
+
+            return `
+                <div class="graphic-svg-wrap">
+                    <svg width="132" height="132" viewBox="0 0 128 128">
+                        ${circles}
+                        <text x="${cx}" y="${cy - 3}" text-anchor="middle" font-size="14" font-weight="800" fill="var(--text-main)" font-family="JetBrains Mono, monospace">${centerTitle}</text>
+                        <text x="${cx}" y="${cy + 12}" text-anchor="middle" font-size="8.5" font-weight="700" fill="var(--text-muted)">${centerSub}</text>
+                    </svg>
+                </div>
+                <div class="graphic-legend-row">${legendHtml}</div>
+            `;
+        }
+
+        // Reusable SVG Vertical Column Bar Chart Generator
+        function createSvgColumnChart(bars, height = 140) {
+            if (!bars || bars.length === 0) {
+                return `<div style="padding:20px; text-align:center; color:var(--text-muted); font-size:11px;">No data available</div>`;
+            }
+            const maxVal = Math.max(1, ...bars.map(b => Number(b.value) || 0));
+            const colW = Math.max(18, Math.min(38, Math.floor(290 / bars.length)));
+            const gap = Math.max(6, Math.min(14, Math.floor(90 / bars.length)));
+            const svgW = Math.max(260, bars.length * (colW + gap) + 28);
+            const chartH = height - 38;
+            const baseY = chartH + 16;
+
+            let rects = '';
+            bars.forEach((b, i) => {
+                const v = Number(b.value) || 0;
+                const bh = Math.max(v > 0 ? 4 : 1, Math.round((v / maxVal) * (chartH - 10)));
+                const x = 16 + i * (colW + gap);
+                const y = baseY - bh;
+                const color = b.color || '#2563eb';
+                rects += `
+                    <g>
+                        <rect x="${x}" y="${y}" width="${colW}" height="${bh}" rx="4" fill="${color}">
+                            <title>${b.label}: ${v}</title>
+                        </rect>
+                        <text x="${x + colW / 2}" y="${y - 4}" text-anchor="middle" font-size="9" font-weight="700" fill="var(--text-main)" font-family="JetBrains Mono, monospace">${v}</text>
+                        <text x="${x + colW / 2}" y="${baseY + 13}" text-anchor="middle" font-size="8.5" font-weight="600" fill="var(--text-muted)">${String(b.label).slice(0, 7)}</text>
+                    </g>
+                `;
+            });
+
+            return `
+                <div class="graphic-svg-wrap">
+                    <svg width="100%" height="${height}" viewBox="0 0 ${svgW} ${height}" preserveAspectRatio="xMidYMid meet">
+                        <line x1="10" y1="${baseY}" x2="${svgW - 10}" y2="${baseY}" stroke="var(--border)" stroke-width="1" />
+                        ${rects}
+                    </svg>
+                </div>
+            `;
+        }
+
+        // Reusable SVG Area + Line Trend Chart Generator
+        function createSvgTrendLineChart(points, lineColor = '#2563eb', fillId = 'trendGrad', avgLineVal = null) {
+            if (!points || points.length === 0) {
+                return `<div style="padding:20px; text-align:center; color:var(--text-muted); font-size:11px;">No trend data</div>`;
+            }
+            const svgW = Math.max(340, points.length * 16 + 36);
+            const svgH = 145;
+            const padL = 26, padR = 14, padT = 18, padB = 24;
+            const plotW = svgW - padL - padR;
+            const plotH = svgH - padT - padB;
+            const maxVal = Math.max(1, ...points.map(p => Number(p.value) || 0));
+
+            const coords = points.map((p, idx) => {
+                const x = padL + (points.length === 1 ? plotW / 2 : (idx / (points.length - 1)) * plotW);
+                const y = padT + plotH - ((Number(p.value) || 0) / maxVal) * plotH;
+                return { x, y, label: p.label, value: Number(p.value) || 0, isSpecial: !!p.isSpecial };
+            });
+
+            const polyPoints = coords.map(c => `${c.x.toFixed(1)},${c.y.toFixed(1)}`).join(' ');
+            const areaPoints = `${coords[0].x.toFixed(1)},${(padT + plotH).toFixed(1)} ${polyPoints} ${coords[coords.length - 1].x.toFixed(1)},${(padT + plotH).toFixed(1)}`;
+
+            let avgLineHtml = '';
+            if (avgLineVal !== null && avgLineVal > 0) {
+                const ay = padT + plotH - (Math.min(avgLineVal, maxVal) / maxVal) * plotH;
+                avgLineHtml = `
+                    <line x1="${padL}" y1="${ay.toFixed(1)}" x2="${svgW - padR}" y2="${ay.toFixed(1)}" stroke="#f59e0b" stroke-width="1.2" stroke-dasharray="4 3" />
+                    <text x="${svgW - padR - 2}" y="${Math.max(11, ay - 3).toFixed(1)}" text-anchor="end" font-size="8.5" font-weight="700" fill="#d97706">Avg: ${avgLineVal}</text>
+                `;
+            }
+
+            let dotsHtml = '';
+            const step = points.length > 18 ? 2 : 1;
+            coords.forEach((c, idx) => {
+                const dotColor = c.isSpecial ? '#dc2626' : lineColor;
+                dotsHtml += `<circle cx="${c.x.toFixed(1)}" cy="${c.y.toFixed(1)}" r="${c.isSpecial ? 3.5 : 2.6}" fill="${dotColor}"><title>${c.label}: ${c.value}</title></circle>`;
+                if (c.value > 0 && (idx % step === 0 || c.value === maxVal)) {
+                    dotsHtml += `<text x="${c.x.toFixed(1)}" y="${(c.y - 5).toFixed(1)}" text-anchor="middle" font-size="8" font-weight="700" fill="var(--text-main)" font-family="JetBrains Mono, monospace">${c.value}</text>`;
+                }
+                if (idx % step === 0 || idx === coords.length - 1) {
+                    dotsHtml += `<text x="${c.x.toFixed(1)}" y="${padT + plotH + 14}" text-anchor="middle" font-size="8" font-weight="600" fill="var(--text-muted)">${c.label}</text>`;
+                }
+            });
+
+            return `
+                <div class="graphic-svg-wrap">
+                    <svg width="100%" height="${svgH}" viewBox="0 0 ${svgW} ${svgH}" preserveAspectRatio="xMidYMid meet">
+                        <defs>
+                            <linearGradient id="${fillId}" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="${lineColor}" stop-opacity="0.32"/>
+                                <stop offset="100%" stop-color="${lineColor}" stop-opacity="0.02"/>
+                            </linearGradient>
+                        </defs>
+                        <line x1="${padL}" y1="${padT + plotH}" x2="${svgW - padR}" y2="${padT + plotH}" stroke="var(--border)" stroke-width="1" />
+                        <polygon points="${areaPoints}" fill="url(#${fillId})" />
+                        ${avgLineHtml}
+                        <polyline fill="none" stroke="${lineColor}" stroke-width="2.2" points="${polyPoints}" />
+                        ${dotsHtml}
+                    </svg>
+                </div>
+            `;
+        }
+
+        // 1. AGE MODE SUMMARY & GRAPHICS
+        function renderAgeSummaryAndGraphics() {
+            const ageVal = activeAgeYear ? (targetYear - activeAgeYear) : null;
+            const hasValidAge = (ageVal !== null && ageVal >= 0);
+            const cat = !hasValidAge ? '-' : (ageVal <= 5 ? 'Toddler (0-5y)' : ageVal <= 15 ? 'Child (6-15y)' : ageVal <= 30 ? 'Youth (16-30y)' : ageVal <= 59 ? 'Adult (31-59y)' : 'Senior (60+y)');
+            const ncdEligible = hasValidAge && ageVal >= 30 ? 'Yes (NPCDCS)' : (hasValidAge ? 'No (<30y)' : '-');
+            const seniorStatus = hasValidAge && ageVal >= 60 ? 'Yes (Geriatric)' : (hasValidAge ? 'No' : '-');
+
+            const mVal = document.getElementById('mini-age-val');
+            const mCat = document.getElementById('mini-age-cat');
+            const mNcd = document.getElementById('mini-age-ncd');
+            if (mVal) mVal.textContent = hasValidAge ? `${ageVal}y` : '--';
+            if (mCat) mCat.textContent = hasValidAge ? cat.split(' ')[0] : '-';
+            if (mNcd) mNcd.textContent = hasValidAge ? (ageVal >= 30 ? 'Yes' : 'No') : '-';
+
+            const sYrs = document.getElementById('ageSumYears');
+            const sByr = document.getElementById('ageSumBirthYr');
+            const sGrp = document.getElementById('ageSumGroup');
+            const sPrg = document.getElementById('ageSumProg');
+            const sMon = document.getElementById('ageSumMonths');
+            const sDay = document.getElementById('ageSumDays');
+            const sElg = document.getElementById('ageSumEligibility');
+            const sSen = document.getElementById('ageSumSenior');
+
+            if (sYrs) sYrs.textContent = hasValidAge ? `${ageVal} Years` : '--';
+            if (sByr) sByr.textContent = activeAgeYear ? `Birth Year: ${activeAgeYear} (Ref: ${targetYear})` : 'Select Birth Year';
+            if (sGrp) sGrp.textContent = cat;
+            if (sPrg) sPrg.textContent = !hasValidAge ? 'Program: -' : (ageVal <= 5 ? 'RBSK / Immunization' : ageVal <= 18 ? 'School Health / RKSK' : ageVal >= 60 ? 'NPHCE Geriatric Care' : 'General / NCD Clinic');
+            if (sMon) sMon.textContent = hasValidAge ? `${ageVal * 12} Months` : '-';
+            if (sDay) sDay.textContent = hasValidAge ? `~${(ageVal * 365).toLocaleString()} Days (${ageVal * 52} Wks)` : 'Days: -';
+            if (sElg) sElg.textContent = ncdEligible;
+            if (sSen) sSen.textContent = `Senior Citizen: ${seniorStatus}`;
+
+            const gCont = document.getElementById('ageGraphicsContainer');
+            if (!gCont) return;
+
+            const recentBars = (recentAgeYears || []).map(yr => {
+                const a = Math.max(0, targetYear - yr);
+                const c = a <= 15 ? '#06b6d4' : a <= 30 ? '#10b981' : a <= 59 ? '#4f46e5' : '#ec4899';
+                return { label: String(yr), value: a, color: c };
+            });
+
+            // Cohort counts among recent lookups
+            let cPed = 0, cYouth = 0, cAdult = 0, cSen = 0;
+            (recentAgeYears || []).forEach(yr => {
+                const a = targetYear - yr;
+                if (a <= 15) cPed++;
+                else if (a <= 30) cYouth++;
+                else if (a <= 59) cAdult++;
+                else cSen++;
+            });
+
+            const curAgeNum = hasValidAge ? ageVal : 0;
+            const lifePct = Math.min(100, Math.round((curAgeNum / 100) * 100));
+
+            gCont.innerHTML = `
+                <div class="graphic-card">
+                    <div class="graphic-card-header">
+                        <span class="graphic-card-title">🍩 Recent Lookups Cohort Split</span>
+                        <span class="graphic-card-badge">${(recentAgeYears || []).length} Years</span>
+                    </div>
+                    ${createSvgDonutChart([
+                        { label: '0-15y Kid', value: cPed, color: '#06b6d4' },
+                        { label: '16-30y Youth', value: cYouth, color: '#10b981' },
+                        { label: '31-59y Adult', value: cAdult, color: '#4f46e5' },
+                        { label: '60+y Senior', value: cSen, color: '#ec4899' }
+                    ], hasValidAge ? `${ageVal}y` : '--', 'Selected')}
+                </div>
+                <div class="graphic-card">
+                    <div class="graphic-card-header">
+                        <span class="graphic-card-title">📊 Recent Birth Years Age Comparison</span>
+                        <span class="graphic-card-badge">Ref ${targetYear}</span>
+                    </div>
+                    ${createSvgColumnChart(recentBars)}
+                </div>
+                <div class="graphic-card full-span">
+                    <div class="graphic-card-header">
+                        <span class="graphic-card-title">🎯 Clinical &amp; Life-Stage Milestone Scale</span>
+                        <span class="graphic-card-badge">${hasValidAge ? `Born ${activeAgeYear}` : 'No Year Selected'}</span>
+                    </div>
+                    <div class="hbar-list">
+                        <div class="hbar-row">
+                            <div class="hbar-top"><span>Life-Stage Span (0 to 100 Years Scale)</span><span>${curAgeNum} / 100 Yrs (${lifePct}%)</span></div>
+                            <div class="hbar-track"><div class="hbar-fill" style="width:${lifePct}%; background:linear-gradient(90deg, #4f46e5, #ec4899);"></div></div>
+                        </div>
+                        <div class="hbar-row">
+                            <div class="hbar-top"><span>NCD Screening Threshold (30+ Years Mandatory CBAC)</span><span>${curAgeNum >= 30 ? 'Eligible ✅' : `${Math.max(0, 30 - curAgeNum)} yrs to threshold`}</span></div>
+                            <div class="hbar-track"><div class="hbar-fill" style="width:${Math.min(100, Math.round((curAgeNum / 30) * 100))}%; background:#10b981;"></div></div>
+                        </div>
+                        <div class="hbar-row">
+                            <div class="hbar-top"><span>Senior Citizen Geriatric Threshold (60+ Years)</span><span>${curAgeNum >= 60 ? 'Senior Citizen ✅' : `${Math.max(0, 60 - curAgeNum)} yrs to 60`}</span></div>
+                            <div class="hbar-track"><div class="hbar-fill" style="width:${Math.min(100, Math.round((curAgeNum / 60) * 100))}%; background:#f59e0b;"></div></div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // 2. PRESENT (ATTENDANCE PRO) GRAPHICS
+        function renderAttendanceGraphics() {
+            const gCont = document.getElementById('attGraphicsContainer');
+            if (!gCont) return;
+
+            const { startDate, endDate } = getCycleDates(currentCycleDate);
+            let counts = { P: 0, Pstar: 0, A: 0, CL: 0, ML: 0, GH: 0, S: 0, Unmarked: 0 };
+            const weekdayP = [0, 0, 0, 0, 0, 0, 0];
+            const weekdayOff = [0, 0, 0, 0, 0, 0, 0];
+            const dayBoxes = [];
+
+            let it = new Date(startDate);
+            while (it <= endDate) {
+                const dk = formatDateKey(it);
+                const dNum = it.getDay();
+                let st = appData.attendance[dk];
+                if (!st) {
+                    if (dNum === 0) st = 'S';
+                    else if (appData.holidays[dk]) st = 'GH';
+                    else st = '';
+                }
+                if (st === 'P') { counts.P++; weekdayP[dNum]++; }
+                else if (st === 'P*') { counts.Pstar++; weekdayP[dNum]++; }
+                else if (st === 'A') { counts.A++; weekdayOff[dNum]++; }
+                else if (st === 'CL') { counts.CL++; weekdayOff[dNum]++; }
+                else if (st === 'ML') { counts.ML++; weekdayOff[dNum]++; }
+                else if (st === 'GH') { counts.GH++; weekdayOff[dNum]++; }
+                else if (st === 'S') { counts.S++; weekdayOff[dNum]++; }
+                else { counts.Unmarked++; }
+
+                dayBoxes.push({ date: it.getDate(), month: engMonths[it.getMonth()], st: st || '-' });
+                it.setDate(it.getDate() + 1);
+            }
+
+            const totalP = counts.P + counts.Pstar;
+            const totalCycleDays = dayBoxes.length || 1;
+            let overallCLUsed = 0;
+            for (const k in appData.attendance) {
+                if (appData.attendance[k] === 'CL') overallCLUsed++;
+            }
+            const clQuota = parseInt(appData.employee.clQuota, 10) || 15;
+            const clPct = Math.min(100, Math.round((overallCLUsed / clQuota) * 100));
+            const pPct = Math.round((totalP / totalCycleDays) * 100);
+
+            const wkLabels = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            const wkBars = wkLabels.map((lbl, idx) => ({
+                label: lbl,
+                value: weekdayP[idx],
+                color: idx === 0 ? '#f59e0b' : '#16a34a'
+            }));
+
+            const heatmapCells = dayBoxes.map(b => {
+                let bg = 'var(--surface-subtle)', fg = 'var(--text-muted)';
+                if (b.st === 'P' || b.st === 'P*') { bg = 'var(--c-present)'; fg = 'var(--t-present)'; }
+                else if (b.st === 'CL') { bg = 'var(--c-cl)'; fg = 'var(--t-cl)'; }
+                else if (b.st === 'ML') { bg = 'var(--c-ml)'; fg = 'var(--t-ml)'; }
+                else if (b.st === 'A') { bg = 'var(--c-absent)'; fg = 'var(--t-absent)'; }
+                else if (b.st === 'GH') { bg = 'var(--c-holiday)'; fg = 'var(--t-holiday)'; }
+                else if (b.st === 'S') { bg = 'var(--c-sunday)'; fg = 'var(--t-sunday)'; }
+                return `<div style="display:flex; flex-direction:column; align-items:center; justify-content:center; padding:3px 2px; border-radius:5px; background:${bg}; color:${fg}; border:1px solid var(--border-light); font-size:9px; font-weight:700; min-width:30px;"><span>${b.date}</span><span style="font-size:10px; font-family:'JetBrains Mono',monospace;">${b.st}</span></div>`;
+            }).join('');
+
+            gCont.innerHTML = `
+                <div class="graphic-card">
+                    <div class="graphic-card-header">
+                        <span class="graphic-card-title">🍩 Cycle Attendance &amp; Leave Split</span>
+                        <span class="graphic-card-badge">${totalCycleDays} Days</span>
+                    </div>
+                    ${createSvgDonutChart([
+                        { label: 'Present (P)', value: totalP, color: '#16a34a' },
+                        { label: 'CL', value: counts.CL, color: '#ea580c' },
+                        { label: 'ML', value: counts.ML, color: '#4f46e5' },
+                        { label: 'Absent', value: counts.A, color: '#dc2626' },
+                        { label: 'GH / Sun', value: counts.GH + counts.S, color: '#f59e0b' },
+                        { label: 'Blank', value: counts.Unmarked, color: '#94a3b8' }
+                    ], `${totalP}d`, 'Present')}
+                </div>
+                <div class="graphic-card">
+                    <div class="graphic-card-header">
+                        <span class="graphic-card-title">📊 Weekday Present Distribution</span>
+                        <span class="graphic-card-badge">Mon–Sun</span>
+                    </div>
+                    ${createSvgColumnChart(wkBars)}
+                </div>
+                <div class="graphic-card">
+                    <div class="graphic-card-header">
+                        <span class="graphic-card-title">🗓️ Cycle Daily Visual Heatmap Matrix</span>
+                        <span class="graphic-card-badge">${pPct}% Present</span>
+                    </div>
+                    <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(32px, 1fr)); gap:4px; padding:4px 0;">
+                        ${heatmapCells}
+                    </div>
+                </div>
+                <div class="graphic-card">
+                    <div class="graphic-card-header">
+                        <span class="graphic-card-title">📈 Quota &amp; Duty Utilization Gauges</span>
+                        <span class="graphic-card-badge">CL Quota: ${clQuota}</span>
+                    </div>
+                    <div class="hbar-list">
+                        <div class="hbar-row">
+                            <div class="hbar-top"><span>Cycle Present Ratio (P + P*)</span><span>${totalP} / ${totalCycleDays} Days (${pPct}%)</span></div>
+                            <div class="hbar-track"><div class="hbar-fill" style="width:${pPct}%; background:#16a34a;"></div></div>
+                        </div>
+                        <div class="hbar-row">
+                            <div class="hbar-top"><span>Annual CL Quota Used (Overall)</span><span>${overallCLUsed} / ${clQuota} Used (${clPct}%)</span></div>
+                            <div class="hbar-track"><div class="hbar-fill" style="width:${clPct}%; background:#ea580c;"></div></div>
+                        </div>
+                        <div class="hbar-row">
+                            <div class="hbar-top"><span>Holidays &amp; Sundays in Cycle</span><span>${counts.GH + counts.S} Days (${Math.round(((counts.GH + counts.S) / totalCycleDays) * 100)}%)</span></div>
+                            <div class="hbar-track"><div class="hbar-fill" style="width:${Math.round(((counts.GH + counts.S) / totalCycleDays) * 100)}%; background:#f59e0b;"></div></div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // 3. STAFF ATTENDANCE GRAPHICS
+        function renderStaffGraphics() {
+            const gCont = document.getElementById('staffGraphicsContainer');
+            if (!gCont) return;
+
+            const visibleStaff = staffGlobalData.staffList.filter(s => !s.hidden);
+            if (visibleStaff.length === 0) {
+                gCont.innerHTML = `<div class="graphic-card full-span" style="text-align:center; padding:18px; color:var(--text-muted);">ग्राफ़िक्स देखने के लिए कम से कम 1 कर्मचारी जोड़ें या अन-हाइड करें।</div>`;
+                return;
+            }
+
+            let totP = 0, totGH = 0, totDO = 0, totCL = 0, totML = 0, totOther = 0;
+            const staffBars = [];
+            const leaderboardRows = [];
+            const totalCycleDays = staffCycleDates.length || 1;
+            const cycleKey = getStaffCycleKey();
+
+            visibleStaff.forEach(s => {
+                let p = 0, gh = 0, doCnt = 0, cl = 0, ml = 0, oth = 0;
+                staffCycleDates.forEach(d => {
+                    const dStr = formatStaffDate(d);
+                    const v = staffGlobalData.cellData[`${s.id}_${dStr}`] || '';
+                    if (v === 'P') { p++; totP++; }
+                    else if (v === 'GH') { gh++; totGH++; }
+                    else if (v === 'D/O') { doCnt++; totDO++; }
+                    else if (v === 'CL') { cl++; totCL++; }
+                    else if (v === 'ML') { ml++; totML++; }
+                    else if (v === 'PL' || v === 'CCL') { oth++; totOther++; }
+                });
+                const shortName = (s.name || 'Staff').split(' ')[0];
+                staffBars.push({ label: shortName, value: p, color: '#16a34a' });
+
+                const upCL = parseFloat(staffGlobalData.cellData[`${s.id}_${cycleKey}_uptocl`]) || 0;
+                const upML = parseFloat(staffGlobalData.cellData[`${s.id}_${cycleKey}_uptoml`]) || 0;
+                const pPct = Math.round((p / totalCycleDays) * 100);
+                const offPct = Math.round(((gh + doCnt) / totalCycleDays) * 100);
+                const lvPct = Math.round(((cl + ml + oth) / totalCycleDays) * 100);
+
+                leaderboardRows.push(`
+                    <div class="hbar-row">
+                        <div class="hbar-top">
+                            <span><b>${s.name}</b> <small style="color:var(--text-muted);">(${s.type})</small></span>
+                            <span style="font-family:'JetBrains Mono',monospace;">P:${p} | Off:${gh + doCnt} | L:${cl + ml + oth} (Tot CL:${upCL + cl})</span>
+                        </div>
+                        <div class="hbar-track">
+                            <div class="hbar-fill" style="width:${pPct}%; background:#16a34a;" title="Present: ${p}"></div>
+                            <div class="hbar-fill" style="width:${offPct}%; background:#f59e0b;" title="GH/DO: ${gh + doCnt}"></div>
+                            <div class="hbar-fill" style="width:${lvPct}%; background:#dc2626;" title="Leaves: ${cl + ml + oth}"></div>
+                        </div>
+                    </div>
+                `);
+            });
+
+            // Daily presence trend across cycle dates
+            const dailyTrendPoints = staffCycleDates.map(d => {
+                const dStr = formatStaffDate(d);
+                let dayP = 0;
+                visibleStaff.forEach(s => {
+                    if (staffGlobalData.cellData[`${s.id}_${dStr}`] === 'P') dayP++;
+                });
+                return { label: String(d.getDate()), value: dayP, isSpecial: d.getDay() === 0 || isStaffDateGH(d, dStr) };
+            });
+
+            gCont.innerHTML = `
+                <div class="graphic-card">
+                    <div class="graphic-card-header">
+                        <span class="graphic-card-title">🍩 Overall Staff Cycle Status Share</span>
+                        <span class="graphic-card-badge">${visibleStaff.length} Staff</span>
+                    </div>
+                    ${createSvgDonutChart([
+                        { label: 'Present (P)', value: totP, color: '#16a34a' },
+                        { label: 'GH', value: totGH, color: '#e11d48' },
+                        { label: 'D/O', value: totDO, color: '#ea580c' },
+                        { label: 'CL', value: totCL, color: '#dc2626' },
+                        { label: 'ML', value: totML, color: '#4f46e5' },
+                        { label: 'PL/CCL', value: totOther, color: '#7c3aed' }
+                    ], `${totP}`, 'Total P')}
+                </div>
+                <div class="graphic-card">
+                    <div class="graphic-card-header">
+                        <span class="graphic-card-title">📊 Employee-Wise Present (P) Days</span>
+                        <span class="graphic-card-badge">Cycle Comparison</span>
+                    </div>
+                    ${createSvgColumnChart(staffBars)}
+                </div>
+                <div class="graphic-card full-span">
+                    <div class="graphic-card-header">
+                        <span class="graphic-card-title">📈 Daily Staff Presence Trend Curve (Red Dots = Sunday / GH)</span>
+                        <span class="graphic-card-badge">${staffCycleDates.length} Cycle Days</span>
+                    </div>
+                    ${createSvgTrendLineChart(dailyTrendPoints, '#2563eb', 'staffTrendGrad', Math.round(totP / totalCycleDays))}
+                </div>
+                <div class="graphic-card full-span">
+                    <div class="graphic-card-header">
+                        <span class="graphic-card-title">🏅 Employee Attendance, Off &amp; Leave Breakdown Bars</span>
+                        <span class="graphic-card-badge">Green=P • Amber=GH/DO • Red=Leave</span>
+                    </div>
+                    <div class="hbar-list">${leaderboardRows.join('')}</div>
+                </div>
+            `;
+        }
+
+        function buildStaffPrintableSummaryHTML() {
+            const visibleStaff = staffGlobalData.staffList.filter(s => !s.hidden);
+            const cycleKey = getStaffCycleKey();
+            const totalCycleDays = staffCycleDates.length || 1;
+            let rows = '';
+            visibleStaff.forEach((s, idx) => {
+                let countP = 0, countGH = 0, countDO = 0, countCL = 0, countML = 0, countOth = 0;
+                staffCycleDates.forEach(d => {
+                    const dStr = formatStaffDate(d);
+                    const val = staffGlobalData.cellData[`${s.id}_${dStr}`] || '';
+                    if (val === 'P') countP++;
+                    else if (val === 'GH') countGH++;
+                    else if (val === 'D/O') countDO++;
+                    else if (val === 'CL') countCL++;
+                    else if (val === 'ML') countML++;
+                    else if (val === 'PL' || val === 'CCL') countOth++;
+                });
+                const upCL = parseFloat(staffGlobalData.cellData[`${s.id}_${cycleKey}_uptocl`]) || 0;
+                const upML = parseFloat(staffGlobalData.cellData[`${s.id}_${cycleKey}_uptoml`]) || 0;
+                rows += `<tr>
+                    <td style="border:1px solid #000; padding:4px;">${idx + 1}</td>
+                    <td style="border:1px solid #000; padding:4px; text-align:left; font-weight:bold;">${s.name}</td>
+                    <td style="border:1px solid #000; padding:4px;">${s.post || '-'}</td>
+                    <td style="border:1px solid #000; padding:4px;">${s.place || '-'}</td>
+                    <td style="border:1px solid #000; padding:4px;">${s.type}</td>
+                    <td style="border:1px solid #000; padding:4px; font-weight:bold;">${countP}</td>
+                    <td style="border:1px solid #000; padding:4px;">${countGH}</td>
+                    <td style="border:1px solid #000; padding:4px;">${countDO}</td>
+                    <td style="border:1px solid #000; padding:4px;">${countCL || '-'}</td>
+                    <td style="border:1px solid #000; padding:4px;">${countML || '-'}</td>
+                    <td style="border:1px solid #000; padding:4px;">${countOth || '-'}</td>
+                    <td style="border:1px solid #000; padding:4px;">CL:${upCL} | ML:${upML}</td>
+                    <td style="border:1px solid #000; padding:4px; font-weight:bold;">CL:${upCL + countCL} | ML:${upML + countML}</td>
+                </tr>`;
+            });
+            return `
+                <div style="margin-top:14px; page-break-inside:avoid;">
+                    <div style="font-size:13px; font-weight:bold; text-align:center; margin-bottom:6px; text-transform:uppercase;">कर्मचारी उपस्थिति एवं अवकाश समरी (Employee Summary)</div>
+                    <table style="width:100%; border-collapse:collapse; font-size:9.5pt; color:#000; text-align:center;">
+                        <thead>
+                            <tr style="background:#f1f5f9;">
+                                <th style="border:1px solid #000; padding:4px;">क्र.</th>
+                                <th style="border:1px solid #000; padding:4px; text-align:left;">कर्मचारी का नाम</th>
+                                <th style="border:1px solid #000; padding:4px;">पद</th>
+                                <th style="border:1px solid #000; padding:4px;">स्थान</th>
+                                <th style="border:1px solid #000; padding:4px;">प्रकार</th>
+                                <th style="border:1px solid #000; padding:4px;">P</th>
+                                <th style="border:1px solid #000; padding:4px;">GH</th>
+                                <th style="border:1px solid #000; padding:4px;">D/O</th>
+                                <th style="border:1px solid #000; padding:4px;">इस माह CL</th>
+                                <th style="border:1px solid #000; padding:4px;">इस माह ML</th>
+                                <th style="border:1px solid #000; padding:4px;">PL/CCL</th>
+                                <th style="border:1px solid #000; padding:4px;">गत माह CL/ML</th>
+                                <th style="border:1px solid #000; padding:4px;">कुल CL/ML</th>
+                            </tr>
+                        </thead>
+                        <tbody>${rows || `<tr><td colspan="13" style="border:1px solid #000; padding:8px;">No Staff Data</td></tr>`}</tbody>
+                    </table>
+                </div>
+            `;
+        }
+
+        // 4. OPD REPORT GRAPHICS
+        function renderOpdGraphics() {
+            const gCont = document.getElementById('opdGraphicsContainer');
+            if (!gCont) return;
+
+            const picker = document.getElementById('opdMonthPicker')?.value || '';
+            if (!picker) return;
+            const [year, month] = picker.split('-').map(Number);
+            const days = getOpdDaysInMonth(year, month);
+
+            const dailyPoints = [];
+            const wkTotals = [0, 0, 0, 0, 0, 0, 0];
+            const wkCounts = [0, 0, 0, 0, 0, 0, 0];
+            let slab1 = 0, slab2 = 0, slab3 = 0;
+            let highDays = 0, normDays = 0, lowDays = 0, redDays = 0;
+            let totalPatients = 0, activeDays = 0;
+
+            const rawVals = [];
+            for (let i = 1; i <= days; i++) {
+                const cEl = document.getElementById(`opd-count-${i}`);
+                const dateEl = document.getElementById(`opd-date-cell-${i}`);
+                const isRed = dateEl ? dateEl.classList.contains('opd-red-text') : false;
+                const val = cEl && cEl.value !== '' ? (parseInt(cEl.value, 10) || 0) : 0;
+                rawVals.push({ day: i, val, isRed });
+                if (val > 0) {
+                    totalPatients += val;
+                    activeDays++;
+                }
+                if (isRed) redDays++;
+            }
+
+            const avgVal = activeDays > 0 ? Math.round(totalPatients / activeDays) : 0;
+
+            rawVals.forEach(({ day, val, isRed }) => {
+                const dObj = new Date(year, month - 1, day);
+                const dow = dObj.getDay();
+                if (val > 0) {
+                    wkTotals[dow] += val;
+                    wkCounts[dow]++;
+                    if (val >= avgVal * 1.2) highDays++;
+                    else if (val >= avgVal * 0.7) normDays++;
+                    else lowDays++;
+                }
+                if (day <= 10) slab1 += val;
+                else if (day <= 20) slab2 += val;
+                else slab3 += val;
+
+                dailyPoints.push({ label: String(day), value: val, isSpecial: isRed });
+            });
+
+            const wkLabels = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            const wkBars = wkLabels.map((lbl, idx) => ({
+                label: lbl,
+                value: wkCounts[idx] > 0 ? Math.round(wkTotals[idx] / wkCounts[idx]) : 0,
+                color: idx === 0 ? '#dc2626' : '#0891b2'
+            }));
+
+            const totForSlabs = Math.max(1, totalPatients);
+            const s1Pct = Math.round((slab1 / totForSlabs) * 100);
+            const s2Pct = Math.round((slab2 / totForSlabs) * 100);
+            const s3Pct = Math.round((slab3 / totForSlabs) * 100);
+
+            gCont.innerHTML = `
+                <div class="graphic-card full-span">
+                    <div class="graphic-card-header">
+                        <span class="graphic-card-title">📈 Daily OPD Patient Footfall Trend (Red Dots = Sunday / Holiday)</span>
+                        <span class="graphic-card-badge">Total: ${totalPatients} • Avg: ${avgVal}/day</span>
+                    </div>
+                    ${createSvgTrendLineChart(dailyPoints, '#059669', 'opdTrendGrad', avgVal)}
+                </div>
+                <div class="graphic-card">
+                    <div class="graphic-card-header">
+                        <span class="graphic-card-title">📊 Weekday Average OPD Footfall</span>
+                        <span class="graphic-card-badge">Avg Patients / Day</span>
+                    </div>
+                    ${createSvgColumnChart(wkBars)}
+                </div>
+                <div class="graphic-card">
+                    <div class="graphic-card-header">
+                        <span class="graphic-card-title">🍩 OPD Day Intensity &amp; Holiday Split</span>
+                        <span class="graphic-card-badge">${days} Month Days</span>
+                    </div>
+                    ${createSvgDonutChart([
+                        { label: 'Peak/High Days', value: highDays, color: '#059669' },
+                        { label: 'Normal Days', value: normDays, color: '#2563eb' },
+                        { label: 'Low OPD Days', value: lowDays, color: '#f59e0b' },
+                        { label: 'Sun / Red Days', value: redDays, color: '#dc2626' }
+                    ], `${totalPatients}`, 'Patients')}
+                </div>
+                <div class="graphic-card full-span">
+                    <div class="graphic-card-header">
+                        <span class="graphic-card-title">📅 10-Day Period (Slab) OPD Patient Load Breakdown</span>
+                        <span class="graphic-card-badge">1–10 vs 11–20 vs 21–${days}</span>
+                    </div>
+                    <div class="hbar-list">
+                        <div class="hbar-row">
+                            <div class="hbar-top"><span>First Slab (Date 01 to 10)</span><span>${slab1} Patients (${s1Pct}%)</span></div>
+                            <div class="hbar-track"><div class="hbar-fill" style="width:${s1Pct}%; background:#2563eb;"></div></div>
+                        </div>
+                        <div class="hbar-row">
+                            <div class="hbar-top"><span>Middle Slab (Date 11 to 20)</span><span>${slab2} Patients (${s2Pct}%)</span></div>
+                            <div class="hbar-track"><div class="hbar-fill" style="width:${s2Pct}%; background:#059669;"></div></div>
+                        </div>
+                        <div class="hbar-row">
+                            <div class="hbar-top"><span>Final Slab (Date 21 to ${days})</span><span>${slab3} Patients (${s3Pct}%)</span></div>
+                            <div class="hbar-track"><div class="hbar-fill" style="width:${s3Pct}%; background:#d97706;"></div></div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // 5. PATRA REGISTER SUMMARY & GRAPHICS
+        function renderPatraSummaryAndGraphics() {
+            const allLetters = patraData.letters || [];
+            const cats = patraData.categories || [];
+            const nextKramank = getNextPatraKramankNumber();
+
+            const mTot = document.getElementById('mini-patra-total');
+            const mCat = document.getElementById('mini-patra-cats');
+            const mNxt = document.getElementById('mini-patra-next');
+            if (mTot) mTot.textContent = allLetters.length;
+            if (mCat) mCat.textContent = cats.length;
+            if (mNxt) mNxt.textContent = nextKramank;
+
+            const placeCounts = {};
+            const officeCounts = {};
+            const monthCounts = {};
+            allLetters.forEach(l => {
+                const pl = (l.place || 'अन्य').trim() || 'अन्य';
+                const of = (l.office || 'अन्य').trim() || 'अन्य';
+                placeCounts[pl] = (placeCounts[pl] || 0) + 1;
+                officeCounts[of] = (officeCounts[of] || 0) + 1;
+                const ym = (l.date || '').slice(0, 7) || 'Unknown';
+                monthCounts[ym] = (monthCounts[ym] || 0) + 1;
+            });
+
+            const topPlace = Object.entries(placeCounts).sort((a, b) => b[1] - a[1])[0];
+            const latestLetter = [...allLetters].sort((a, b) => String(b.date || '').localeCompare(String(a.date || '')))[0];
+
+            const kpiGrid = document.getElementById('patraSummaryKpiGrid');
+            if (kpiGrid) {
+                kpiGrid.innerHTML = `
+                    <div class="opd-kpi-card">
+                        <span class="opd-kpi-label">Total Dispatched Letters</span>
+                        <span class="opd-kpi-val">${allLetters.length}</span>
+                        <span class="opd-kpi-sub">Next Kramank: #${nextKramank}</span>
+                    </div>
+                    <div class="opd-kpi-card">
+                        <span class="opd-kpi-label">Active Categories</span>
+                        <span class="opd-kpi-val" style="color:var(--accent);">${cats.length}</span>
+                        <span class="opd-kpi-sub">${cats.map(c => c.name).slice(0, 3).join(', ')}</span>
+                    </div>
+                    <div class="opd-kpi-card">
+                        <span class="opd-kpi-label">Top Destination Place</span>
+                        <span class="opd-kpi-val" style="color:var(--opd-success); font-size:13px;">${topPlace ? escapePatraHtml(topPlace[0]) : '-'}</span>
+                        <span class="opd-kpi-sub">${topPlace ? `${topPlace[1]} Letters Sent` : '0 Letters'}</span>
+                    </div>
+                    <div class="opd-kpi-card">
+                        <span class="opd-kpi-label">Latest Dispatch Date</span>
+                        <span class="opd-kpi-val" style="color:var(--opd-warning); font-size:13px;">${latestLetter ? formatPatraReadableDate(latestLetter.date) : '-'}</span>
+                        <span class="opd-kpi-sub">${latestLetter ? `Kramank #${escapePatraHtml(latestLetter.kramank)}` : '-'}</span>
+                    </div>
+                `;
+            }
+
+            const gCont = document.getElementById('patraGraphicsContainer');
+            if (!gCont) return;
+
+            const donutItems = cats.map((c, idx) => ({
+                label: c.name,
+                value: allLetters.filter(l => l.categoryId === c.id).length,
+                color: PATRA_COLOR_DOTS[c.color] || ['#10b981', '#4f46e5', '#f59e0b', '#0ea5e9', '#f43f5e'][idx % 5]
+            }));
+
+            const placeBars = Object.entries(placeCounts)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 6)
+                .map(([pl, cnt], i) => ({
+                    label: pl,
+                    value: cnt,
+                    color: ['#2563eb', '#10b981', '#f59e0b', '#8b5cf6', '#ec4899', '#06b6d4'][i % 6]
+                }));
+
+            const totalLets = Math.max(1, allLetters.length);
+            const officeHbars = Object.entries(officeCounts)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 6)
+                .map(([ofc, cnt]) => {
+                    const pct = Math.round((cnt / totalLets) * 100);
+                    return `
+                        <div class="hbar-row">
+                            <div class="hbar-top"><span>🏛️ ${escapePatraHtml(ofc)}</span><span>${cnt} पत्र (${pct}%)</span></div>
+                            <div class="hbar-track"><div class="hbar-fill" style="width:${pct}%; background:var(--primary);"></div></div>
+                        </div>
+                    `;
+                }).join('');
+
+            gCont.innerHTML = `
+                <div class="graphic-card">
+                    <div class="graphic-card-header">
+                        <span class="graphic-card-title">🍩 Category-Wise Letter Share</span>
+                        <span class="graphic-card-badge">${allLetters.length} Total</span>
+                    </div>
+                    ${createSvgDonutChart(donutItems, `${allLetters.length}`, 'Letters')}
+                </div>
+                <div class="graphic-card">
+                    <div class="graphic-card-header">
+                        <span class="graphic-card-title">📍 Place-Wise Dispatch Volume</span>
+                        <span class="graphic-card-badge">Top Locations</span>
+                    </div>
+                    ${createSvgColumnChart(placeBars)}
+                </div>
+                <div class="graphic-card full-span">
+                    <div class="graphic-card-header">
+                        <span class="graphic-card-title">🏛️ Top Receiving Offices Breakdown</span>
+                        <span class="graphic-card-badge">${Object.keys(officeCounts).length} Offices</span>
+                    </div>
+                    <div class="hbar-list">${officeHbars || '<div style="color:var(--text-muted); font-size:11px;">कोई पत्र दर्ज नहीं है</div>'}</div>
+                </div>
+            `;
+        }
+
+        // ================= UNIFIED PRINT & PREVIEW FOR ALL 5 MODES WITH TICKED SECTIONS =================
+        function buildAgePrintHTML() {
+            const incSum = isPrintSectionEnabled('age', 'summary');
+            const incGraph = isPrintSectionEnabled('age', 'graphics');
+            const officeHeading = staffGlobalData.mainTitle || DEFAULT_STAFF_TITLE;
+            const ageVal = activeAgeYear ? (targetYear - activeAgeYear) : '--';
+            let h = `<div style="text-align:center; margin-bottom:14px; color:#000;">
+                <div style="font-size:15px; font-weight:bold;">${escapePatraHtml(officeHeading)}</div>
+                <div style="font-size:13px; font-weight:bold; margin-top:4px; text-decoration:underline;">SMART AGE &amp; CLINICAL SCREENING REPORT (Ref Year: ${targetYear})</div>
+            </div>`;
+            if (incSum) {
+                h += `<table style="width:100%; border-collapse:collapse; margin-bottom:14px; font-size:11px; color:#000;">
+                    <tr>
+                        <th style="border:1px solid #000; padding:6px; background:#f1f5f9;">Selected Birth Year</th>
+                        <th style="border:1px solid #000; padding:6px; background:#f1f5f9;">Calculated Age</th>
+                        <th style="border:1px solid #000; padding:6px; background:#f1f5f9;">Clinical Group</th>
+                        <th style="border:1px solid #000; padding:6px; background:#f1f5f9;">NCD (30+) Screening</th>
+                        <th style="border:1px solid #000; padding:6px; background:#f1f5f9;">Details</th>
+                    </tr>
+                    <tr>
+                        <td style="border:1px solid #000; padding:6px; text-align:center; font-weight:bold;">${activeAgeYear || '-'}</td>
+                        <td style="border:1px solid #000; padding:6px; text-align:center; font-weight:bold; font-size:13px;">${ageVal} Years</td>
+                        <td style="border:1px solid #000; padding:6px; text-align:center;">${document.getElementById('ageCategory')?.innerText || '-'}</td>
+                        <td style="border:1px solid #000; padding:6px; text-align:center;">${document.getElementById('ageSumEligibility')?.innerText || '-'}</td>
+                        <td style="border:1px solid #000; padding:6px; text-align:center;">${document.getElementById('ageClinicalTag')?.innerText || '-'}</td>
+                    </tr>
+                </table>`;
+            }
+            if (incGraph) {
+                const gCont = document.getElementById('ageGraphicsContainer');
+                if (gCont) {
+                    h += `<div class="extra-print-block active-for-print"><div class="graphics-dashboard-grid">${gCont.innerHTML}</div></div>`;
+                }
+            }
+            return h;
+        }
+
+        function triggerAgePrint() {
+            setPrintPageStyle('portrait');
+            document.body.classList.remove('print-att', 'print-opd', 'print-staff', 'print-patra');
+            document.body.classList.add('print-age');
+            const pv = document.getElementById('age-print-view');
+            if (pv) pv.innerHTML = buildAgePrintHTML();
+            setTimeout(() => {
+                window.print();
+                document.body.classList.remove('print-age');
+            }, 250);
+        }
+
 
         // ================= INITIALIZATION & REAL-TIME LIVE SERVER SYNC =================
         let appCoreStarted = false;
@@ -7618,6 +9698,7 @@ body.print-patra #tab-patra { display: block !important; }
                 initAttendance();
                 initStaffApp();
                 initPatraApp();
+                syncAllPrintSectionCheckboxes();
                 updateThemeMenuBadge();
 
                 const now = new Date();
