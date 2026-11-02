@@ -2414,8 +2414,10 @@ body.print-patra #tab-patra { display: block !important; }
         /* Status Colors (Light & Dark Theme Adaptive) */
         .staff-status-P { color: var(--t-present) !important; background-color: var(--c-present) !important; }
         .staff-status-CL, .staff-status-ML { color: var(--t-absent) !important; background-color: var(--c-absent) !important; }
-        .staff-status-PL, .staff-status-CCL { color: #7c3aed !important; background-color: #ede9fe !important; }
+       .staff-status-PL, .staff-status-CCL { color: #7c3aed !important; background-color: #ede9fe !important; }
         [data-theme="dark"] .staff-status-PL, [data-theme="dark"] .staff-status-CCL { color: #c4b5fd !important; background-color: rgba(124, 58, 237, 0.28) !important; }
+        .staff-status-RH { color: #0284c7 !important; background-color: #e0f2fe !important; }
+        [data-theme="dark"] .staff-status-RH { color: #7dd3fc !important; background-color: rgba(2, 132, 199, 0.28) !important; }
         .staff-status-DO { color: var(--t-cl) !important; background-color: var(--c-cl) !important; }
         .staff-status-GH { color: #be123c !important; background-color: #ffe4e6 !important; }
         [data-theme="dark"] .staff-status-GH { color: #fda4af !important; background-color: rgba(190, 18, 60, 0.3) !important; }
@@ -3496,7 +3498,7 @@ body.print-patra #tab-patra { display: block !important; }
                                     <th style="color:var(--t-cl);">D/O</th>
                                     <th style="color:var(--t-absent);">इस माह CL</th>
                                     <th style="color:var(--t-absent);">इस माह ML</th>
-                                    <th style="color:#7c3aed;">PL/CCL</th>
+                                    <th style="color:#7c3aed;">PL/CCL/RH</th>
                                     <th>गत माह CL/ML</th>
                                     <th>कुल CL/ML</th>
                                     <th>भरे दिन</th>
@@ -3712,9 +3714,9 @@ body.print-patra #tab-patra { display: block !important; }
                         <button id="patraBtnClearSearch" type="button" class="patra-search-clear" onclick="clearPatraSearch()">✕</button>
                     </div>
 
-                    <select id="patraSortSelect" class="patra-sort-select" onchange="renderPatraLetters()">
+                   <select id="patraSortSelect" class="patra-sort-select" onchange="renderPatraLetters()">
+                        <option value="kramank_desc" selected>क्रमांक (नया पहले / High to Low)</option>
                         <option value="kramank_asc">क्रमांक (1 → 999)</option>
-                        <option value="kramank_desc">क्रमांक (नया पहले)</option>
                         <option value="date_desc">दिनांक (नवीनतम)</option>
                     </select>
 
@@ -4051,6 +4053,7 @@ body.print-patra #tab-patra { display: block !important; }
                 <button type="button" class="picker-btn staff-status-ML" onclick="applyStaffQuickStatus('ML')">ML</button>
                 <button type="button" class="picker-btn staff-status-CCL" onclick="applyStaffQuickStatus('CCL')">CCL</button>
                 <button type="button" class="picker-btn staff-status-PL" onclick="applyStaffQuickStatus('PL')">PL</button>
+                <button type="button" class="picker-btn staff-status-RH" onclick="applyStaffQuickStatus('RH')">RH</button>
                 <button type="button" class="picker-btn" style="background:var(--surface-subtle); color:var(--text-muted); border:1px solid var(--border); font-size:12px;" onclick="applyStaffQuickStatus('')">Clear</button>
             </div>
         </div>
@@ -7734,9 +7737,9 @@ body.print-patra #tab-patra { display: block !important; }
         function handleStaffCellClick(cell, row, staffId, dStr) {
             let staffType = row.dataset.type;
             let currentVal = cell.innerText.trim();
-            let cycle = (staffType === 'GH')
-                ? ['', 'P', 'CL', 'GH', 'ML', 'CCL', 'PL']
-                : ['', 'P', 'D/O', 'CL', 'ML', 'CCL', 'PL'];
+          let cycle = (staffType === 'GH')
+                ? ['', 'P', 'CL', 'GH', 'ML', 'CCL', 'PL', 'RH']
+                : ['', 'P', 'D/O', 'CL', 'ML', 'CCL', 'PL', 'RH'];
 
             let currentIndex = cycle.indexOf(currentVal);
             if (currentIndex === -1) currentIndex = 0;
@@ -7841,7 +7844,7 @@ body.print-patra #tab-patra { display: block !important; }
                         if (dStr === todayStr) todayP++;
                     } else if (v === 'CL') cycleCL++;
                     else if (v === 'ML') cycleML++;
-                    else if (v === 'PL' || v === 'CCL') cycleOtherLeave++;
+                    else if (v === 'PL' || v === 'CCL' || v === 'RH') cycleOtherLeave++;
                 });
             });
 
@@ -7883,7 +7886,7 @@ body.print-patra #tab-patra { display: block !important; }
             const totalCycleDays = staffCycleDates.length;
 
             staffGlobalData.staffList.forEach((s, idx) => {
-                let countP = 0, countGH = 0, countDO = 0, countCL = 0, countML = 0, countPL = 0, countCCL = 0, filledDays = 0;
+              let countP = 0, countGH = 0, countDO = 0, countCL = 0, countML = 0, countPL = 0, countCCL = 0, countRH = 0, filledDays = 0;
 
                 staffCycleDates.forEach(d => {
                     const dStr = formatStaffDate(d);
@@ -7896,6 +7899,7 @@ body.print-patra #tab-patra { display: block !important; }
                     else if (val === 'ML') countML++;
                     else if (val === 'PL') countPL++;
                     else if (val === 'CCL') countCCL++;
+                    else if (val === 'RH') countRH++;
                 });
 
                 const upCL = parseFloat(staffGlobalData.cellData[`${s.id}_${cycleKey}_uptocl`]) || 0;
@@ -7922,7 +7926,7 @@ body.print-patra #tab-patra { display: block !important; }
                     <td style="font-weight:700; color:var(--t-cl);">${countDO}</td>
                     <td style="font-weight:700; color:var(--t-absent);">${countCL || '-'}</td>
                     <td style="font-weight:700; color:var(--t-absent);">${countML || '-'}</td>
-                    <td style="font-weight:700; color:#7c3aed;">${(countPL + countCCL) ? `PL:${countPL} CCL:${countCCL}` : '-'}</td>
+                    <td style="font-weight:700; color:#7c3aed;">${(countPL + countCCL + countRH) ? `PL:${countPL} CCL:${countCCL} RH:${countRH}` : '-'}</td>
                     <td style="font-family:'JetBrains Mono',monospace;">CL:${upCL || 0} | ML:${upML || 0}</td>
                     <td style="font-weight:700; font-family:'JetBrains Mono',monospace;">CL:${totCL || 0} | ML:${totML || 0}</td>
                     <td style="font-family:'JetBrains Mono',monospace;">${filledDays}/${totalCycleDays}</td>
